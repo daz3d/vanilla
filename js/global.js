@@ -1445,6 +1445,8 @@ jQuery(document).ready(function($) {
             limit: max_suggestions,
             callbacks: {
 
+               before_reposition: beforeReposition,
+
                // Custom data source.
                remote_filter: function(query, callback) {
                   // Do this because of undefined when adding spaces to
@@ -1665,14 +1667,14 @@ jQuery(document).ready(function($) {
                }
             },
             display_timeout: 0,
-            cWindow: iframe_window
+            iframe: iframe_window
          })
          .atwho({
             at: ':',
             tpl: '<li data-value=":${name}:" class="at-suggest-emoji"><img src="${url}" width="20" height="20" alt=":${name}:" class="emoji-img" /> <span class="emoji-name">${name}</span></li>',
             limit: max_suggestions,
             data: emoji,
-            cWindow: iframe_window
+            iframe: iframe_window
          });
 
       // http://stackoverflow.com/questions/118241/calculate-text-width-with-javascript
@@ -1686,76 +1688,73 @@ jQuery(document).ready(function($) {
          return w;
       }
 
-      // Only necessary for iframe.
-      // Based on work here: https://github.com/ichord/At.js/issues/124
-      if (iframe_window) {
-         // This hook is triggered when atWho places a selection list in the
-         // window. The context is passed implicitly when triggered by at.js.
-         $(iframe_window).on("reposition.atwho", function(e, offset, context) {
+      function beforeReposition (offset) {
+         if (!iframe_window) {
+            return;
+         }
 
-            // Actual suggestion box that will appear.
-            var suggest_el = context.view.$el;
+         // Actual suggestion box that will appear.
+         var suggest_el = this.$el;
 
-            // The area where text will be typed (contenteditable body).
-            var $inputor = context.$inputor;
+         // The area where text will be typed (contenteditable body).
+         var $inputor = this.$inputor;
 
-            // Display it below the text.
-            var line_height = parseInt($inputor.css('line-height'));
+         // Display it below the text.
+         var line_height = parseInt($inputor.css('line-height'));
 
-            // offset contains the top left values of the offset to the iframe
-            // we need to convert that to main window coordinates
-            var oIframe = $(iframe).offset(),
-               iLeft = oIframe.left + offset.left,
-               iTop = oIframe.top,
-               select_height = 0;
+         // offset contains the top left values of the offset to the iframe
+         // we need to convert that to main window coordinates
+         var oIframe = $(iframe).offset(),
+            iLeft = oIframe.left + offset.left,
+            iTop = oIframe.top,
+            select_height = 0;
 
-            // In wysiwyg mode, the suggestbox follows the typing, which
-            // does not happen in regular mode, so adjust it.
-            // Either @ or : for now.
-            var at = context.at;
-            var text = context.query.text;
-            var font_mirror = $('.BodyBox');
-            var font = font_mirror.css('font-size') + ' ' + font_mirror.css('font-family');
+         // In wysiwyg mode, the suggestbox follows the typing, which
+         // does not happen in regular mode, so adjust it.
+         // Either @ or : for now.
+         var at = this.at;
+         var text = this.query.text;
+         var font_mirror = $('.BodyBox');
+         var font = font_mirror.css('font-size') + ' ' + font_mirror.css('font-family');
 
-            // Get font width
-            var font_width = (at+text).width(font) - 2;
+         // Get font width
+         var font_width = (at+text).width(font) - 2;
 
-            if (at == '@') {
-               iLeft -= font_width;
+         if (at == '@') {
+            iLeft -= font_width;
+         }
+
+         if (at == ':') {
+            iLeft -= 2;
+         }
+
+         // atWho adds 3 select areas, presumably for differnet positing on screen (above below etc)
+         // This finds the active one and gets the container height
+         $(suggest_el).each(function(i, el) {
+            if ($(this).outerHeight() > 0) {
+               select_height += $(this).height() + line_height;
             }
-
-            if (at == ':') {
-               iLeft -= 2;
-            }
-
-            // atWho adds 3 select areas, presumably for differnet positing on screen (above below etc)
-            // This finds the active one and gets the container height
-            $(suggest_el).each(function(i, el) {
-               if ($(this).outerHeight() > 0) {
-                  select_height += $(this).height() + line_height;
-               }
-            });
-
-            // Now should we show the selection box above or below?
-            var iWindowHeight = $(window).height(),
-               iDocViewTop = $(window).scrollTop(),
-               iSelectionPosition = iTop + offset.top - $(window).scrollTop(),
-               iAvailableSpace = iWindowHeight - (iSelectionPosition - iDocViewTop);
-
-            if (iAvailableSpace >= select_height) {
-               // Enough space below
-               iTop = iTop + offset.top + select_height - $(window).scrollTop();
-            }
-            else {
-               // Place it above instead
-               // @todo should check if this is more space than below
-               iTop= iTop + offset.top - $(window).scrollTop();
-            }
-
-            // Move the select box
-            offset = {left: iLeft, top: iTop};
-            $(suggest_el).offset(offset);
          });
+
+         // Now should we show the selection box above or below?
+         var iWindowHeight = $(window).height(),
+            iDocViewTop = $(window).scrollTop(),
+            iSelectionPosition = iTop + offset.top - $(window).scrollTop(),
+            iAvailableSpace = iWindowHeight - (iSelectionPosition - iDocViewTop);
+
+         if (iAvailableSpace >= select_height) {
+            // Enough space below
+            iTop = iTop + offset.top + select_height - $(window).scrollTop();
+         }
+         else {
+            // Place it above instead
+            // @todo should check if this is more space than below
+            iTop= iTop + offset.top - $(window).scrollTop();
+         }
+
+         // Move the select box
+         offset = {left: iLeft, top: iTop};
+         $(suggest_el).offset(offset);
       }
    };
    // Now call atCompleteInit on all .BodyBox elements. The advanced editor

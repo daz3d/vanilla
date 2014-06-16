@@ -28,6 +28,7 @@ class VanillaController extends Gdn_Controller {
       $this->AddJsFile('jquery.form.js');
       $this->AddJsFile('jquery.popup.js');
       $this->AddJsFile('jquery.gardenhandleajaxform.js');
+      $this->AddJsFile('jquery.caret.js');
       $this->AddJsFile('jquery.atwho.js');
       $this->AddJsFile('global.js');
       $this->AddCssFile('style.css');
