@@ -646,7 +646,7 @@ class Gdn_Statistics extends Gdn_Plugin {
       // hijacked and used to perform that task instead of sending stats or recording a tick.
       if (is_null($InstallationID)) {
          // If the config file is not writable, gtfo
-         $ConfFile = PATH_CONF . '/config.php';
+         $ConfFile = Gdn::Config()->DefaultPath();
          if (!is_writable($ConfFile)) {
             // Admins see a helpful notice
             if (Gdn::Session()->CheckPermission('Garden.Settings.Manage')) {
