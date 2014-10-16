@@ -1,0 +1,3 @@
+[submodule "plugins/jsconnectAutoSignIn"]
+	path = plugins/jsconnectAutoSignIn
+	url = https://github.com/x00/jsconnectAutoSignIn-Vanilla-Plugin.git
