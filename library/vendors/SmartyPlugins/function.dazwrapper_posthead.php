@@ -17,5 +17,6 @@ function smarty_function_dazwrapper_posthead($Params, &$Smarty) {
 	$start = strpos($wrapperHtml, '</title>') + strlen('</title>');
 	$length = strpos($wrapperHtml, '<!--ENDHEADER-->') - $start;
 	$header = substr($wrapperHtml, $start, $length);
+	$header = preg_replace('%Expression Engine Template%i', 'DAZ Forum', $header);
 	return $header;
 }
