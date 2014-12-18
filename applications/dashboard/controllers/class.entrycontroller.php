@@ -504,6 +504,10 @@ EOT;
          $EmailUnique = C('Garden.Registration.EmailUnique', TRUE);
          $AutoConnect = C('Garden.Registration.AutoConnect');
 
+         if ($IsPostBack && $this->Form->GetFormValue('ConnectName')) {
+            $this->Form->SetFormValue('Name', $this->Form->GetFormValue('ConnectName'));
+         }
+
          // Get the existing users that match the name or email of the connection.
          $Search = FALSE;
          if ($this->Form->GetFormValue('Name') && $NameUnique) {
@@ -751,7 +755,7 @@ EOT;
 
       if ($this->_RealDeliveryType != DELIVERY_TYPE_ALL && $this->DeliveryType() != DELIVERY_TYPE_ALL) {
          $this->DeliveryMethod(DELIVERY_METHOD_JSON);
-         $this->SetHeader('Content-Type', 'application/json');
+         $this->SetHeader('Content-Type', 'application/json; charset='.C('Garden.Charset', 'utf-8'));
       } elseif ($CheckPopup) {
          $this->AddDefinition('CheckPopup', $CheckPopup);
       } else {
