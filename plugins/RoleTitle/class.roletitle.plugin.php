@@ -37,6 +37,21 @@ class RoleTitlePlugin extends Gdn_Plugin {
    private function _AttachTitle($Sender) {
       $Object = GetValue('Object', $Sender->EventArguments);
       $Roles = $Object ? GetValue('Roles', $Object, array()) : FALSE;
+
+	   // don't shame banned users
+	   foreach ($Roles as $key => $Role) {
+		   if ('banned' === strtolower(trim($Role))) {
+			   unset($Roles[$key]);
+		   }
+
+		   // while we're here, member is a given
+			if ('member' === strtolower(trim($Role))) {
+				unset($Roles[$key]);
+			}
+	   }
+
+
+
       if (!$Roles)
          return;
 
