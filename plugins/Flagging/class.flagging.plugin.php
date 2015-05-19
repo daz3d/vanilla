@@ -218,6 +218,8 @@ class FlaggingPlugin extends Gdn_Plugin {
     * Handle flagging process in a discussion.
     */
    public function DiscussionController_Flag_Create($Sender) {
+	   $FlagResult = $DiscussionID = false;
+
       // Signed in users only.
       if (!($UserID = Gdn::Session()->UserID)) return;
       $UserName = Gdn::Session()->User->Name;

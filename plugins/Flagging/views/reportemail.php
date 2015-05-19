@@ -1,9 +1,9 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<?php 
-$Flag = $this->Data['Plugin.Flagging.Data'];
-$Report = $this->Data['Plugin.Flagging.Report'];
-$DiscussionID = $this->Data['Plugin.Flagging.DiscussionID'];
-$Reason = $this->Data['Plugin.Flagging.Reason'];
+<?php
+$Flag = GetValue('Plugin.Flagging.Data', $this->Data);
+$Report = GetValue('Plugin.Flagging.Report', $this->Data);
+$DiscussionID = GetValue('Plugin.Flagging.DiscussionID', $this->Data);
+$Reason = GetValue('Plugin.Flagging.Reason', $this->Data);
 
 echo T('Discussion'); ?>: <?php if (isset($Report['DiscussionName'])) echo $Report['DiscussionName']; ?>
 
