@@ -68,7 +68,7 @@ jQuery(document).ready(function($) {
    function Youtube(Container) {
       var $preview = Container.find('.VideoPreview');
       var $player = Container.find('.VideoPlayer');
-      var width = $preview.width(), height = $preview.height(), videoid = Container.attr('id').replace('youtube-', '');
+      var width = $preview.find('img').width(), height = $preview.find('img').height(), videoid = Container.attr('id').replace('youtube-', '');
 
       $preview.hide();
       $player.html('<iframe width="'+width+'" height="'+height+'" '

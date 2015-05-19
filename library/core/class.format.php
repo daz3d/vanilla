@@ -1041,19 +1041,17 @@ class Gdn_Format {
          return $Matches[0];
       $Url = $Matches[4];
 
-      if ((preg_match('`(?:https?|ftp)://(www\.)?youtube\.com\/watch\?(.*)?v=(?P<ID>[^&#]+)([^#]*)(?P<HasTime>#t=(?P<Time>[0-9]+))?`', $Url, $Matches) 
-         || preg_match('`(?:https?)://(www\.)?youtu\.be\/(?P<ID>[^&#]+)(?P<HasTime>#t=(?P<Time>[0-9]+))?`', $Url, $Matches)) 
-         && C('Garden.Format.YouTube')) {
-         $ID = $Matches['ID'];
-         $TimeMarker = isset($Matches['HasTime']) ? '&amp;start='.$Matches['Time'] : '';
+      if (C('Garden.Format.YouTube') && preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11}).*?(?:[#&]t=([0-9hms]+))%i', $Url, $Matches)) {
+         $ID = $Matches[1];
+         $TimeMarker = isset($Matches[2]) ? $Matches[2] : '';
          $Result = '<span class="VideoWrap">';
             $Result .= '<span class="Video YouTube" id="youtube-'.$ID.'">';
-               $Result .= '<span class="VideoPreview"><a href="http://youtube.com/watch?v='.$ID.'"><img src="http://img.youtube.com/vi/'.$ID.'/0.jpg" width="'.$Width.'" height="'.$Height.'" border="0" /></a></span>';
+               $Result .= '<span class="VideoPreview"><a href="http://youtube.com/watch?v='.$ID.'#t='.$TimeMarker.'"><img src="http://img.youtube.com/vi/'.$ID.'/0.jpg" width="'.$Width.'" height="'.$Height.'" border="0" /></a></span>';
                $Result .= '<span class="VideoPlayer"></span>';
             $Result .= '</span>';
          $Result .= '</span>';
-      } elseif (preg_match('`(?:https?|ftp)://(www\.)?vimeo\.com\/(\d+)`', $Url, $Matches) && C('Garden.Format.Vimeo')) {
-         $ID = $Matches[2];
+      } elseif (preg_match('`(?:https?|ftp)://(?:www\.)?vimeo\.com\/(\d+)`', $Url, $Matches) && C('Garden.Format.Vimeo')) {
+         $ID = $Matches[1];
          $Result = <<<EOT
 <div class="VideoWrap"><div class="Video Vimeo"><object width="$Width" height="$Height"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=$ID&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=$ID&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="$Width" height="$Height"></embed></object></div></div>
 EOT;
