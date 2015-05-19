@@ -419,8 +419,8 @@ class DiscussionPolls extends Gdn_Plugin {
       if($DPModel->Exists($DiscussionID)) {
         Gdn::Controller()->InformMessage(T('Plugins.DiscussionPolls.PollRemoved', 'The attached poll has been removed'));
         $DPModel->DeleteByDiscussionID($DiscussionID);
-        return FALSE;
       }
+		return FALSE;
     }
 
     if($DPModel->Exists($DiscussionID)) {
@@ -445,20 +445,22 @@ class DiscussionPolls extends Gdn_Plugin {
       $Error = 'You must enter a valid poll title!';
     }
 
-    foreach($FormPostValues['DP_Questions'] as $Index => $Question) {
-      if(trim($Question) == FALSE) {
-        $Invalid = TRUE;
-        $Error = 'You must enter valid question text!';
-        break;
-      }
-      foreach($FormPostValues['DP_Options' . $Index] as $Option) {
-        if(trim($Option) == FALSE) {
-          $Invalid = TRUE;
-          $Error = 'You must enter valid option text!';
-          break;
-        }
-      }
-    }
+	  if (array_key_exists('DP_Questions', $FormPostValues)) {
+		  foreach ($FormPostValues['DP_Questions'] as $Index => $Question) {
+			  if (trim($Question) == false) {
+				  $Invalid = true;
+				  $Error = 'You must enter valid question text!';
+				  break;
+			  }
+			  foreach ($FormPostValues['DP_Options' . $Index] as $Option) {
+				  if (trim($Option) == false) {
+					  $Invalid = true;
+					  $Error = 'You must enter valid option text!';
+					  break;
+				  }
+			  }
+		  }
+	  }
 
     if($Invalid) {
       // fail silently since this shouldn't happen

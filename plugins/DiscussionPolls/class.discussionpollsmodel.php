@@ -202,13 +202,16 @@ class DiscussionPollsModel extends Gdn_Model {
       $PollID = $this->SQL->Get()->FirstRow()->PollID;
 
       // Insert the questions
-      foreach($FormPostValues['DP_Questions'] as $Index => $Question) {
-        $this->SQL
-                ->Insert('DiscussionPollQuestions', array(
-                    'PollID' => $PollID,
-                    'Text' => $Question)
-        );
-      }
+		if (array_key_exists('DP_Questions', $FormPostValues)) {
+			foreach ($FormPostValues['DP_Questions'] as $Index => $Question) {
+				$this->SQL
+					->Insert('DiscussionPollQuestions', array(
+							'PollID' => $PollID,
+							'Text' => $Question
+						)
+					);
+			}
+		}
 
       // Select the question IDs
       $this->SQL
@@ -290,7 +293,7 @@ class DiscussionPollsModel extends Gdn_Model {
     if(empty($Answers)) {
       return $Answered;
     }
-    
+
     //create simple lookup
     foreach($Answers As $Answer) {
       $Answered[$Answer->QuestionID] = $Answer->OptionID;
@@ -331,7 +334,7 @@ class DiscussionPollsModel extends Gdn_Model {
 
     return FALSE;
   }
-  
+
   protected function _InsertAnswerData($FormPostValues, $UserID) {
     foreach($FormPostValues['DP_AnswerQuestions'] as $Index => $QuestionID) {
       $MemberKey = 'DP_Answer' . $Index;
