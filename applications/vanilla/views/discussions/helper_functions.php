@@ -138,7 +138,10 @@ function WriteDiscussion($Discussion, &$Sender, &$Session) {
    </span>
    <div class="ItemContent Discussion">
       <div class="Title">
-      <?php 
+		  <span class="CategoryLink"><?php
+			  echo Anchor($Category['Name'], $Category['Url']);
+		  ?></span>
+      <?php
          echo AdminCheck($Discussion, array('', ' ')).
             Anchor($DiscussionName, $DiscussionUrl);
          $Sender->FireEvent('AfterDiscussionTitle'); 
