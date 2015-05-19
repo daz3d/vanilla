@@ -36,10 +36,10 @@ echo $this->Form->Errors();
          echo '<div class="CasualMessage"'.$Style.'>'.T('Casual').'</div>';
          echo $this->Form->Radio('CssClass', '', array('value' => 'InfoMessage'));
          echo '<div class="InfoMessage"'.$Style.'>'.T('Information').'</div>';
-         echo $this->Form->Radio('CssClass', '', array('value' => 'AlertMessage'));
-         echo '<div class="AlertMessage"'.$Style.'>'.T('Alert').'</div>';
          echo $this->Form->Radio('CssClass', '', array('value' => 'WarningMessage'));
          echo '<div class="WarningMessage"'.$Style.'>'.T('Warning').'</div>';
+         echo $this->Form->Radio('CssClass', '', array('value' => 'AlertMessage'));
+         echo '<div class="AlertMessage"'.$Style.'>'.T('Alert').'</div>';
       ?>
    </li>
    <li>

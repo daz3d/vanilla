@@ -487,11 +487,11 @@ div.DismissMessage a.Dismiss:hover {
    background: #F6F6F6;
    border: 1px solid #ddd;
 }
-.AlertMessage {
+.WarningMessage {
    background: #fff8ce;
    border: 1px solid #DEDDAF;
 }
-.WarningMessage {
+.AlertMessage {
    background: #ffebe9;
    border: 1px solid #FFCCC9;
 }
