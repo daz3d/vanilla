@@ -138,7 +138,7 @@ function WriteDiscussion($Discussion, &$Sender, &$Session) {
    </span>
    <div class="ItemContent Discussion">
       <div class="Title">
-		  <span class="CategoryLink"><?php
+		  <span class="CategoryLink">Category: <?php
 			  echo Anchor($Category['Name'], $Category['Url']);
 		  ?></span>
       <?php
