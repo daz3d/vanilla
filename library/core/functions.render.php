@@ -81,8 +81,6 @@ if (!function_exists('ButtonDropDown')):
                foreach ($Links as $Link) {
                   echo Wrap(Anchor($Link['Text'], $Link['Url'], GetValue('CssClass', $Link, '')), 'li');
                }
-               echo '<li><a href="">View All Threads</a></li>';
-               echo '<li><a href="">View All Posts</a></li>';
             echo '</ul>';
             
             echo Anchor($Label.' '.Sprite('SpDropdownHandle'), '#', $ButtonClass.' Handle');
