@@ -12,7 +12,8 @@
  *  1.4.1   Allow self-API access
  *  1.5     Improve "Hide Images"
  *  1.5.1   Improve permission checking granularity
- *  1.5.3-5 Disallow images plugin-wide from dashboard.
+ *  1.5.3-5 Disallow images plugin-wide from dashboard
+ *  1.6     Add signature constraints and enhance mobile capacity
  *
  * @author Tim Gunter <tim@vanillaforums.com>
  * @copyright 2003 Vanilla Forums, Inc
@@ -23,7 +24,7 @@
 $PluginInfo['Signatures'] = array(
    'Name' => 'Signatures',
    'Description' => 'Users may create custom signatures that appear after each of their comments.',
-   'Version' => '1.5.6',
+   'Version' => '1.6.0',
    'RequiredApplications' => array('Vanilla' => '2.0.18'),
    'RequiredTheme' => FALSE,
    'RequiredPlugins' => FALSE,
@@ -168,14 +169,8 @@ class SignaturesPlugin extends Gdn_Plugin {
 
       $this->SetSignatureRules($Sender);
 
-      // If seeing the form for the first time...
-      if ($Sender->Form->IsPostBack() === FALSE) {
-         $Data['Body'] = GetValue('Plugin.Signatures.Sig', $Data);
-         $Data['Format'] = GetValue('Plugin.Signatures.Format', $Data);
-
-         // Apply the config settings to the form.
-         $Sender->Form->SetData($Data);
-      } else {
+      // Form submission handling.
+      if ($Sender->Form->AuthenticatedPostBack()) {
          $Values = $Sender->Form->FormValues();
 
          if ($canEditSignatures) {
@@ -213,6 +208,14 @@ class SignaturesPlugin extends Gdn_Plugin {
                $Sender->InformMessage(T("Your changes have been saved."));
             }
          }
+      }
+      else {
+         // Load form data.
+         $Data['Body'] = GetValue('Plugin.Signatures.Sig', $Data);
+         $Data['Format'] = GetValue('Plugin.Signatures.Format', $Data) ?: Gdn_Format::DefaultFormat();
+
+         // Apply the config settings to the form.
+         $Sender->Form->SetData($Data);
       }
 
       $Sender->Render('signature', '', 'plugins/Signatures');
@@ -265,7 +268,8 @@ class SignaturesPlugin extends Gdn_Plugin {
    public function CheckNumberOfImages($Values, &$Sender) {
       if (C('Plugins.Signatures.MaxNumberImages') && C('Plugins.Signatures.MaxNumberImages') !== 'Unlimited') {
          $max = C('Plugins.Signatures.MaxNumberImages');
-         $numMatches = preg_match_all('/(<img|\[img.*\]|\!\[.*\])/i', $Values['Plugin.Signatures.Sig']);
+         $Sig = Gdn_Format::To(val('Plugin.Signatures.Sig', $Values), val('Plugin.Signatures.Format', $Values, C('Garden.InputFormatter')));
+         $numMatches = preg_match_all('/<img/i', $Sig);
          if (C('Plugins.Signatures.MaxNumberImages') === 'None' && $numMatches > 0) {
             $Sender->Form->AddError('Images not allowed');
          }
@@ -527,7 +531,7 @@ EOT;
          'UserID'    => $SourceUserID,
          'Signature' => &$Signature
       );
-//      $this->FireEvent('BeforeDrawSignature');
+      $this->FireEvent('BeforeDrawSignature');
 
       $SigClasses = '';
       if (!is_null($Signature)) {
@@ -589,7 +593,7 @@ EOT;
       if ($this->UserPreferences('Plugin.Signatures.HideAll', FALSE))
          return TRUE;
 
-      if (IsMobile() && $this->UserPreferences('Plugin.Signatures.HideMobile', FALSE))
+      if (IsMobile() && (C('Plugins.Signatures.HideMobile', TRUE) || $this->UserPreferences('Plugin.Signatures.HideMobile', FALSE)))
          return TRUE;
 
       return FALSE;
@@ -628,7 +632,8 @@ EOT;
       $Conf = new ConfigurationModule($Sender);
       $Conf->Initialize(array(
           'Plugins.Signatures.HideGuest' => array('Control' => 'CheckBox', 'LabelCode' => 'Hide signatures for guests'),
-          'Plugins.Signatures.HideEmbed' => array('Control' => 'CheckBox', 'LabelCode' => 'Hide signatures on embedded comments', 'Default' => TRUE),
+          'Plugins.Signatures.HideEmbed' => array('Control' => 'CheckBox', 'LabelCode' => 'Hide signatures on embedded comments', 'Default' => true),
+          'Plugins.Signatures.HideMobile' => array('Control' => 'CheckBox', 'LabelCode' => 'Hide signatures on mobile', 'Default' => true),
           'Plugins.Signatures.AllowEmbeds' => array('Control' => 'CheckBox', 'LabelCode' => 'Allow embedded content', 'Default' => true),
            //'Plugins.Signatures.TextOnly' => array('Control' => 'CheckBox', 'LabelCode' => '@'.sprintf(T('Enforce %s'), T('text-only'))),
           'Plugins.Signatures.Default.MaxNumberImages' => array('Control' => 'Dropdown', 'LabelCode' => '@'.sprintf(T('Max number of %s'), T('images')), 'Items' => array('Unlimited' => T('Unlimited'), 'None' => T('None'), 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5)),

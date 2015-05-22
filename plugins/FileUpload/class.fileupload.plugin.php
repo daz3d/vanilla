@@ -57,13 +57,11 @@ class FileUploadPlugin extends Gdn_Plugin {
       $this->CanUpload = Gdn::Session()->CheckPermission('Plugins.Attachments.Upload.Allow', FALSE);
       $this->CanDownload = Gdn::Session()->CheckPermission('Plugins.Attachments.Download.Allow', FALSE);
 
-/*
       if ($this->CanUpload) {
          $PermissionCategory = CategoryModel::PermissionCategory(Gdn::Controller()->Data('Category'));
          if (!GetValue('AllowFileUploads', $PermissionCategory, TRUE))
             $this->CanUpload = FALSE;
       }
-*/
    }
 
    public function AssetModel_StyleCss_Handler($Sender) {
@@ -216,20 +214,6 @@ class FileUploadPlugin extends Gdn_Plugin {
    }
 
    /**
-    * MessagesController_Render_Before HOOK
-    *
-    * Calls FileUploadPlugin::PrepareController
-    *
-    * @access public
-    * @param mixed $Sender The hooked controller
-    * @see FileUploadPlugin::PrepareController
-    * @return void
-    */
-   public function MessagesController_Render_Before($Sender) {
-      $this->PrepareController($Sender);
-   }
-
-   /**
     * PrepareController function.
     *
     * Adds CSS and JS includes to the header of the discussion or post.
@@ -272,10 +256,6 @@ class FileUploadPlugin extends Gdn_Plugin {
    }
 
    public function DiscussionController_BeforeFormButtons_Handler($Sender) {
-      $this->DrawAttachFile($Sender);
-   }
-
-   public function MessagesController_BeforeBodyBox_Handler($Sender) {
       $this->DrawAttachFile($Sender);
    }
 
@@ -577,6 +557,8 @@ class FileUploadPlugin extends Gdn_Plugin {
       if (!is_numeric($MediaID))
          array_unshift($Args, $MediaID);
       $SubPath = implode('/', $Args);
+      // Fix mauling of protocol:// URLs.
+      $SubPath = preg_replace('/:\/{1}/', '://', $SubPath);
       $Name = $SubPath;
       $Parsed = Gdn_Upload::Parse($Name);
 
@@ -634,7 +616,7 @@ class FileUploadPlugin extends Gdn_Plugin {
       if (is_numeric($MediaID)) {
          // Save the thumbnail information.
          $Model = new MediaModel();
-         $Media = array('MediaID' => $MediaID, 'ThumbWidth' => $Width, 'ThumbHeight' => $Height, 'ThumbPath' => $ThumbParsed['SaveName']);
+         $Media = array('MediaID' => $MediaID, 'ThumbWidth' => $ThumbParsed['Width'], 'ThumbHeight' => $ThumbParsed['Height'], 'ThumbPath' => $ThumbParsed['SaveName']);
          $Model->Save($Media);
       }
 
@@ -838,7 +820,7 @@ class FileUploadPlugin extends Gdn_Plugin {
          $SaveFilename = '/FileUpload/'.substr($SaveFilename, 0, 2).'/'.substr($SaveFilename, 2);
 
          // Get the image size before doing anything.
-         list($ImageWidth, $ImageHeight) = Gdn_UploadImage::ImageSize($FileTemp, $FileName);
+         list($ImageWidth, $ImageHeight, $ImageType) = Gdn_UploadImage::ImageSize($FileTemp, $FileName);
 
          // Fire event for hooking save location
          $this->EventArguments['Path'] = $FileTemp;
@@ -847,6 +829,7 @@ class FileUploadPlugin extends Gdn_Plugin {
          $this->EventArguments['OriginalFilename'] = $FileName;
          $Handled = FALSE;
          $this->EventArguments['Handled'] =& $Handled;
+         $this->EventArguments['ImageType'] = $ImageType;
          $this->FireAs('Gdn_Upload')->FireEvent('SaveAs');
          $SavePath = $Parsed['Name'];
 
@@ -854,12 +837,27 @@ class FileUploadPlugin extends Gdn_Plugin {
             // Build save location
             $SavePath = MediaModel::PathUploads().$SaveFilename;
             if (!is_dir(dirname($SavePath)))
-               mkdir(dirname($SavePath), 0777, TRUE);
+               @mkdir(dirname($SavePath), 0777, TRUE);
             if (!is_dir(dirname($SavePath)))
                throw new FileUploadPluginUploadErrorException("Internal error, could not save the file.", 9, $FileName);
 
             // Move to permanent location
-            $MoveSuccess = move_uploaded_file($FileTemp, $SavePath);
+            // Use SaveImageAs so that image is rotated if necessary
+            if($ImageType !== FALSE) {
+               try {
+                  $ImgParsed = Gdn_UploadImage::SaveImageAs($FileTemp, $SavePath);
+                  $MoveSuccess = TRUE;
+                  // In case image got rotated
+                  $ImageWidth = $ImgParsed['Width'];
+                  $ImageHeight = $ImgParsed['Height'];
+               } catch(Exception $Ex) {
+                  // In case it was an image, but not a supported type - still upload
+                  $MoveSuccess = @move_uploaded_file($FileTemp, $SavePath);
+               }
+            } else {
+               // If not an image, just upload it
+               $MoveSuccess = @move_uploaded_file($FileTemp, $SavePath);
+            }
             if (!$MoveSuccess)
                throw new FileUploadPluginUploadErrorException("Internal error, could not move the file.", 9, $FileName);
          } else {
@@ -1063,162 +1061,6 @@ class FileUploadPlugin extends Gdn_Plugin {
    public function OnDisable() {
       RemoveFromConfig('Plugins.FileUpload.Enabled');
    }
-
-
-   /**
-    * ConversationsController_BeforeConversationRender_Handler function.
-    *
-    * @access public
-    * @param mixed $Sender
-    * @return void
-    */
-   public function ConversationsController_BeforeConversationRender_Handler($Sender) {
-      // Cache the list of media. Don't want to do multiple queries!
-      $this->CacheAttachedConversationMedia($Sender);
-   }
-
-
-   /**
-    * CacheAttachedConversationMedia function.
-    *
-    * @access protected
-    * @param mixed $Sender
-    * @return void
-    */
-   protected function CacheAttachedConversationMedia($Sender) {
-      if ( ! $this->IsEnabled( )) return;
-
-      $Conversation = $Sender->Data('ConversationData');
-      $ConversationIDList = array( );
-
-      if ($Conversation && $Conversation instanceof Gdn_DataSet) {
-         $Conversation->DataSeek(-1);
-
-         while ($Conversation = $Conversation->NextRow( ))
-            $ConversationIDList[] = $Conversation->ConversationID;
-      }
-      elseif ($Sender->Conversation) {
-         $ConversationIDList[] = $Sender->ConversationID = $Sender->Conversation->ConversationID;
-      }
-
-      if (isset($Sender->Conversation) && isset($Sender->Conversation->ConversationID)) {
-         $ConversationIDList[] = $Sender->Conversation->ConversationID;
-      }
-
-      $MediaData = $this->MediaModel( )->PreloadConversationMedia($Sender->ConversationID, $ConversationIDList);
-
-      $MediaArray = array( );
-      if ($MediaData !== FALSE) {
-         $MediaData->DataSeek(-1);
-
-         while ($Media = $MediaData->NextRow( )) {
-            $MediaArray[$Media->ForeignTable.'/'.$Media->ForeignID][] = $Media;
-         }
-      }
-
-      $this->MediaCache = $MediaArray;
-   }
-
-
-   /*
-	* ConversationsController_AfterConversationBody_Handler function.
-	*
-	* @access public
-	* @param mixed $Sender
-	* @return void
-	*/
-   public function ConversationsController_AfterConversationBody_Handler($Sender) {
-      $this->AttachUploadsToConversation($Sender);
-   }
-
-
-   /*
-	* AttachUploadsToConversation function.
-	*
-	* @access protected
-	* @param mixed $Sender
-	* @return void
-	*/
-   protected function AttachUploadsToConversations($Controller) {
-      if ( ! $this->IsEnabled( )) return;
-
-      $Type = strtolower($RawType = $Controller->EventArguments['Type']);
-
-      if (StringEndsWith($Controller->RequestMethod, 'Conversation', TRUE) && $Type != 'Conversation') {
-         $Type = 'conversation';
-         $RawType = 'Conversation';
-
-         if ( ! isset($Controller->Conversations)) return;
-
-         $Controller->EventArguments['Conversation'] = $Controller->Conversations;
-      }
-
-      $MediaList = $this->MediaCache;
-
-      if ( ! is_array($MediaList)) return;
-
-      $Param = (($Type == 'conversation') ? 'ConversationID' : 'ConversationID');
-      $MediaKey = $Type.'/'.$Controller->EventArguments[$RawType]->$Param;
-
-      if (array_key_exists($MediaKey, $MediaList)) {
-         $Controller->SetData('ConversationMediaList', $MediaList[$MediaKey]);
-         $Controller->SetData('GearImage', $this->GetWebResource('images/gear.png'));
-         $Controller->SetData('Garbage', $this->GetWebResource('images/trash.png'));
-         $Controller->SetData('CanDownload', $this->CanDownload);
-         echo $Controller->FetchView($this->GetView('link_files.php'));
-      }
-   }
-
-
-   /* ConversationsController_Download_Create function.
-	*
-	* @access public
-	* @param mixed $Sender
-	* @return void
-	*/
-   public function ConversationsController_Download_Create($Sender) {
-      if ( ! $this->IsEnabled( )) return;
-      if ( ! $this->CanDownload) throw new PermissionException("File could not be streamed: Access is denied");
-
-      list($MediaID) = $Sender->RequestArgs;
-      $Media = $this->MediaModel( )->GetID($MediaID);
-
-      if ( ! $Media) return;
-
-      $Filename = Gdn::Request( )->Filename( );
-      if ( ! $Filename) $Filename = $Media->Name;
-
-      $DownloadPath = CombinePaths(array(MediaModel::PathUploads( ), GetValue('Path', $Media)));
-
-      if (in_array(strtolower(pathinfo($Filename, PATHINFO_EXTENSION)), array('bmp', 'gif', 'jpg', 'jpeg', 'png')))
-         $ServeMode = 'inline';
-      else
-         $ServeMode = 'attachment';
-
-      $this->EventArguments['Media'] = $Media;
-      $this->FireEvent('BeforeDownload');
-
-      Gdn_FileSystem::ServeFile($DownloadPath, $Filename, '', $ServeMode);
-   }
-
-
-   /**
-    * ConversationsController_AfterConversationSave_Handler function.
-    *
-    * @access public
-    * @param mixed $Sender
-    * @return void
-    */
-   public function ConversationsController_AfterConversationSave_Handler($Sender) {
-      if ( ! $Sender->EventArguments['Conversation']) return;
-
-      $ConversationID = $Sender->EventArguments['Conversation']->ConversationID;
-      $AttachedFilesData = Gdn::Request()->GetValue('AttachedUploads');
-      $AllFilesData = Gdn::Request()->GetValue('AllUploads');
-
-      $this->AttachAllFiles($AttachedFilesData, $AllFilesData, $ConversationID, 'conversation');
-   }
-
 }
 
 class FileUploadPluginUploadErrorException extends Exception {

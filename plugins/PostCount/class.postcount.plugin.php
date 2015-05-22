@@ -11,8 +11,8 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 // Define the plugin:
 $PluginInfo['PostCount'] = array(
    'Name' => 'Post Count',
-   'Description' => "This plugin shows each user's post count along with their messages.",
-   'Version' => '1.0.2',
+   'Description' => "Shows each user's comment total by their name in each comment.",
+   'Version' => '1.0.3',
    'MobileFriendly' => TRUE,
    'RequiredApplications' => FALSE,
    'RequiredTheme' => FALSE, 
@@ -27,69 +27,28 @@ $PluginInfo['PostCount'] = array(
 class PostCountPlugin extends Gdn_Plugin {
    
    public function UserInfoModule_OnBasicInfo_Handler(&$Sender) {
-      $UserID = $Sender->User->UserID;
-      $PostCount = GetValue("PostCount", Gdn::Database()->Query(sprintf("SELECT COALESCE(u.CountComments,0) + COALESCE(u.CountDiscussions,0) AS PostCount FROM GDN_User u WHERE UserID = %d",$UserID))->FirstRow(DATASET_TYPE_ARRAY),0);
-      echo "<dt>".T(Plural($PostCount, 'Posts', 'Posts'))."</dt>\n";
-      echo "<dd>".number_format($PostCount)."</dd>";
-   }
-   
-   public function DiscussionController_BeforeDiscussionRender_Handler(&$Sender) {
-      $this->_CachePostCounts($Sender);
-   }
-   
-   public function PostController_BeforeCommentRender_Handler(&$Sender) {
-      $this->_CachePostCounts($Sender);
-   }
-   
-   protected function _CachePostCounts(&$Sender) {
-      $Discussion = $Sender->Data('Discussion');
-      $Comments = $Sender->Data('CommentData');
-      $UserIDList = array();
-      
-      if ($Discussion)
-         $UserIDList[$Discussion->InsertUserID] = 1;
-         
-      if ($Comments && $Comments->NumRows()) {
-         $Comments->DataSeek(-1);
-         while ($Comment = $Comments->NextRow())
-            $UserIDList[$Comment->InsertUserID] = 1;
+      $User = Gdn::UserModel()->GetID($Sender->User->UserID);
+      if ($User) {
+         $PostCount = GetValue('CountComments', $User, 0) + GetValue('CountDiscussions', $User, 0);
+         echo "<dt class=\"Posts\">".T('Posts')."</dt>\n";
+         echo "<dd class=\"Posts\">".number_format($PostCount)."</dd>";
       }
-      
-      $UserPostCounts = array();
-      if (sizeof($UserIDList)) {
-/*
-         $PostCounts = Gdn::SQL()
-            ->Select('u.UserID')
-            ->Select('u.CountComments + u.CountDiscussions', FALSE, 'PostCount')
-            ->From('User u')
-            ->WhereIn('UserID', array_keys($UserIDList))
-            ->Get();
-*/
-         $PostCounts = Gdn::Database()->Query(sprintf("
-            SELECT 
-               u.UserID,
-               COALESCE(u.CountComments,0) + COALESCE(u.CountDiscussions,0) AS PostCount 
-            FROM GDN_User u 
-            WHERE UserID IN (%s)",implode(",",array_keys($UserIDList))));
-            
-         $PostCounts->DataSeek(-1);
-         while ($UserPostCount = $PostCounts->NextRow())
-            $UserPostCounts[$UserPostCount->UserID] = $UserPostCount->PostCount;
-      }
-      $Sender->SetData('Plugin-PostCount-Counts', $UserPostCounts);
    }
    
-   public function DiscussionController_CommentInfo_Handler(&$Sender) {
+   public function DiscussionController_AuthorInfo_Handler(&$Sender) {
       $this->_AttachPostCount($Sender);
    }
    
-   public function PostController_CommentInfo_Handler(&$Sender) {
+   public function PostController_AuthorInfo_Handler(&$Sender) {
       $this->_AttachPostCount($Sender);
    }
    
    protected function _AttachPostCount(&$Sender) {
-      $Posts = ArrayValue($Sender->EventArguments['Author']->UserID, $Sender->Data('Plugin-PostCount-Counts'));
-      echo '<span>'.T(Plural(number_format($Posts),'Posts: %s','Posts: %s')).'</span>';
+      $User = Gdn::UserModel()->GetID($Sender->EventArguments['Author']->UserID);
+      if ($User) {
+         $Posts = GetValue('CountComments', $User, 0) + GetValue('CountDiscussions', $User, 0);
+         echo '<span class="MItem PostCount">'.Plural(number_format($Posts), '@'.T('Posts.Singular: %s', 'Posts: <b>%s</b>'), '@'.T('Posts.Plural: %s', 'Posts: <b>%s</b>')).'</span>';
+      }
    }
 
    public function Setup() {

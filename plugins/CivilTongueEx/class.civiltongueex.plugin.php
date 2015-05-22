@@ -4,7 +4,7 @@
 $PluginInfo['CivilTongueEx'] = array(
    'Name' => 'Civil Tongue Ex',
    'Description' => 'A swear word filter for your forum. Making your forum safer for younger audiences. This version of the plugin is based on the Civil Tongue plugin.',
-   'Version' => '1.0.4',
+   'Version' => '1.0.5',
    'MobileFriendly' => TRUE,
    'RequiredApplications' => array('Vanilla' => '2.1'),
    'Author' => "Todd Burry",
@@ -29,7 +29,7 @@ class CivilTonguePlugin extends Gdn_Plugin {
     */
 	public function Base_GetAppSettingsMenuItems_Handler(&$Sender) {
       $Menu = $Sender->EventArguments['SideMenu'];
-      $Menu->AddLink('Forum', T('Censored Words'), 'plugin/tongue', 'Garden.Settings.Manage');
+      $Menu->AddLink('Forum', T('Censored Words'), 'plugin/tongue', 'Garden.Settings.Manage', array('class' => 'nav-bad-words'));
    }
 
    public function Base_FilterContent_Handler($Sender, $Args) {
@@ -65,6 +65,7 @@ class CivilTonguePlugin extends Gdn_Plugin {
 
    public function ProfileController_Render_Before($Sender, $Args) {
       $this->ActivityController_Render_Before($Sender, $Args);
+      $this->DiscussionsController_Render_Before($Sender, $Args);
    }
 
    /**
@@ -192,13 +193,19 @@ class CivilTonguePlugin extends Gdn_Plugin {
 
    public function DiscussionsController_Render_Before($Sender, $Args) {
       $Discussions = val('Discussions', $Sender->Data);
-      foreach ($Discussions as &$Discussion) {
-         $Discussion->Name = $this->Replace($Discussion->Name);
-         $Discussion->Body = $this->Replace($Discussion->Body);
-      }
+	   if (is_array($Discussions)) {
+		   foreach ($Discussions as &$Discussion) {
+			   $Discussion->Name = $this->Replace($Discussion->Name);
+			   $Discussion->Body = $this->Replace($Discussion->Body);
+		   }
+	   }
    }
-      /**
+
+   /**
     * Censor words in discussions / comments.
+    *
+    * @param DiscussionController $Sender Sending Controller.
+    * @param array $Args Sending arguments.
     */
    public function DiscussionController_Render_Before($Sender, $Args) {
       // Process OP
@@ -348,5 +355,6 @@ class CivilTonguePlugin extends Gdn_Plugin {
       foreach ($Args['PollOptions'] as &$Option) {
          $Option['Body'] = $this->Replace($Option['Body']);
       }
+      $Args['Poll']->Name = $this->Replace($Args['Poll']->Name);
    }
 }
