@@ -116,8 +116,8 @@ href="http://groups.google.com/group/minify">Minify discussion list</a>.</p>
 href="http://code.google.com/p/minify/source/browse/trunk/min/builder/index.php">view 
 source</a></small></p>
 
-<script type="text/javascript" 
-src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 
 <script type="text/javascript">
 $(function () {

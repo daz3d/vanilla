@@ -52,7 +52,7 @@ class DashboardController extends Gdn_Controller {
          $this->AddCssFile('style.css');
       } else {
          if (!C('Garden.Cdns.Disable', FALSE))
-            $this->AddCssFile('http://fonts.googleapis.com/css?family=Rokkitt');
+            $this->AddCssFile('https://fonts.googleapis.com/css?family=Rokkitt');
          $this->AddCssFile('admin.css');
       }
       
