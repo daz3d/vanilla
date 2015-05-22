@@ -6,6 +6,17 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 
 	public function OnDisable() { }
 
+	// add view users posts links
+	public function ProfileController_BeforeProfileOptions_Handler($Sender, $Args) {
+		if (Gdn::Session()->IsValid()) {
+			// Add user posts links to dropdown
+			$Args['ProfileOptions'][] = array('Text' => 'View User\'s Threads',
+				'Url' => "/profile/discussions/{$Sender->User->UserID}/".Gdn_Format::Url($Sender->User->Name));
+			$Args['ProfileOptions'][] = array('Text' => 'View User\'s Posts',
+				'Url' => "/profile/comments/{$Sender->User->UserID}/".Gdn_Format::Url($Sender->User->Name));
+		}
+	}
+
 	/*
 	public function SettingsController_AfterCurrentTheme_Handler($Sender) {
 		$SingleColumn = C('Themes.EmbedFriendly.SingleColumn');
