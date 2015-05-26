@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit();
-echo '<span class="page-title"><h1 class="H HomepageTitle">'.$this->Data('Title').'</h1></span>';
+echo '<h1 class="H HomepageTitle">'.$this->Data('Title').'</h1>';
 include($this->FetchViewLocation('helper_functions', 'discussions', 'vanilla'));
 $Session = Gdn::Session();
 $ShowOptions = TRUE;

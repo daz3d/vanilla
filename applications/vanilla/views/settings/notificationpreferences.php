@@ -5,7 +5,7 @@
    echo T('You can follow individual categories and be notified of all posts within them.');
    ?>
 </div>
-<table class="PreferenceGroup ten columns">
+<table class="PreferenceGroup">
    <thead>
       <tr>
          

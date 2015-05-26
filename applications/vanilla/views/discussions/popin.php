@@ -3,13 +3,13 @@
 <?php
 if (count($this->Data('Discussions'))):
 ?>
-      <li class="Item Title self-clearing">
+      <li class="Item Title">
          <?php echo Wrap($this->Data('Title'), 'strong'); ?>
       </li>
       <?php 
       foreach ($this->Data('Discussions') as $Row):
       ?>
-      <li class="Item self-clearing">
+      <li class="Item">
          <div class="Author Photo"><?php echo UserPhoto($Row, array('Px' => 'First')); ?></div>
          <div class="ItemContent">
             <b class="Subject"><?php echo Anchor($Row->Name, $Row->Url.'#latest'); ?></b>
@@ -29,12 +29,12 @@ if (count($this->Data('Discussions'))):
          </div>
       </li>
       <?php endforeach; ?>
-      <li class="Item Center self-clearing">
+      <li class="Item Center">
          <?php
          echo Anchor(sprintf(T('All %s'), T('Bookmarks')), '/discussions/bookmarked'); 
          ?>
       </li>
 <?php else: ?>
-<li class="Item Empty Center self-clearing"><?php echo sprintf(T('You do not have any %s yet.'), T('bookmarks')); ?></li>
+<li class="Item Empty Center"><?php echo sprintf(T('You do not have any %s yet.'), T('bookmarks')); ?></li>
 <?php endif; ?>
 </ul>

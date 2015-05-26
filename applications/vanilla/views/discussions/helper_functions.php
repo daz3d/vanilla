@@ -138,16 +138,13 @@ function WriteDiscussion($Discussion, &$Sender, &$Session) {
    </span>
    <div class="ItemContent Discussion">
       <div class="Title">
-		  <span class="CategoryLink">Category: <?php
-			  echo Anchor($Category['Name'], $Category['Url']);
-		  ?></span>
-      <?php
+      <?php 
          echo AdminCheck($Discussion, array('', ' ')).
             Anchor($DiscussionName, $DiscussionUrl);
          $Sender->FireEvent('AfterDiscussionTitle'); 
       ?>
       </div>
-      <div class="Meta Meta-Discussion self-clearing">
+      <div class="Meta Meta-Discussion">
          <?php 
          WriteTags($Discussion);
          ?>
@@ -173,18 +170,18 @@ function WriteDiscussion($Discussion, &$Sender, &$Session) {
          
             $Sender->FireEvent('AfterCountMeta');
 
-		 echo ' <span class="MItem FirstCommentBy">'.sprintf(T('Started by %1$s'), UserAnchor($First)).'</span> ';
-		 echo ' <span class="MItem FirstCommentDate">'.Gdn_Format::Date($Discussion->FirstDate, 'html');
-
-		 if ($Source = GetValue('Source', $Discussion)) {
-			 echo ' '.sprintf(T('via %s'), T($Source.' Source', $Source));
-		 }
-
-		 echo '</span> ';
-
-		 if ($Discussion->LastCommentID != '') {
+            if ($Discussion->LastCommentID != '') {
                echo ' <span class="MItem LastCommentBy">'.sprintf(T('Most recent by %1$s'), UserAnchor($Last)).'</span> ';
                echo ' <span class="MItem LastCommentDate">'.Gdn_Format::Date($Discussion->LastDate, 'html').'</span>';
+            } else {
+               echo ' <span class="MItem LastCommentBy">'.sprintf(T('Started by %1$s'), UserAnchor($First)).'</span> ';
+               echo ' <span class="MItem LastCommentDate">'.Gdn_Format::Date($Discussion->FirstDate, 'html');
+               
+               if ($Source = GetValue('Source', $Discussion)) {
+                  echo ' '.sprintf(T('via %s'), T($Source.' Source', $Source));
+               }
+               
+               echo '</span> ';
             }
          
             if (C('Vanilla.Categories.Use') && $Category)

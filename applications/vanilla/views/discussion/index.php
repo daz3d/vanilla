@@ -8,7 +8,7 @@ echo '<div class="MessageList Discussion">';
 
 // Write the page title.
 echo '<!-- Page Title -->
-<div id="Item_0" class="PageTitle page-title">';
+<div id="Item_0" class="PageTitle">';
 
 echo '<div class="Options">';
 
@@ -61,7 +61,7 @@ if($this->Pager->LastPage()) {
 }
 echo '</div>';
 
-echo '<div class="P PagerWrap self-clearing">';
+echo '<div class="P PagerWrap">';
 $this->Pager->Wrapper = '<div %1$s>%2$s</div>';
 echo $this->Pager->ToString('more');
 echo '</div>';
