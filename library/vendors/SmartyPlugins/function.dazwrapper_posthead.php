@@ -27,7 +27,7 @@ function smarty_function_dazwrapper_posthead($Params, &$Smarty) {
 
 	// from the close </title> tag to the end of the header
 	$start = strpos($wrapperHtml, '</title>') + strlen('</title>');
-	$length = strpos($wrapperHtml, '<!--ENDHEADER-->') - $start;
+	$length = strpos($wrapperHtml, '[[[ THIS PAGE INTENTI0NALLY LEFT BLANK ]]]') - $start;
 	$header = substr($wrapperHtml, $start, $length);
 
 	return $header;

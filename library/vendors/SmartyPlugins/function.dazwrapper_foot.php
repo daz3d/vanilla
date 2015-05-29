@@ -14,6 +14,7 @@ function smarty_function_dazwrapper_foot($Params, &$Smarty) {
 	}
 
 	// from the start of the footer to the end
-	$footer = substr($wrapperHtml, strpos($wrapperHtml, '<!--STARTFOOTER-->'));
+	$footer = substr($wrapperHtml, strpos($wrapperHtml, '[[[ THIS PAGE INTENTI0NALLY LEFT BLANK ]]]') + strlen('[[[ THIS PAGE INTENTI0NALLY LEFT BLANK ]]]'));
+
 	return $footer;
 }

@@ -15,5 +15,6 @@ function smarty_function_dazwrapper_prehead($Params, &$Smarty) {
 
 	// from the start to just before the open <title> tag
 	$header = substr($wrapperHtml, 0, strpos($wrapperHtml, '<title>'));
+
 	return $header;
 }
