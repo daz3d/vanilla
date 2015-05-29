@@ -553,7 +553,8 @@ if (!function_exists('IPAnchor')) {
     */
    function IPAnchor($IP, $CssClass = '') {
       if ($IP)
-         return Anchor(htmlspecialchars($IP), '/user/browse?keywords='.urlencode($IP), $CssClass);
+//         return Anchor(htmlspecialchars($IP), '/user/browse?keywords='.urlencode($IP), $CssClass);
+	     return htmlspecialchars($IP);
       else
          return $IP;
    }
