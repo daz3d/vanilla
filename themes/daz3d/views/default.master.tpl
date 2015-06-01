@@ -15,11 +15,10 @@
 								<i class="fd-gears daz-toggler" data-toggleelem="#ForumMenu"></i>
 								<ul id="ForumMenu" class="SiteMenu">
 									{dashboard_link}
-									{discussions_link}
-									<li><a href="/vanilla/discussions/bookmarked/">Bookmarks</a></li>
 									{inbox_link}
 									{custom_menu}
 									{profile_link}
+									{asset name="Panel"}
 								</ul>
 							</div>
 							<div class="Breadcrumbs">
@@ -28,7 +27,10 @@
 							</div>
 
 						</div><div class="clear"></div>
-						<div class="Column ContentColumn page_content self-clearing" id="Content">{asset name="Content"}</div>
+						<div class="Column ContentColumn page_content self-clearing" id="Content">
+							{asset name="Content"}
+						</div>
+
 
 						{literal}
 						<script>
