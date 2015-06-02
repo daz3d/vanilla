@@ -36,7 +36,7 @@ class SharedFingerprintModule extends Gdn_Module {
 			<ul class="PanelInfo">
          <?php
 			foreach ($this->_Data->Result() as $SharedAccount) {
-				echo '<li><strong>'.UserAnchor($SharedAccount).'</strong><br /></li>';
+				echo '<li>'.UserAnchor($SharedAccount).'</li>';
 			}
          ?>
 			</ul>
