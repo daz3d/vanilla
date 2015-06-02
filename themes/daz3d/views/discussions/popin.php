@@ -20,7 +20,7 @@ if (count($this->Data('Discussions'))):
                if ($Row->CountUnreadComments === TRUE) {
                   echo ' <strong class="HasNew"> '.T('new').'</strong> ';
                } elseif ($Row->CountUnreadComments > 0) {
-                  echo ' <strong class="HasNew"> '.Plural($Row->CountUnreadComments, '%s new', '%s new plural').'</strong> ';
+                  echo ' <strong class="HasNew"> '.Plural($Row->CountUnreadComments, '%s new', '%s new').'</strong> ';
                }
 
                echo ' <span class="MItem">'.Gdn_Format::Date($Row->DateLastComment).'</span> ';

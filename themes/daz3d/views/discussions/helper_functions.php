@@ -242,7 +242,7 @@ function NewComments($Discussion) {
    } elseif ($Discussion->CountUnreadComments > 0) {
       $Title = htmlspecialchars(Plural($Discussion->CountUnreadComments, "%s new comment since you last read this.", "%s new comments since you last read this."));
       
-      return ' <strong class="HasNew NewCommentCount" title="'.$Title.'">'.Plural($Discussion->CountUnreadComments, '%s new', '%s new plural', BigPlural($Discussion->CountUnreadComments, '%s new', '%s new plural')).'</strong>';
+      return ' <strong class="HasNew NewCommentCount" title="'.$Title.'">'.Plural($Discussion->CountUnreadComments, '%s new', '%s new', BigPlural($Discussion->CountUnreadComments, '%s new', '%s new')).'</strong>';
    }
    return '';
 }
