@@ -269,7 +269,7 @@ class SignaturesPlugin extends Gdn_Plugin {
       if (C('Plugins.Signatures.MaxNumberImages') && C('Plugins.Signatures.MaxNumberImages') !== 'Unlimited') {
          $max = C('Plugins.Signatures.MaxNumberImages');
          $Sig = Gdn_Format::To(val('Plugin.Signatures.Sig', $Values), val('Plugin.Signatures.Format', $Values, C('Garden.InputFormatter')));
-         $numMatches = preg_match_all('/<img/i', $Sig);
+         $numMatches = preg_match_all('/<img/i', $Sig, $null);
          if (C('Plugins.Signatures.MaxNumberImages') === 'None' && $numMatches > 0) {
             $Sender->Form->AddError('Images not allowed');
          }
