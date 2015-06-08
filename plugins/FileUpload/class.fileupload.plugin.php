@@ -259,6 +259,10 @@ class FileUploadPlugin extends Gdn_Plugin {
       $this->DrawAttachFile($Sender);
    }
 
+	public function PostController_BeforeFormButtons_Handler($Sender) {
+		$this->DrawAttachFile($Sender);
+	}
+
    /**
     * DrawAttachFile function.
     *
