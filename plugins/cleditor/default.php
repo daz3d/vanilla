@@ -11,8 +11,8 @@ Included files:
 4. images/buttons.gif (as v.1.3.0 - unchanged)
 
 Changelog:
-v0.1: 25AUG2010 - Initial release. 
-- Known bugs: 
+v0.1: 25AUG2010 - Initial release.
+- Known bugs:
 -- 1. Both HTML and WYSIWYG view are visible in 'Write comment' view. Quick fix: click HTML view button twice to toggle on/off.
 
 Optional: Edit line 19 of jquery.cleditor.min.js to remove extra toolbar buttons.
@@ -38,7 +38,7 @@ some glitches.
 v0.5: 02NOV2010 - by Tim @ Vanilla
 - Fixed:
 -- 1. Added backreference to the cleditor JS object and attached it to the textarea, for external interaction
- 
+
 v1.0.1 31AUG2011 - by Todd @ Vanilla
 - Fixed:
 -- 1. Fixed js error with new versions of jQuery.
@@ -58,7 +58,7 @@ $PluginInfo['cleditor'] = array(
    'AuthorEmail' => 'info@mirabiliamedia.com',
    'AuthorUrl' => 'http://mirabiliamedia.com',
    'RequiredApplications' => array('Vanilla' => '>=2'),
-   'RequiredTheme' => FALSE, 
+   'RequiredTheme' => FALSE,
    'RequiredPlugins' => FALSE,
    'HasLocale' => FALSE,
    'RegisterPermissions' => FALSE,
@@ -71,7 +71,7 @@ class cleditorPlugin extends Gdn_Plugin {
 //	public function PostController_Render_Before($Sender) {
 //		$this->_AddCLEditor($Sender);
 //	}
-//	
+//
 //	public function DiscussionController_Render_Before($Sender) {
 //		$this->_AddCLEditor($Sender);
 //	}
@@ -87,20 +87,20 @@ class cleditorPlugin extends Gdn_Plugin {
    public function AssetModel_StyleCss_Handler($Sender, $Args) {
       $Sender->AddCssFile('jquery.cleditor.css', 'plugins/cleditor');
    }
-   
+
    /**
     *
-    * @param Gdn_Form $Sender 
+    * @param Gdn_Form $Sender
     */
    public function Gdn_Form_BeforeBodyBox_Handler($Sender, $Args) {
       $Column = GetValue('Column', $Args, 'Body');
       $this->_AddCLEditor(Gdn::Controller(), $Column);
-      
+
       $Format = $Sender->GetValue('Format');
-      
+
       if ($Format) {
          $Formatter = Gdn::Factory($Format.'Formatter');
-         
+
          if ($Formatter && method_exists($Formatter, 'FormatForWysiwyg')) {
             $Body = $Formatter->FormatForWysiwyg($Sender->GetValue($Column));
             $Sender->SetValue($Column, $Body);
@@ -110,27 +110,28 @@ class cleditorPlugin extends Gdn_Plugin {
       }
       $Sender->SetValue('Format', 'Wysiwyg');
    }
-   
+
    public function AddClEditor() {
       $this->_AddCLEditor(Gdn::Controller());
    }
-	
+
 	private function _AddCLEditor($Sender, $Column = 'Body') {
       static $Added = FALSE;
       if ($Added)
          return;
-      
+
 		// Add the CLEditor to the form
 		$Options = array('ie' => 'gt IE 6', 'notie' => TRUE); // Exclude IE6
 		$Sender->RemoveJsFile('jquery.autogrow.js');
 		$Sender->AddJsFile('jquery.cleditor'.(Debug() ? '' : '.min').'.js', 'plugins/cleditor', $Options);
-      
+		$Sender->AddJsFile('jquery.cleditor.pastecode.js', 'plugins/cleditor', $Options);
+
       $CssInfo = AssetModel::CssPath('cleditor.css', 'plugins/cleditor');
-      
+
       if ($CssInfo) {
          $CssPath = Asset($CssInfo[1]);
       }
-      
+
 		$Sender->Head->AddString(<<<EOT
 <style type="text/css">
 a.PreviewButton {
@@ -149,7 +150,7 @@ a.PreviewButton {
             controls: "bold italic strikethrough | font size " +
                     "style | color highlight removeformat | bullets numbering | outdent indent | " +
                     "alignleft center alignright | undo redo | " +
-                    "image link unlink | pastetext source",
+                    "image link unlink | pastetext pastecode source",
             docType: '<!DOCTYPE html>',
             docCSSFile: "$CssPath"
          })[0];
@@ -165,7 +166,7 @@ EOT
 );
       $Added = TRUE;
    }
-   
+
    public function PostController_Quote_Before($Sender, $Args) {
       // Make sure quotes know that we are hijacking the format to wysiwyg.
       if (!C('Garden.ForceInputFormatter'))
@@ -175,7 +176,7 @@ EOT
 	public function Setup() {
       $this->Structure();
    }
-   
+
    public function Structure() {
 
    }

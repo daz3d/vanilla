@@ -1229,17 +1229,17 @@ class ProfileController extends Gdn_Controller {
 
        if (C('Garden.UserAccount.AllowEdit') && C('Garden.Registration.Method') != 'Connect') {
             $Module->AddLink('Options', Sprite('SpEdit').' '.T('Edit Profile'), '/profile/edit', FALSE, array('class' => 'Popup EditAccountLink'));
-          }
 
-         //Disabling password editing through Vanilla. -JG
-/*  
+//Disabling password editing through Vanilla. -JG
+/*
             // No password may have been set if they have only signed in with a connect plugin
             $PasswordLabel = T('Change My Password');
             if ($this->User->HashMethod && $this->User->HashMethod != "Vanilla")
                $PasswordLabel = T('Set A Password');
             $Module->AddLink('Options', Sprite('SpPassword').' '.$PasswordLabel, '/profile/password', FALSE, array('class' => 'Popup PasswordLink'));
-         }
 */
+         }
+
          $Module->AddLink('Options', Sprite('SpPreferences').' '.T('Notification Preferences'), UserUrl($this->User, '', 'preferences'), FALSE, array('class' => 'Popup PreferencesLink'));
          if ($AllowImages) {
             $Module->AddLink('Options', Sprite('SpPicture').' '.T('Change My Picture'), '/profile/picture', 'Garden.Profiles.Edit', array('class' => 'PictureLink'));
