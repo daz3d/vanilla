@@ -79,6 +79,8 @@ class EmotifyPlugin implements Gdn_IPlugin {
 			':X' => '8',
 			':\">' => '9',
 			':\"&gt;' => '9',
+			':\&quot;>' => '9',
+			':\&quot;&gt;' => '9',
 			':P' => '10',
 			':p' => '10',
          '<:-P' => '36',
@@ -169,6 +171,7 @@ class EmotifyPlugin implements Gdn_IPlugin {
 			'[-O&lt;' => '63',
 			'$-)' => '64',
 			':-\"' => '65',
+			':-\&quot;' => '65',
 			'b-(' => '66',
 			'[-X' => '68',
 			'\\:D/' => '69',
@@ -199,8 +202,8 @@ class EmotifyPlugin implements Gdn_IPlugin {
 			':-bd' => '113',
 			'^#(^' => '114',
 			':bz' => '115',
-			':ar!' => 'pirate'
-//			'[..]' => 'transformer'
+			':ar!' => 'pirate',
+//			'[..]' => 'transformer',
 		);
 	}
 	
@@ -240,7 +243,7 @@ class EmotifyPlugin implements Gdn_IPlugin {
 		foreach ($Emoticons as $Key => $Replacement) {
 			if (strpos($Text, $Key) !== FALSE)
 				$Text = preg_replace(
-					"#(?<=[>\s])".preg_quote($Key, '#')."(?=\W)#m",
+					"#(?<=[>\\s]|&nbsp;)".preg_quote($Key, '#')."(?=\\W)#m",
 					'<span class="Emoticon Emoticon' . $Replacement . '"><span>' . $Key . '</span></span>',
 					$Text
 				);
