@@ -1,8 +1,8 @@
 <?php if (!defined('APPLICATION')) exit();
 
-echo '<h2 class="H self-clearing">'.T('Edit My Thumbnail').'</h2>';
+echo '<h2 class="H">'.T('Edit My Thumbnail').'</h2>';
 echo $this->Form->Errors();
-echo $this->Form->Open(array('class' => 'Thumbnail ten columns'));
+echo $this->Form->Open(array('class' => 'Thumbnail'));
 ?>
 <div class="Info"><?php
    echo T('Define Thumbnail', 'Click and drag across the picture to define your thumbnail.');
@@ -28,4 +28,4 @@ echo $this->Form->Open(array('class' => 'Thumbnail ten columns'));
    </tbody>
 </table>
 
-<?php echo $this->Form->Close('Save', '', array('class' => 'button Button Primary'));
+<?php echo $this->Form->Close('Save', '', array('class' => 'Button Primary'));

@@ -1,4 +1,3 @@
-<span class="page-title">
 <h1 class="H"><?php 
    echo htmlspecialchars($this->User->Name);
 
@@ -9,4 +8,3 @@
       $this->FireEvent('UsernameMeta');
    echo '</span>';
 ?></h1>
-</span>

@@ -62,7 +62,7 @@
          ?>
       </li>
       <li class="Buttons">
-         <?php echo $this->Form->Button('Apply for Membership', array('class' => 'button Button Primary')); ?>
+         <?php echo $this->Form->Button('Apply for Membership', array('class' => 'Button Primary')); ?>
       </li>
    </ul>
    <?php echo $this->Form->Close(); ?>

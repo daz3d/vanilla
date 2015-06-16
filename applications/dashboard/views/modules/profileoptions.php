@@ -5,10 +5,10 @@
    <?php
    $Controller = Gdn::Controller();
    $Controller->FireEvent('BeforeProfileOptions');
-   echo ButtonGroup($Controller->EventArguments['MemberOptions'], 'NavButton MemberButtons button');
+   echo ButtonGroup($Controller->EventArguments['MemberOptions'], 'NavButton MemberButtons');
    echo ' ';
    echo ButtonDropDown($Controller->EventArguments['ProfileOptions'], 
-      'NavButton ProfileButtons Button-EditProfile button',
+      'NavButton ProfileButtons Button-EditProfile',
       Sprite('SpEditProfile', 'Sprite16').' <span class="Hidden">'.T('Edit Profile').'</span>'
    );
    ?>

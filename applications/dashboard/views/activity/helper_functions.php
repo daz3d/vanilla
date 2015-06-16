@@ -14,7 +14,7 @@ function WriteActivity($Activity, &$Sender, &$Session) {
          $Activity->PhotoUrl, 'PhotoWrap');
    }
    
-   $CssClass = 'Item self-clearing Activity Activity-'.$ActivityType;
+   $CssClass = 'Item Activity Activity-'.$ActivityType;
    if ($PhotoAnchor != '')
       $CssClass .= ' HasPhoto';
    
@@ -61,7 +61,7 @@ function WriteActivity($Activity, &$Sender, &$Session) {
    ?>
    <div class="Author Photo"><?php echo $PhotoAnchor; ?></div>
    <?php } ?>
-   <div class="ItemContent Activity self-clearing">
+   <div class="ItemContent Activity">
       <?php echo $Title; ?>
       <?php echo WrapIf($Excerpt, 'div', array('class' => 'Excerpt')); ?>
       <?php 
@@ -125,7 +125,7 @@ function WriteActivity($Activity, &$Sender, &$Session) {
          echo '<div class="TextBoxWrapper">'.$CommentForm->TextBox('Body', array('MultiLine' => TRUE, 'value' => '')).'</div>';
          
          echo '<div class="Buttons">';
-         echo $CommentForm->Button('Comment', array('class' => 'button Button Primary'));
+         echo $CommentForm->Button('Comment', array('class' => 'Button Primary'));
          echo '</div>';
          
          echo $CommentForm->Close();
@@ -144,7 +144,7 @@ if (!function_exists('WriteActivityComment')):
 function WriteActivityComment($Comment, &$Sender, &$Session) {
    $Author = UserBuilder($Comment, 'Insert');
    $PhotoAnchor = UserPhoto($Author, 'Photo');
-   $CssClass = 'Item self-clearing ActivityComment ActivityComment';
+   $CssClass = 'Item ActivityComment ActivityComment';
    if ($PhotoAnchor != '')
       $CssClass .= ' HasPhoto';
    
@@ -153,7 +153,7 @@ function WriteActivityComment($Comment, &$Sender, &$Session) {
    <?php if ($PhotoAnchor != '') { ?>
    <div class="Author Photo"><?php echo $PhotoAnchor; ?></div>
    <?php } ?>
-   <div class="ItemContent ActivityComment self-clearing">
+   <div class="ItemContent ActivityComment">
       <?php echo UserAnchor($Author, 'Title Name'); ?>
       <div class="Excerpt"><?php echo Gdn_Format::To($Comment['Body'], $Comment['Format']); ?></div>
       <div class="Meta">
