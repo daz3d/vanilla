@@ -10,7 +10,7 @@
 				<div class="Head" id="Head"></div>
 				<div id="Body">
 					<div class="Row">
-						<div class="ForumHeader crumbs daz-sticky" data-daz-sticky-side="top">
+						<div class="ForumHeader crumbs daz-sticky self-clearing" data-daz-sticky-side="top">
 							<div class="SiteMenuWrapper">
 								<i class="fd-gears daz-toggler" data-toggleelem="#ForumMenu"></i>
 								<ul id="ForumMenu" class="SiteMenu">
@@ -26,7 +26,8 @@
 								{breadcrumbs}
 							</div>
 
-						</div><div class="clear"></div>
+						</div>
+
 						<div class="Column ContentColumn page_content self-clearing" id="Content">
 							{asset name="Content"}
 						</div>
