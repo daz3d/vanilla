@@ -252,7 +252,7 @@ class FileUploadPlugin extends Gdn_Plugin {
          $Sender->EventArguments['Discussion'] = $Discussion;
          $this->AttachUploadsToComment($Sender, 'discussion');
       }
-      $this->DrawAttachFile($Sender);
+      //$this->DrawAttachFile($Sender);
    }
 
    public function DiscussionController_BeforeFormButtons_Handler($Sender) {
