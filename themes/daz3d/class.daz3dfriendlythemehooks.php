@@ -6,6 +6,10 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 
 	public function OnDisable() { }
 
+	public function Base_Render_Before($Sender) {
+		$Sender->AddJsFile('custom.js');
+	}
+
 	// add view users posts links
 	public function ProfileController_BeforeProfileOptions_Handler($Sender, $Args) {
 		if (Gdn::Session()->IsValid()) {
@@ -62,10 +66,6 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 		$TransientKey = GetValue(0, $Sender->RequestArgs);
 		if (Gdn::Session()->ValidateTransientKey($TransientKey))
 			SaveToConfig('Themes.EmbedFriendly.SingleColumn', C('Themes.EmbedFriendly.SingleColumn') ? FALSE : TRUE);
-	}
-
-
-	public function Base_Render_Before($Sender) {
 	}
 
    public function CategoriesController_Render_Before($Sender) {
