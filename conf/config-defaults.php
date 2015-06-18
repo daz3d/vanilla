@@ -104,8 +104,8 @@ $Configuration['Garden']['PrivateCommunity']                    = FALSE;
 $Configuration['Garden']['EditContentTimeout']                  = 3600; // -1 means no timeout. 0 means immediate timeout. > 0 is in seconds. 60 * 60 = 3600 (aka 1hr)
 $Configuration['Garden']['Profile']['EditPhotos']               = TRUE; // false to disable user photo editing
 $Configuration['Garden']['Profile']['EditUsernames']            = FALSE;
-$Configuration['Garden']['Modules']['ShowGuestModule']          = TRUE;
-$Configuration['Garden']['Modules']['ShowSignedInModule']       = FALSE;
+$Configuration['Garden']['Modules']['ShowGuestModule']          = false;
+$Configuration['Garden']['Modules']['ShowSignedInModule']       = true;
 $Configuration['Garden']['Modules']['ShowRecentUserModule']     = FALSE;
 $Configuration['Garden']['Embed']['CommentsPerPage']            = 50;
 $Configuration['Garden']['Embed']['SortComments']               = 'desc';

@@ -14,10 +14,7 @@
 							<div class="SiteMenuWrapper">
 								<i class="fd-gears daz-toggler" data-toggleelem="#ForumMenu"></i>
 								<ul id="ForumMenu" class="SiteMenu">
-									{dashboard_link}
-									{inbox_link}
 									{custom_menu}
-									{profile_link}
 									{asset name="Panel"}
 								</ul>
 							</div>
