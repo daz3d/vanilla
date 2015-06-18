@@ -12,8 +12,7 @@ $PluginInfo['SyntaxHighlighter'] = array(
 class SyntaxHighlighterPlugin extends Gdn_Plugin
 {
 
-    public function Base_Render_Before($Sender)
-    {
+    public function Base_Render_Before($Sender) {
         $Sender->AddJsFile('highlight.pack.js', 'plugins/SyntaxHighlighter');
         $Sender->AddCssFile('hybrid.css', 'plugins/SyntaxHighlighter');
         $Sender->Head->AddString('<script type="text/javascript">hljs.initHighlightingOnLoad();</script>');
@@ -27,6 +26,10 @@ class SyntaxHighlighterPlugin extends Gdn_Plugin
 		$this->formatAll($Sender);
     }
 
+	public function MessagesController_AfterMessageFormat_Handler($Sender) {
+		$this->formatAll($Sender);
+	}
+
 	protected function formatAll($Sender) {
 		if ( ! empty($Sender->Discussion) && ! empty($Sender->Discussion->FormatBody)) {
 			$Sender->Discussion->FormatBody = $this->cleanCommentCode($Sender->Discussion->FormatBody);
@@ -34,6 +37,10 @@ class SyntaxHighlighterPlugin extends Gdn_Plugin
 
 		if ( ! empty($Sender->CurrentComment) && ! empty($Sender->CurrentComment->FormatBody)) {
 			$Sender->CurrentComment->FormatBody = $this->cleanCommentCode($Sender->CurrentComment->FormatBody);
+		}
+
+		if ( ! empty($Sender->EventArguments['Message']) && ! empty($Sender->EventArguments['Message']->FormatBody)) {
+			$Sender->EventArguments['Message']->FormatBody = $this->cleanCommentCode($Sender->EventArguments['Message']->FormatBody);
 		}
 	}
 
