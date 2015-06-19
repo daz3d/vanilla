@@ -31,7 +31,7 @@
 
 
 						{literal}
-						<script>
+						<script> //script for making vanilla breadcrumbs match magento breadcrumbs
 
 							//variables for crumb styling
 							var forumThreadTitle = $( "#Item_0 h1" ).text();

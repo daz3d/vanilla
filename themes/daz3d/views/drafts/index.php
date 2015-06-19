@@ -1,12 +1,10 @@
 <?php if (!defined('APPLICATION')) exit();
-echo '<span class="page-title"><h1 class="H HomepageTitle">'.$this->Data('Title').'</h1></span>';
+echo '<span class="page-title"><h1 class="H HomepageTitle MyDraftsTitle">'.$this->Data('Title').'</h1></span>';
 include($this->FetchViewLocation('helper_functions', 'discussions', 'vanilla'));
 $Session = Gdn::Session();
-$ShowOptions = TRUE;
+$ShowOptions = FALSE;
 $Alt = '';
 $ViewLocation = $this->FetchViewLocation('drafts', 'drafts');
-// WriteFilterTabs($this);
-echo Gdn_Theme::Module('DiscussionFilterModule');
 if ($this->DraftData->NumRows() > 0) {
    echo $this->Pager->ToString('less');
 ?>
