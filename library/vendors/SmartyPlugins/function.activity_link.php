@@ -12,6 +12,7 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 /**
  */
 function smarty_function_activity_link($Params, &$Smarty) {
+	return '';
    return Gdn_Theme::Link('activity',
       GetValue('text', $Params, T('Activity')),
       GetValue('format', $Params, '<li><a href="%url" class="%class">%text</a></li>'));
