@@ -50,7 +50,7 @@ class SyntaxHighlighterPlugin extends Gdn_Plugin
 			$Dom->recover = true;
 			$Dom->loadHTML($body);
 			$Path = new DOMXPath($Dom);
-			$elements = $Path->query('*/pre/code');
+			$elements = $Path->query('//pre/code');
 		}
 		catch (Exception $e) {
 			return $body;
