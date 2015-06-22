@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<div class="FormTitleWrapper">
+<div class="FormTitleWrapper ten columns Signatures">
 <?php
    echo $this->Form->Open();
 
@@ -10,7 +10,6 @@
 
 
 ?>
-<span class="page-title"><h1 class="H"><?php echo T('Signatures'); ?></h1></span>
 <h2 class="H self-clearing"><?php echo T('My Signature'); ?></h2>
    <?php echo $this->Form->Errors(); ?>
    <ul>

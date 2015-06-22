@@ -1,4 +1,5 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
+<div class="IgnoreList ten columns m_0">
 <h2 class="H self-clearing"><?php echo $this->Data('Title'); ?></h2>
 <?php
 echo $this->Form->Open();
@@ -74,8 +75,10 @@ endif;
       ?>
    </li>
 </ul>
-<?php echo $this->Form->Close('OK');
+<?php echo $this->Form->Close('Ignore');
 
 else:
    echo $this->Form->Close();
 endif;
+?>
+</div>
