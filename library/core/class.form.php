@@ -185,7 +185,7 @@ class Gdn_Form extends Gdn_Pluggable {
       if ($Type === FALSE) $Type = 'submit';
 
       $CssClass = ArrayValueI('class', $Attributes);
-      if ($CssClass === FALSE) $Attributes['class'] = 'Button';
+      if ($CssClass === FALSE) $Attributes['class'] = 'button Button';
 
       $Return = '<input type="' . $Type . '"';
       $Return .= $this->_IDAttribute($ButtonCode, $Attributes);
@@ -359,8 +359,8 @@ class Gdn_Form extends Gdn_Pluggable {
           T($Label) . '</label>';
           
       // Append validation error message
-      if ($ShowErrors && ArrayValueI('InlineErrors', $Attributes, TRUE))  
-         $Return .= $this->InlineError($FieldName);
+      if ($ShowErrors && ArrayValueI('InlineErrors', $Attributes, TRUE))
+		  $Input .= $this->InlineError($FieldName);
 
       return $Input;
    }
