@@ -39,7 +39,7 @@ echo '<div class="CommentsWrap">';
 
 // Write the comments.
 $this->Pager->Wrapper = '<span %1$s>%2$s</span>';
-echo '<span class="BeforeCommentHeading">';
+echo '<span class="BeforeCommentHeading self-clearing">';
 $this->FireEvent('CommentHeading');
 echo $this->Pager->ToString('less');
 echo '</span>';

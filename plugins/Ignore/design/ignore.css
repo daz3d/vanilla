@@ -28,8 +28,17 @@
    cursor: pointer;
 }
 
+.DataList .Ignored:after {
+   visibility: hidden;
+   display: block;
+   font-size: 0;
+   content: " ";
+   clear: both;
+   height: 0;
+}
+
 .DataList .Ignored.IgnoreHide {
-   opacity: 0.4;
+   opacity: 0.5;
 }
 
 .Ignored.IgnoreHide .Item-BodyWrap, 
