@@ -359,8 +359,8 @@ class Gdn_Form extends Gdn_Pluggable {
           T($Label) . '</label>';
           
       // Append validation error message
-      if ($ShowErrors && ArrayValueI('InlineErrors', $Attributes, TRUE))  
-         $Return .= $this->InlineError($FieldName);
+      if ($ShowErrors && ArrayValueI('InlineErrors', $Attributes, TRUE))
+		  $Input .= $this->InlineError($FieldName);
 
       return $Input;
    }
