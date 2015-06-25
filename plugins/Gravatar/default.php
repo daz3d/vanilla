@@ -31,7 +31,7 @@ class GravatarPlugin extends Gdn_Plugin {
          else
             $Url .= '&default='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Gravatar/default_250.png'), TRUE));
 
-      
+
          $Sender->User->Photo = $Url;
       }
    }
@@ -45,13 +45,13 @@ if (!function_exists('UserPhotoDefaultUrl')) {
 
       $Url = $Protocol.'gravatar.com/avatar.php?'
          .'gravatar_id='.md5(strtolower($Email))
-         .'&amp;size='.C('Garden.Thumbnail.Width', 50);
-         
+         .'&amp;size='.C('Garden.Thumbnail.Size', 50);
+
       if (C('Plugins.Gravatar.UseVanillicon', TRUE))
          $Url .= '&default='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.md5($Email).'.png');
       else
          $Url .= '&default='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Gravatar/default.png'), TRUE));
-      
+
       return $Url;
    }
 }
