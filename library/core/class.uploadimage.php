@@ -97,7 +97,9 @@ class Gdn_UploadImage extends Gdn_Upload {
     */
    public static function SaveImageAs($Source, $Target, $Height = '', $Width = '', $Options = array()) {
       $Crop = FALSE; $OutputType = ''; $ImageQuality = C('Garden.UploadImage.Quality', 75);
+$bt = debug_backtrace(false);
 file_put_contents(PATH_ROOT.'/uploads/debug.log', "\n\n--- SAVING IMAGE IN lib/core ---\n", FILE_APPEND);
+file_put_contents(PATH_ROOT.'/uploads/debug.log', var_export($bt, true)."\n", FILE_APPEND);
 $args = func_get_args( );
 file_put_contents(PATH_ROOT.'/uploads/debug.log', var_export($args, true)."\n", FILE_APPEND);
 
