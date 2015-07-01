@@ -2,7 +2,7 @@
 
 function MediaThumbnail($Media, $Data = FALSE) {
       $Media = (array)$Media;
-file_put_contents(PATH_ROOT.'/uploads/debug.log', '$Media = '.var_export($Media, true)."\n", FILE_APPEND);
+file_put_contents(PATH_ROOT.'/uploads/debug.log', '$Media = '.TVarDumper::dump($Media)."\n", FILE_APPEND);
    
       if (GetValue('ThumbPath', $Media)) {
          $Src = Gdn_Upload::Url(ltrim(GetValue('ThumbPath', $Media), '/'));

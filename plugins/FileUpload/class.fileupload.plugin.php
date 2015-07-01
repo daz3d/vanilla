@@ -850,7 +850,7 @@ class FileUploadPlugin extends Gdn_Plugin {
             if($ImageType !== FALSE) {
                try {
                   $ImgParsed = Gdn_UploadImage::SaveImageAs($FileTemp, $SavePath);
-file_put_contents(PATH_ROOT.'/uploads/debug.log', '$ImgParsed = '.var_export($ImgParsed, true)."\n", FILE_APPEND);
+file_put_contents(PATH_ROOT.'/uploads/debug.log', '$ImgParsed = '.TVarDumper::dump($ImgParsed)."\n", FILE_APPEND);
                   $MoveSuccess = TRUE;
                   // In case image got rotated
                   $ImageWidth = $ImgParsed['Width'];
