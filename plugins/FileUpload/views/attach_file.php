@@ -14,7 +14,7 @@
                      <span class="FileSize"><?php echo T('File Size'); ?></span>
                   </div>
                   <span class="FileOptions"></span>
-                  <a class="InsertImage Hidden"><?php echo T('Insert Image'); ?></a>
+                  <!-- <a class="InsertImage Hidden"><?php echo T('Insert Image'); ?></a> -->
                   <a class="DeleteFile"><?php echo T('Delete'); ?></a>
                </div>
             </div>

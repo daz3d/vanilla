@@ -853,8 +853,12 @@ class FileUploadPlugin extends Gdn_Plugin {
 file_put_contents(PATH_ROOT.'/uploads/debug.log', '$ImgParsed = '.TVarDumper::dump($ImgParsed)."\n", FILE_APPEND);
                   $MoveSuccess = TRUE;
                   // In case image got rotated
-                  $ImageWidth = $ImgParsed['Width'];
-                  $ImageHeight = $ImgParsed['Height'];
+                  if (array_key_exists('Width', $ImgParsed)) {
+                     $ImageWidth = $ImgParsed['Width'];
+                  }
+                  if (array_key_exists('Height', $ImgParsed)) {
+                     $ImageHeight = $ImgParsed['Height'];
+                  }
                } catch(Exception $Ex) {
                   // In case it was an image, but not a supported type - still upload
                   $MoveSuccess = @move_uploaded_file($FileTemp, $SavePath);
