@@ -97,11 +97,6 @@ class Gdn_UploadImage extends Gdn_Upload {
     */
    public static function SaveImageAs($Source, $Target, $Height = '', $Width = '', $Options = array()) {
       $Crop = FALSE; $OutputType = ''; $ImageQuality = C('Garden.UploadImage.Quality', 75);
-$bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-file_put_contents(PATH_ROOT.'/uploads/debug.log', "\n\n--- SAVING IMAGE IN lib/core ---\n", FILE_APPEND);
-file_put_contents(PATH_ROOT.'/uploads/debug.log', TVarDumper::dump($bt)."\n", FILE_APPEND);
-$args = func_get_args( );
-file_put_contents(PATH_ROOT.'/uploads/debug.log', TVarDumper::dump($args)."\n", FILE_APPEND);
 
       // Make function work like it used to.
       $Args = func_get_args();
@@ -122,13 +117,11 @@ file_put_contents(PATH_ROOT.'/uploads/debug.log', TVarDumper::dump($args)."\n", 
       // Make sure type, height & width are properly defined.
       
       if (!function_exists('gd_info')) {
-file_put_contents(PATH_ROOT.'/uploads/debug.log', "FAILED, GD is not installed\n", FILE_APPEND);
          throw new Exception(T('The uploaded file could not be processed because GD is not installed.'));
 	  }
          
       $GdInfo = gd_info();      
       $Size = getimagesize($Source);
-file_put_contents(PATH_ROOT.'/uploads/debug.log', '$Size = '.TVarDumper::dump($Size)."\n", FILE_APPEND);
       list($WidthSource, $HeightSource, $Type) = $Size;
       $WidthSource = GetValue('SourceWidth', $Options, $WidthSource);
       $HeightSource = GetValue('SourceHeight', $Options, $HeightSource);
@@ -145,7 +138,6 @@ file_put_contents(PATH_ROOT.'/uploads/debug.log', '$Size = '.TVarDumper::dump($S
       }
       elseif ($Type == 17 && $OutputType != 'ico') {
          // Icons cannot be converted
-file_put_contents(PATH_ROOT.'/uploads/debug.log', "FAILED, icon?\n", FILE_APPEND);
          throw new Exception(T('Upload cannot convert icons.'));
       }
 
@@ -225,7 +217,6 @@ file_put_contents(PATH_ROOT.'/uploads/debug.log', "FAILED, icon?\n", FILE_APPEND
          }
 
          if (!$SourceImage) {
-file_put_contents(PATH_ROOT.'/uploads/debug.log', "FAILED, You cannot save images of this type ({$Type})\n", FILE_APPEND);
             throw new Exception(sprintf(T('You cannot save images of this type (%s).'), $Type));
 		 }
 
