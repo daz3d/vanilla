@@ -105,7 +105,7 @@ class CategoriesController extends VanillaController {
          $this->SetData('Category', $Category, TRUE);
          
          $this->Title(htmlspecialchars(GetValue('Name', $Category, '')));
-         $this->Description(GetValue('Description', $Category), TRUE);
+         $this->Description(GetValue('Description', $Category), FALSE);
          
          if ($Category->DisplayAs == 'Categories') {
             // This category is an overview style category and displays as a category list.
