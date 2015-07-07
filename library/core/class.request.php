@@ -540,7 +540,7 @@ class Gdn_Request {
          } else {
             // Could not determine webroot.
 // TODO: revert this to empty string once nginx and/or vanilla know how to find WebRoot
-            $WebRoot = 'vanilla';
+            $WebRoot = 'forums';
          }
 
       }
