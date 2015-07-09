@@ -403,6 +403,25 @@ class EntryController extends Gdn_Controller {
                unset($Data['Photo']);
             }
 
+// DAZ 2015-07-08 ----
+            // Check the database for duplicate names and change those
+            // because this name needs to go through, Magento is the master username database
+            $db = Gdn::Database();
+            $name = $db->QuoteExpression($Data['Name']);
+            $others = Gdn::SQL()->Query(
+                "
+                  SELECT `UserID`
+                    , `Name`
+                  FROM `{$db->DatabasePrefix}User`
+                  WHERE `Name` LIKE {$name}
+               "
+            );
+
+            foreach ($others as $other) {
+               Gdn::UserModel()->Update(array('Name' => $other->Name.'_'.$other->UserID), array('UserID' => $other->UserID));
+            }
+// DAZ ----
+
             // Synchronize the user's data.
             $UserModel->Save($Data, array('NoConfirmEmail' => TRUE, 'FixUnique' => TRUE, 'SaveRoles' => $SaveRoles));
          }
