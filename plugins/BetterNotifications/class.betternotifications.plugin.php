@@ -35,7 +35,7 @@ class BetterNotifications extends Gdn_Plugin {
 		$Session = Gdn::Session();
 		$UserID = $Session->UserID;
 		$DiscussionID = $Sender->DiscussionModel->EventArguments['Discussion']->DiscussionID;
-		
+
 		$this->SetNotified( $UserID, $DiscussionID, FALSE );
 
 	}
@@ -72,13 +72,13 @@ class BetterNotifications extends Gdn_Plugin {
 				->Get()
 				->FirstRow()
 				->DiscussionID;
-				
+
 			if ( $this->GetNotified($UserID, $DiscussionID) ) {
 
 				// Stop the user from receiving a notification
 				// by wiping the e-mail data
 				$Email->Clear();
-			
+
 			} else {
 
 				$this->SetNotified( $UserID, $DiscussionID, TRUE );
@@ -110,7 +110,7 @@ class BetterNotifications extends Gdn_Plugin {
 
 		Gdn::SQL()
 			->Update('UserDiscussion')
-			->Set('Notified', $Notified)
+			->Set('Notified', $FlagValue)
 			->Where('DiscussionID', $DiscussionID)
 			->Where('UserID', $UserID)
 			->Put();
@@ -118,5 +118,3 @@ class BetterNotifications extends Gdn_Plugin {
 	}
 
 }
-
-?>
