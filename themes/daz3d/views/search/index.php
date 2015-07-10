@@ -1,12 +1,12 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<div class="SearchForm">
+<div class="SearchForm self-clearing">
 <?php
 $Form = $this->Form;
 $Form->InputPrefix = '';
 echo  $Form->Open(array('action' => Url('/search'), 'method' => 'get')),
    '<div class="SiteSearch">',
    $Form->TextBox('Search'),
-   $Form->Button('Search', array('Name' => '')),
+   $Form->Button('Search Forums', array('Name' => '')),
    '</div>',
    $Form->Errors(),
    $Form->Close();
