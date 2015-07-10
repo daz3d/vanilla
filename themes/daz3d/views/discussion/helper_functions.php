@@ -142,8 +142,8 @@ function WriteComment($Comment, $Sender, $Session, $CurrentOffset) {
 			   ?>
 			</div>
 			<?php
-			$Sender->FireEvent('AfterCommentBody');
 			WriteReactions($Comment);
+			$Sender->FireEvent('AfterCommentBody');
 			?>
 		 </div>
 	  </div>
@@ -161,7 +161,7 @@ function WriteReactions($Row, $Type = 'Comment') {
    Gdn::Controller()->EventArguments['RecordType'] = strtolower($RecordType);
    Gdn::Controller()->EventArguments['RecordID'] = $RecordID;
 
-   echo '<div class="Reactions">';
+   echo '<div class="Reactions self-clearing">';
 	  Gdn_Theme::BulletRow();
 	  Gdn::Controller()->FireEvent('AfterFlag');
 
