@@ -1696,7 +1696,7 @@ class PHPMailer {
   * @return string
   * @author Marcus Bointon
   */
-  public function EncodeQP($string, $line_max = 76, $space_conv = false) {
+  public function EncodeQP($string, $line_max = 999999, $space_conv = false) {
     if (function_exists('quoted_printable_encode')) { //Use native function if it's available (>= PHP5.3)
       return quoted_printable_encode($string);
     }
