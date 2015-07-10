@@ -76,8 +76,8 @@ $this->FireEvent('BeforeDiscussionDisplay');
                ?>
             </div>
             <?php 
-            $this->FireEvent('AfterDiscussionBody');
             WriteReactions($Discussion);
+            $this->FireEvent('AfterDiscussionBody');
             ?>
          </div>
       </div>

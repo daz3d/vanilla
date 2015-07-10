@@ -189,7 +189,7 @@ class QuotesPlugin extends Gdn_Plugin {
 
       $Reply = T('Reply'); // help capture translation.
 
-      echo Anchor(Sprite('ReactQuote', 'ReactSprite').' '.T('Quote'), Url("post/quote/{$Object->DiscussionID}/{$ObjectID}", TRUE), 'ReactButton Quote Visible').' ';
+      echo Anchor(Sprite('ReactQuote', 'ReactSprite').' '.T('Quote'), Url("post/quote/{$Object->DiscussionID}/{$ObjectID}", TRUE), 'ReactButton button secondary Quote Visible').' ';
    }
 
    public function DiscussionController_BeforeCommentDisplay_Handler($Sender) {
