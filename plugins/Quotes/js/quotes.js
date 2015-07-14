@@ -33,6 +33,10 @@ function Gdn_Quotes() {
          Quotes.SetInsertMode('cleditor', this);
       });
 
+      jQuery('#cke_Form_Body').livequery(function(){
+         Quotes.SetInsertMode('ckeditor', this);
+      });
+
       var QuoteFoldingLevel = gdn.definition('QuotesFolding', 1);
 
       if (QuoteFoldingLevel != 'None') {
@@ -212,6 +216,10 @@ function Gdn_Quotes() {
       switch (this.InsertMode) {
          case 'cleditor':
             var ScrollY = jQuery(this.GetEditor().get(0).editor.$frame).offset().top - 100; // 100 provides buffer in viewport
+         break;
+
+         case 'ckeditor':
+            var ScrollY = this.GetEditor().parents('#Form_Comment').offset().top - 100; // 100 provide buffer in viewport
          break;
 
          case 'default':
