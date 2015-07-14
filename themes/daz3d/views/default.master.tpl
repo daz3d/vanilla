@@ -3,6 +3,7 @@
 {asset name="Head"}
 <!-- vanilla head end -->
 {dazwrapper_posthead}
+{daz_search_swap}
 	<div id="Forum">
 		<div id="{$BodyID}" class="{$BodyClass}">
 
