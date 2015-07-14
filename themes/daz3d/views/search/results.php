@@ -19,6 +19,7 @@ if (is_array($this->SearchResults) && count($this->SearchResults) > 0) {
                echo $Row->Summary;
 			?></div>
          <div class="Item-Footer">
+         <p class="by">By </p>
             <?php
                echo UserPhoto($Row, array('Size' => 'Small')).' '.UserAnchor($Row); 
             ?>
