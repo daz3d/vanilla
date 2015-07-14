@@ -34,7 +34,16 @@ class BetterNotifications extends Gdn_Plugin {
 
 		$Session = Gdn::Session();
 		$UserID = $Session->UserID;
-		$DiscussionID = $Sender->DiscussionModel->EventArguments['Discussion']->DiscussionID;
+		if ($Sender && ! empty($Sender->DiscussionModel) && ! empty($Sender->DiscussionModel->EventArguments)
+			&& is_array($Sender->DiscussionModel->EventArguments)
+			&& ! empty($Sender->DiscussionModel->EventArguments['Discussion'])
+			&& ! empty($Sender->DiscussionModel->EventArguments['Discussion']->DiscussionID))
+		{
+			$DiscussionID = $Sender->DiscussionModel->EventArguments['Discussion']->DiscussionID;
+		}
+		else {
+			return false;
+		}
 
 		$this->SetNotified( $UserID, $DiscussionID, FALSE );
 
