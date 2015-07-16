@@ -17,13 +17,6 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
          <dd class="Name" itemprop="name"><?php echo $this->User->Name; ?></dd>
       </div>
 
-      <div class="UserDetail">
-         <?php if ($Loc = GetValue('Location', $this->User)): ?>
-         <dt class="Location"><?php echo T('Location'); ?></dt>
-         <dd class="Location"><?php echo htmlspecialchars($Loc); ?></dd>
-         <?php endif; ?>
-      </div>
-
       <div class="UserDetail">      
          <?php               
          if ($this->User->Email && ($this->User->ShowEmail || $Session->CheckPermission('Garden.Moderation.Manage'))) {
