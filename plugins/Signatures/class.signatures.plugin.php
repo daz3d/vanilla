@@ -29,7 +29,11 @@ $PluginInfo['Signatures'] = array(
    'RequiredTheme' => FALSE,
    'RequiredPlugins' => FALSE,
    'HasLocale' => TRUE,
-   'RegisterPermissions' => array('Plugins.Signatures.Edit' => 1),
+   'RegisterPermissions' => array(
+       'Plugins.Signatures.Edit' => 1,
+       'Garden.Users.Edit',
+       'Moderation.Signatures.Edit'
+   ),
    'Author' => "Tim Gunter",
    'AuthorEmail' => 'tim@vanillaforums.com',
    'AuthorUrl' => 'http://www.vanillaforums.com',
