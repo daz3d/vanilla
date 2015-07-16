@@ -18,10 +18,12 @@ require_once $this->FetchViewLocation('helper_functions', 'categories', 'vanilla
    foreach ($SubCategories as $Row):
       if (!$Row['PermsDiscussionsView'])
          continue;
+
+      $CssClass = CssClass($Row);
       
       $Row['Depth'] = 1;
       ?>
-      <li id="Category_<?php echo $Row['CategoryID']; ?>" class="Item Category self-clearing">
+      <li id="Category_<?php echo $Row['CategoryID']; ?>" class="<?php echo $CssClass; ?> Category self-clearing">
          <div class="ItemContent Category">
             <h3 class="CategoryName TitleWrap"><?php 
                echo Anchor(htmlspecialchars($Row['Name']), $Row['Url'], 'Title');
