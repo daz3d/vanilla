@@ -48,8 +48,8 @@ class AllViewedPlugin extends Gdn_Plugin {
    public function Base_Render_Before($Sender) {
       // Add "Mark All Viewed" to main menu
       if ($Sender->Menu && Gdn::Session()->IsValid()) {
-         if (C('Plugins.AllViewed.ShowInMenu', TRUE))
-            $Sender->Menu->AddLink('AllViewed', T('Mark Forums Viewed'), '/discussions/markallviewed');
+//         if (C('Plugins.AllViewed.ShowInMenu', TRUE))
+//            $Sender->Menu->AddLink('AllViewed', T('Mark Forums Viewed'), '/discussions/markallviewed');
       }
    }
 
