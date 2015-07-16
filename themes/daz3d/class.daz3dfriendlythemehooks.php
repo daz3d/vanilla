@@ -23,6 +23,18 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 		}
 	}
 
+	/**
+	 * This function hooks the Smarty init to add our directory
+	 * containing our custom Smarty functions
+	 *
+	 * @param object $sender Smarty object.
+	 * @return void
+	 */
+	public function gdn_smarty_init_handler($sender) {
+		// add directory "/themes/MyTheme/SmartyPlugins/"
+		$sender->plugins_dir[] = dirname(__FILE__).DS.'SmartyPlugins';
+	}
+
 	/*
 	public function SettingsController_AfterCurrentTheme_Handler($Sender) {
 		$SingleColumn = C('Themes.EmbedFriendly.SingleColumn');
