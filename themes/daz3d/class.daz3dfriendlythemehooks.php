@@ -13,13 +13,19 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 	// add view users posts links
 	public function ProfileController_BeforeProfileOptions_Handler($Sender, $Args) {
 		if (Gdn::Session()->IsValid()) {
+			$person = (($Sender->User->UserID == Gdn::Session()->UserID) ? 'Your' : 'View User\'s');
+
 			// Add user posts links to dropdown
-			$Args['ProfileOptions'][] = array('Text' => 'View User\'s Threads',
+			$Args['ProfileOptions'][] = array('Text' => "{$person} Threads",
 				'Url' => "/profile/discussions/{$Sender->User->UserID}/".Gdn_Format::Url($Sender->User->Name));
-			$Args['ProfileOptions'][] = array('Text' => 'View User\'s Posts',
+			$Args['ProfileOptions'][] = array('Text' => "{$person} Posts",
 				'Url' => "/profile/comments/{$Sender->User->UserID}/".Gdn_Format::Url($Sender->User->Name));
-			$Args['ProfileOptions'][] = array('Text' => 'View User\'s Inbox',
-				'Url' => "/messages/all?userid={$Sender->User->UserID}");
+
+			// only show inbox link if permitted
+			if (($Sender->User->UserID == Gdn::Session()->UserID) || CheckPermission('Conversations.Moderation.Manage')) {
+				$Args['ProfileOptions'][] = array('Text' => "{$person} Inbox",
+					'Url' => "/messages/all?userid={$Sender->User->UserID}");
+			}
 		}
 	}
 

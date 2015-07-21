@@ -13,6 +13,8 @@ jQuery(document).ready(function($){
          el.removeClass('IgnoreHide');
       else
          el.addClass('IgnoreHide');
+
+      event.preventDefault();
    });
 
-})
+});
