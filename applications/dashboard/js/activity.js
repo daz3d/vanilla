@@ -3,16 +3,28 @@ jQuery(document).ready(function($) {
    // Set the max chars in the activity comment boxes
    $('form.Activity textarea').setMaxChars(1000);
    
-   // Hide activity deletes and hijack their clicks to confirm
-   $('li.Activity a.Delete, ul.Activities a.DeleteComment').popup({
-      confirm: true,
-      followConfirm: false,
-      afterConfirm: function(json, sender) {
-      var row = $(sender).parents('li:first');
-         $(row).slideUp('fast', function() {
-            $(row).remove();
-         });
-      }
+   // Hide activity deletes and hijack their clicks
+   $('li.Activity a.Delete, ul.Activities a.DeleteComment').on('click', function(evt) {
+	   "use strict";
+
+	   $.ajax({
+		   type: "GET",
+		   url: $(evt.target).attr('href'),
+		   data: {
+			   'DeliveryType': 'VIEW',
+			   'DeliveryMethod': 'JSON'
+		   },
+		   dataType: 'json',
+		   error: function (xhr) {
+			   gdn.informError(xhr);
+		   },
+		   success: function () {
+			   var row = $(evt.target).parents('li:first');
+			   $(row).slideUp('fast', function () {
+				   $(row).remove();
+			   });
+		   }
+	   });
    });
 
    // Delete Notifications activate popup
