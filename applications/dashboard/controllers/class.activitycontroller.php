@@ -213,6 +213,33 @@ class ActivityController extends Gdn_Controller {
       $this->View = 'FileNotFound';
       $this->Render();
    }
+
+   /**
+    * Delete all users notifications
+    *
+    * @since  2.0.0
+    * @access public
+    *
+    * @param string $TransientKey Verify intent.
+    */
+   public function DeleteAll($TransientKey = '')
+   {
+      $Session = Gdn::Session();
+      if ( ! $Session->ValidateTransientKey($TransientKey)) {
+         throw PermissionException();
+      }
+
+      $this->ActivityModel->DeleteNotifications(Gdn::Session()->UserID);
+
+      if ($this->_DeliveryType === DELIVERY_TYPE_ALL) {
+         Redirect(GetIncomingValue('Target', $this->SelfUrl));
+      }
+
+      // Still here? Getting a 404.
+      $this->ControllerName = 'Home';
+      $this->View = 'FileNotFound';
+      $this->Render();
+   }
    
    /**
     * Comment on an activity item.
