@@ -35,9 +35,7 @@ $this->FireEvent('BeforeDiscussionDisplay');
             </span>
             <span class="AuthorInfo">
                <?php
-               echo WrapIf(htmlspecialchars(GetValue('Title', $Author)), 'span', array('class' => 'MItem AuthorTitle'));
-               echo WrapIf(htmlspecialchars(GetValue('Location', $Author)), 'span', array('class' => 'MItem AuthorLocation'));
-               $this->FireEvent('AuthorInfo'); 
+               $this->FireEvent('AuthorInfo');
                ?>
             </span>
          </div>

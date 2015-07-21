@@ -26,6 +26,7 @@ class Gdn_Smarty {
 
    
    public function Init($Path, $Controller) {
+      $this->InitDirs();
       $Smarty = $this->Smarty();
 
       // Get a friendly name for the controller.
@@ -164,5 +165,22 @@ class Gdn_Smarty {
          $Return = FALSE;
       }
       return $Return;
+   }
+
+   /**
+    * Smarty should be smarter than to throw fatal errors if these don't exist
+    */
+   protected function InitDirs( ) {
+      if ( ! is_dir(PATH_CACHE . DS . 'Smarty')) {
+         mkdir(PATH_CACHE . DS . 'Smarty');
+      }
+
+      if ( ! is_dir(PATH_CACHE . DS . 'Smarty' . DS . 'cache')) {
+         mkdir(PATH_CACHE . DS . 'Smarty' . DS . 'cache');
+      }
+
+      if ( ! is_dir(PATH_CACHE . DS . 'Smarty' . DS . 'compile')) {
+         mkdir(PATH_CACHE . DS . 'Smarty' . DS . 'compile');
+      }
    }
 }
