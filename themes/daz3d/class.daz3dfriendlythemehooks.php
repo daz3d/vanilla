@@ -24,6 +24,17 @@ class Daz3DThemeHooks implements Gdn_IPlugin {
 	}
 
 	/**
+	 * Adds "Delete All Notifications" to MeModule menu.
+	 */
+	public function MeModule_FlyoutMenu_Handler($Sender)
+	{
+		// Add "Delete All Notifications" to menu
+		if (Gdn::Session()->IsValid() && is_a(Gdn::Controller(), 'ProfileController') && ('notifications' === Gdn::Dispatcher()->ControllerMethod)) {
+			echo Wrap(Anchor('Delete All Notifications', 'dashboard/activity/delete_all/' . Gdn::Session()->TransientKey() . '?Target=' . urlencode($Sender->SelfUrl), 'Delete'), 'li', array('class' => 'DeleteNotifications'));
+		}
+	}
+
+	/**
 	 * This function hooks the Smarty init to add our directory
 	 * containing our custom Smarty functions
 	 *
