@@ -113,11 +113,14 @@ class DraftsController extends VanillaController {
          Redirect($Target);
       }
       
-      // Return any errors  
+      // Return any errors
       if ($Form->ErrorCount() > 0)
          $this->SetJson('ErrorMessage', $Form->Errors());
-      
-      // Render default view
-      $this->Render();         
+
+	   // Still here? Getting a 404.
+	   $this->ApplicationFolder = 'Dashboard';
+	   $this->ControllerName = 'Home';
+	   $this->View = 'FileNotFound';
+	   $this->Render();
    }
 }
