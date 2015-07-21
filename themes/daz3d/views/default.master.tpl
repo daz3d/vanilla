@@ -16,6 +16,7 @@
 								<i class="fd-gears daz-toggler" data-toggleelem="#ForumMenu"></i>
 								<ul id="ForumMenu" class="SiteMenu">
 									{custom_menu}
+									{module name="MeModule"}
 									{asset name="Panel"}
 								</ul>
 							</div>

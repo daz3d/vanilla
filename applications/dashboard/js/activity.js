@@ -14,6 +14,18 @@ jQuery(document).ready(function($) {
          });
       }
    });
+
+   // Delete Notifications activate popup
+   $('li.DeleteNotifications a.Delete').popup({
+      confirm: true,
+      followConfirm: false,
+      afterConfirm: function (json, sender) {
+         var ul = $('ul.Notifications');
+         $(ul).slideUp('fast', function () {
+            $(ul).remove();
+         });
+      }
+   });
    
    // Reveal activity deletes on hover
 //   $('ul.Activities li').livequery(function() {

@@ -152,6 +152,31 @@ class ActivityModel extends Gdn_Model {
          parent::Delete(array('ActivityID' => $ActivityID));
       }
    }
+
+   /**
+    * Delete a user's notifications.
+    *
+    * @param int $UserID Unique ID of user whose activity is to be deleted.
+    */
+   public function DeleteNotifications($UserID, $Options = array())
+   {
+      // Log the deletion.
+      $Log = GetValue('Log', $Options);
+      if ($Log) {
+         LogModel::Insert($Log, 'ActivityDeleteNotifications', $UserID);
+      }
+
+      // get the list of notifications
+      $Activities = $this->GetNotifications($UserID, 0, 999999);
+
+      foreach ($Activities as $Activity) {
+         // Delete comments on the activity item
+         $this->SQL->Delete('ActivityComment', array('ActivityID' => $Activity['ActivityID']));
+
+         // Delete the activity item
+         parent::Delete(array('ActivityID' => $Activity['ActivityID']));
+      }
+   }
    
    /**
     *
