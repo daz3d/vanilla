@@ -19,38 +19,31 @@ $PluginInfo['Gravatar'] = array(
 class GravatarPlugin extends Gdn_Plugin {
    public function ProfileController_AfterAddSideMenu_Handler($Sender, $Args) {
       if (!$Sender->User->Photo) {
-         $Email = GetValue('Email', $Sender->User);
-         $Protocol =  Gdn::Request()->Scheme() == 'https' ? 'https://secure.' : 'http://www.';
-
-         $Url = $Protocol.'gravatar.com/avatar.php?'
-            .'gravatar_id='.md5(strtolower($Email))
-            .'&amp;size='.C('Garden.Profile.MaxWidth', 200);
-
-         if (C('Plugins.Gravatar.UseVanillicon', TRUE))
-            $Url .= '&default='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.md5($Email).'_200.png');
-         else
-            $Url .= '&default='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Gravatar/default_250.png'), TRUE));
-
-
-         $Sender->User->Photo = $Url;
+         $Sender->User->Photo = UserPhotoDefaultUrl($Sender->User, C('Garden.Profile.MaxWidth', 200));
       }
    }
 }
 
 if (!function_exists('UserPhotoDefaultUrl')) {
-   function UserPhotoDefaultUrl($User) {
-      $Email = GetValue('Email', $User);
-      $Https = Gdn::Request()->Scheme() == 'https';
-      $Protocol = $Https ? 'https://secure.' : 'http://www.';
+   function UserPhotoDefaultUrl($User, $Size = null) {
+      if (is_null($Size)) {
+         $Size = C('Garden.Thumbnail.Size', 50);
+      }
 
-      $Url = $Protocol.'gravatar.com/avatar.php?'
-         .'gravatar_id='.md5(strtolower($Email))
-         .'&amp;size='.C('Garden.Thumbnail.Size', 50);
+      $Size = (int) $Size;
+
+      $Email = md5(strtolower(trim(GetValue('Email', $User))));
+      $Protocol = (('https' === Gdn::Request()->Scheme()) ? 'https://secure.' : 'http://www.');
+
+      $Url = $Protocol.'gravatar.com/avatar/'
+          .$Email.'?'
+          .'&amp;r=pg'
+          .'&amp;s='.$Size;
 
       if (C('Plugins.Gravatar.UseVanillicon', TRUE))
-         $Url .= '&default='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.md5($Email).'.png');
+         $Url .= '&amp;d='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.$Email.'_'.min($Size, 200).'.png');
       else
-         $Url .= '&default='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'plugins/Gravatar/default.png'), TRUE));
+         $Url .= '&amp;d='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'identicon'), TRUE));
 
       return $Url;
    }
