@@ -19,14 +19,14 @@ $PluginInfo['Gravatar'] = array(
 class GravatarPlugin extends Gdn_Plugin {
    public function ProfileController_AfterAddSideMenu_Handler($Sender, $Args) {
       if (!$Sender->User->Photo) {
-         $Sender->User->Photo = UserPhotoDefaultUrl($Sender->User, C('Garden.Profile.MaxWidth', 200));
+         $Sender->User->Photo = UserPhotoDefaultUrl($Sender->User, null, C('Garden.Profile.MaxWidth', 200));
       }
    }
 }
 
 if (!function_exists('UserPhotoDefaultUrl')) {
-   function UserPhotoDefaultUrl($User, $Size = null) {
-      if (is_null($Size)) {
+   function UserPhotoDefaultUrl($User, $Class = null, $Size = null) {
+      if ( ! $Size) {
          $Size = C('Garden.Thumbnail.Size', 50);
       }
 
