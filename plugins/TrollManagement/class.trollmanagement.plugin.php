@@ -175,6 +175,9 @@ class TrollManagementPlugin extends Gdn_Plugin {
                 }
 			}
 		}
+
+		// refresh the indexes
+		$Result = array_values($Result);
 	}
 
 	/**
