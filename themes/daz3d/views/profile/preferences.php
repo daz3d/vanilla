@@ -17,9 +17,6 @@
       width: 50px;
 		text-align: center;
    }
-   table.PreferenceGroup tbody tr:hover td {
-      background: #efefef;
-   }
    .Info {
       width: 486px;
    }
