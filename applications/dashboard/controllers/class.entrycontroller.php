@@ -404,21 +404,31 @@ class EntryController extends Gdn_Controller {
             }
 
 // DAZ 2015-07-08 ----
-            // Check the database for duplicate names and change those
-            // because this name needs to go through, Magento is the master username database
+            // Check the database for duplicate names and emails and change those
+            // because this name and/or email needs to go through, Magento is the master database
             $db = Gdn::Database();
             $name = $db->QuoteExpression($Data['Name']);
-            $others = Gdn::SQL()->Query(
-                "
-                  SELECT `UserID`
-                    , `Name`
-                  FROM `{$db->DatabasePrefix}User`
-                  WHERE `Name` LIKE {$name}
-               "
-            );
+            $others = Gdn::SQL()->Query("
+               SELECT `UserID`
+                 , `Name`
+               FROM `{$db->DatabasePrefix}User`
+               WHERE `Name` LIKE {$name}
+            ");
 
             foreach ($others as $other) {
                Gdn::UserModel()->Update(array('Name' => $other->Name.'_'.$other->UserID), array('UserID' => $other->UserID));
+            }
+
+            $email = $db->QuoteExpression($Data['Email']);
+            $others = Gdn::SQL()->Query("
+               SELECT `UserID`
+                 , `Email`
+               FROM `{$db->DatabasePrefix}User`
+               WHERE `Email` LIKE {$email}
+            ");
+
+            foreach ($others as $other) {
+               Gdn::UserModel()->Update(array('Email' => $other->Email.'.'. $other->UserID.'.disabled'), array('UserID' => $other->UserID));
             }
 // DAZ ----
 
