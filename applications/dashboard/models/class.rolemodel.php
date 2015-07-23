@@ -349,6 +349,10 @@ class RoleModel extends Gdn_Model {
       // Join the users.
       foreach ($Users as &$User) {
          $UserID = GetValue($UserIDColumn, $User);
+		 if ( ! $UserID) {
+			 continue;
+		 }
+
          $Key = $Keys[$UserID];
 
          $RoleIDs = GetValue($Key, $UserRoles, array());
