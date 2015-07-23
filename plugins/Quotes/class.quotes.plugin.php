@@ -241,7 +241,7 @@ class QuotesPlugin extends Gdn_Plugin {
 
    protected function QuoteAuthorCallback($Matches) {
       $Attribution = T('%s said:');
-      $Link = Anchor($Matches[2], '/profile/' . $Matches[2], '', array('rel' => 'nofollow'));
+      $Link = Anchor($Matches[2], '/profile/' . rawurlencode($Matches[2]), '', array('rel' => 'nofollow'));
       $Attribution = sprintf($Attribution, $Link);
       return <<<BLOCKQUOTE
       <blockquote class="UserQuote"><div class="QuoteAuthor">{$Attribution}</div><div class="QuoteText"><p>
