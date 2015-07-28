@@ -7,6 +7,8 @@ jQuery(document).ready(function($) {
    $('li.Activity a.Delete, ul.Activities a.DeleteComment').on('click', function(evt) {
 	   "use strict";
 
+       evt.preventDefault();
+
 	   $.ajax({
 		   type: "GET",
 		   url: $(evt.target).attr('href'),
