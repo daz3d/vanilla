@@ -570,6 +570,7 @@ class PHPMailer {
       }
 
       // Choose the mailer and send through it
+file_put_contents(PATH_UPLOADS . '\emails.log', "=== TYPE: {$this->Mailer} ====================\n", FILE_APPEND);
       switch($this->Mailer) {
         case 'sendmail':
           return $this->SendmailSend($header, $body);
@@ -650,6 +651,10 @@ class PHPMailer {
     $to = implode(', ', $toArr);
 
     $params = sprintf("-oi -f %s", $this->Sender);
+file_put_contents(PATH_UPLOADS . '\emails.log', "\n".'======================='."\n", FILE_APPEND);
+file_put_contents(PATH_UPLOADS . '\emails.log', $to."\n", FILE_APPEND);
+file_put_contents(PATH_UPLOADS . '\emails.log', $header."\n", FILE_APPEND);
+file_put_contents(PATH_UPLOADS . '\emails.log', $body."\n", FILE_APPEND);
     if ($this->Sender != '' && strlen(ini_get('safe_mode'))< 1) {
       $old_from = ini_get('sendmail_from');
       ini_set('sendmail_from', $this->Sender);
@@ -1644,6 +1649,7 @@ class PHPMailer {
   * @return string
   */
   public function EncodeQPphp( $input = '', $line_max = 76, $space_conv = false) {
+file_put_contents(PATH_UPLOADS . '\emails.log', 'INCOMING QP STRING:---'."\n".$input."\n---\n", FILE_APPEND);
     $hex = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
     $lines = preg_split('/(?:\r\n|\r|\n)/', $input);
     $eol = "\r\n";
@@ -1681,6 +1687,7 @@ class PHPMailer {
       } // end of for
       $output .= $newline.$eol;
     } // end of while
+file_put_contents(PATH_UPLOADS . '\emails.log', 'OUTGOING QP STRING:---'."\n".$output."\n---\n", FILE_APPEND);
     return $output;
   }
 
@@ -1696,8 +1703,10 @@ class PHPMailer {
   * @return string
   * @author Marcus Bointon
   */
-  public function EncodeQP($string, $line_max = 999999, $space_conv = false) {
+  public function EncodeQP($string, $line_max = 76, $space_conv = false) {
+file_put_contents(PATH_UPLOADS . '\emails.log', 'INCOMING STRING:---'."\n".$string."\n---\n", FILE_APPEND);
     if (function_exists('quoted_printable_encode')) { //Use native function if it's available (>= PHP5.3)
+file_put_contents(PATH_UPLOADS . '\emails.log', 'OUTGOING STRING:---'."\n".quoted_printable_encode($string)."\n---\n", FILE_APPEND);
       return quoted_printable_encode($string);
     }
     $filters = stream_get_filters();
@@ -1714,6 +1723,7 @@ class PHPMailer {
     stream_filter_remove($s);
     $out = preg_replace('/^\./m', '=2E', $out); //Encode . if it is first char on a line, workaround for bug in Exchange
     fclose($fp);
+file_put_contents(PATH_UPLOADS . '\emails.log', 'OUTGOING STRING:---'."\n".$out."\n---\n", FILE_APPEND);
     return $out;
   }
 
