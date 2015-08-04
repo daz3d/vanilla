@@ -55,8 +55,13 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
                $Role = strtolower(trim($Role['Name']));
 
                // hide any roles with an underscore prefix from regular people
-               if ((0 === strpos($Role, '_')) && ! CheckPermission('Garden.Users.Edit')) {
+               if ((0 === strpos($Role, '_')) && ($this->User->UserID != Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
                   unset($Roles[$key]);
+               }
+
+               // strip off the underscore prefix
+               if (($this->User->UserID == Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
+                  $Role['Name'] = preg_replace('%^_%', '', $Role['Name']);
                }
             }
 
