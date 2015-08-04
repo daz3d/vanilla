@@ -44,6 +44,10 @@ var GdnUploaders = null;
       this.UploaderIndex = 0;
       this.MaxUploadSize = gdn.definition('maxuploadsize');
 
+      Gdn_Uploaders.prototype.FixLinks = function( ) {
+         jQuery('.Attachments').find('a').not('.DeleteFile').attr('target', '_blank');
+      };
+
       Gdn_Uploaders.prototype.Prepare = function () {
 
          this.isOpera = false;
@@ -617,6 +621,7 @@ var GdnUploaders = null;
    jQuery(document).ready(function($){
       GdnUploaders = new Gdn_Uploaders();
       GdnUploaders.Prepare();
+      GdnUploaders.FixLinks();
 
       $(document).on('click', '.Attachment .InsertImage', function() {
          var txtbox = jQuery(this).closest('form').find('textarea');
