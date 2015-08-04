@@ -131,7 +131,7 @@ class QuotesPlugin extends Gdn_Plugin {
       $this->DiscussionController_GetQuote_Create($Sender);
    }
 
-   public function DiscussionController_GetQuote_Create($Sender, $Selector, $Format = FALSE) {
+   public function DiscussionController_GetQuote_Create($Sender, $Selector = null, $Format = FALSE) {
       $Sender->DeliveryMethod(DELIVERY_METHOD_JSON);
       $Sender->DeliveryType(DELIVERY_TYPE_VIEW);
 
@@ -207,15 +207,16 @@ class QuotesPlugin extends Gdn_Plugin {
       static $ValidateUsernameRegex = NULL;
 
       if (is_null($ValidateUsernameRegex))
-         $ValidateUsernameRegex = sprintf("[%s]+", C('Garden.User.ValidationRegex', "\d\w_ "));
+         $ValidateUsernameRegex = sprintf("[%s]+", C('Garden.User.ValidationRegex', "\\d\\w_ "));
 
       $Format = GetValue('Format', $Sender->EventArguments['Object'], null);
       if (is_null($Format)) return;
 
       switch ($Sender->EventArguments['Object']->Format) {
          case 'Html':
-            $Sender->EventArguments['Object']->Body = preg_replace_callback("/(<blockquote\s+(?:class=\"(?:User)?Quote\")?\s+rel=\"([^\"]+)\">)/ui", array($this, 'QuoteAuthorCallback'), $Sender->EventArguments['Object']->Body);
-            $Sender->EventArguments['Object']->Body = str_ireplace('</blockquote>', '</p></div></blockquote>', $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = str_ireplace('<blockquote>', '<blockquote class="UserQuote"><div class="QuoteText">', $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = preg_replace_callback("/(<blockquote\\s+(?:class=\"(?:User)?Quote\")?\\s+rel=\"([^\"]+)\">)/ui", array($this, 'QuoteAuthorCallback'), $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = str_ireplace('</blockquote>', '</div></blockquote>', $Sender->EventArguments['Object']->Body);
             break;
 //         case 'Wysiwyg':
 //            $Sender->EventArguments['Object']->Body = preg_replace_callback("/(<blockquote\s+(?:class=\"(?:User)?Quote\")?\s+rel=\"([^\"]+)\">)/ui", array($this, 'QuoteAuthorCallback'), $Sender->EventArguments['Object']->Body);
@@ -223,13 +224,13 @@ class QuotesPlugin extends Gdn_Plugin {
 //            break;
          case 'Markdown':
             // BBCode quotes with authors
-            $Sender->EventArguments['Object']->Body = preg_replace_callback("#(\[quote(\s+author)?=[\"']?(.*?)(\s+link.*?)?(;[\d]+)?[\"']?\])#usi", array($this, 'QuoteAuthorCallback'), $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = preg_replace_callback("#(\\[quote(\\s+author)?=[\"']?(.*?)(\\s+link.*?)?(;[\\d]+)?[\"']?\\])#usi", array($this, 'QuoteAuthorCallback'), $Sender->EventArguments['Object']->Body);
 
             // BBCode quotes without authors
-            $Sender->EventArguments['Object']->Body = str_ireplace('[quote]', '<blockquote class="Quote UserQuote"><div class="QuoteText"><p>', $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = str_ireplace('[quote]', '<blockquote class="Quote UserQuote"><div class="QuoteText">', $Sender->EventArguments['Object']->Body);
 
             // End of BBCode quotes
-            $Sender->EventArguments['Object']->Body = str_ireplace('[/quote]', '</p></div></blockquote>', $Sender->EventArguments['Object']->Body);
+            $Sender->EventArguments['Object']->Body = str_ireplace('[/quote]', '</div></blockquote>', $Sender->EventArguments['Object']->Body);
             break;
 
          case 'Display':
@@ -244,7 +245,7 @@ class QuotesPlugin extends Gdn_Plugin {
       $Link = Anchor($Matches[2], '/profile/' . rawurlencode($Matches[2]), '', array('rel' => 'nofollow'));
       $Attribution = sprintf($Attribution, $Link);
       return <<<BLOCKQUOTE
-      <blockquote class="UserQuote"><div class="QuoteAuthor">{$Attribution}</div><div class="QuoteText"><p>
+      <blockquote class="UserQuote"><div class="QuoteAuthor">{$Attribution}</div><div class="QuoteText">
 BLOCKQUOTE;
    }
 
@@ -326,7 +327,7 @@ BLOCKQUOTE;
          // Format the quote according to the format.
          switch ($Format) {
             case 'Html':   // HTML
-               $Quote = '<blockquote class="Quote" rel="' . htmlspecialchars($Data->InsertName) . '">' . $Data->Body . '</blockquote>' . "\n";
+               $Quote = '<blockquote class="Quote" rel="' . htmlspecialchars($Data->InsertName) . '">' . $Data->Body . '</blockquote>' . "\n<p></p>\n";
                break;
 
             case 'BBCode':
