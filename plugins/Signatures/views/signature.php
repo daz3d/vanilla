@@ -54,15 +54,24 @@
 </ul>
 <h2 class="H self-clearing"><?php echo T('Forum Signature Settings'); ?></h2>
 <ul>
-   <li>
+   <li class="self-clearing">
       <?php
       echo $this->Form->CheckBox('Plugin.Signatures.HideAll','Hide signatures always');
+      ?>
+   </li>
+   <?php
       if (!C('Plugins.Signatures.HideMobile', TRUE)) {
+         echo "<li class='self-clearing'>";
          echo $this->Form->CheckBox('Plugin.Signatures.HideMobile',"Hide signatures on my mobile device");
+         echo "</li>";
       }
+   ?>
+   <li class="self-clearing">
+      <?php
       echo $this->Form->CheckBox('Plugin.Signatures.HideImages','Strip images out of signatures');
       ?>
    </li>
+
 </ul>
 <?php echo $this->Form->Close('Save', '', array('class' => 'button Button Primary')); ?>
 </div>
