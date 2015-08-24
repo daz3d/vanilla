@@ -38,19 +38,24 @@ class RoleTitlePlugin extends Gdn_Plugin {
       $Object = GetValue('Object', $Sender->EventArguments);
       $Roles = $Object ? GetValue('Roles', $Object, array()) : FALSE;
 
-	   // don't shame banned users
-	   foreach ($Roles as $key => $Role) {
-		   if ('banned' === strtolower(trim($Role))) {
-			   unset($Roles[$key]);
-		   }
+      foreach ($Roles as $key => $Role) {
+         $Role = strtolower(trim($Role));
 
-		   // while we're here, member is a given
-			if ('member' === strtolower(trim($Role))) {
-				unset($Roles[$key]);
-			}
-	   }
+         // don't shame banned users
+         if ('banned' === $Role) {
+            unset($Roles[$key]);
+         }
 
+         // while we're here, member is a given
+         if ('member' === $Role) {
+            unset($Roles[$key]);
+         }
 
+         // hide any roles with an underscore prefix from regular people
+         if ((0 === strpos($Role, '_')) && ! CheckPermission('Garden.Moderation.Manage')) {
+            unset($Roles[$key]);
+         }
+      }
 
       if (!$Roles)
          return;
@@ -136,6 +141,11 @@ class RoleTitlePlugin extends Gdn_Plugin {
    
    
    private function _FormatRoleCss($RawRole) {
+      // hide underscore prefixed roles
+      if (0 === strpos(trim($RawRole), '_')) {
+         return '';
+      }
+
       return 'Role_'.str_replace(' ','_', Gdn_Format::AlphaNumeric($RawRole));
    }
    

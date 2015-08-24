@@ -12,6 +12,7 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
          echo '<dd class="Value"><span class="Tag Tag-Banned">'.T('Banned').'</span></dd>';
       }
       ?>
+
       <div class="UserDetail">
          <dt class="Name"><?php echo T('Username'); ?></dt>
          <dd class="Name" itemprop="name"><?php echo $this->User->Name; ?></dd>
@@ -41,21 +42,48 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
          <dd class="LastActive"><?php echo Gdn_Format::Date($this->User->DateLastActive, 'html'); ?></dd>
       </div>
 
-      <?php
-         //Roles section removed. Look at Vanilla base if you need to add it back.
-      ?>
-
       <div class="UserDetail">
-         <?php if ($Points = GetValueR('User.Points', $this, 0)) : // Only show positive point totals ?>
+         <dt class="Roles"><?php echo T('Roles'); ?></dt>
+         <dd class="Roles"><?php
+            if (Gdn::Session()->CheckPermission('Garden.Moderation.Manage')) {
+               echo UserVerified($this->User) . ', ';
+            }
+
+            $Roles = $this->Roles;
+
+            foreach ($Roles as $key => $Role) {
+               $Role = strtolower(trim($Role['Name']));
+
+               // hide any roles with an underscore prefix from regular people
+               if ((0 === strpos($Role, '_')) && ($this->User->UserID != Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
+                  unset($Roles[$key]);
+               }
+
+               // strip off the underscore prefix
+               if (($this->User->UserID == Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
+                  $Role['Name'] = preg_replace('%^_%', '', $Role['Name']);
+               }
+            }
+
+            if (empty($Roles)) {
+               echo T('No Roles');
+            }
+            else {
+               echo htmlspecialchars(implode(', ', ConsolidateArrayValuesByKey($Roles, 'Name')));
+            }
+
+         ?></dd>
+      </div>
+
+      <?php if ($Points = GetValueR('User.Points', $this, 0)) : // Only show positive point totals  ?>
+      <div class="UserDetail">
          <dt class="Points"><?php echo T('Points'); ?></dt>
          <dd class="Points"><?php echo number_format($Points); ?></dd>
       </div>
+      <?php endif; ?>
 
+      <?php if ($Session->CheckPermission('Garden.Moderation.Manage')) : ?>
       <div class="UserDetail">
-         <?php 
-         endif; 
-         
-         if ($Session->CheckPermission('Garden.Moderation.Manage')): ?>
          <dt class="IP"><?php echo T('Register IP'); ?></dt>
          <dd class="IP"><?php 
             $IP = IPAnchor($this->User->InsertIPAddress);
@@ -69,21 +97,11 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
             $IP = IPAnchor($this->User->LastIPAddress);
             echo $IP ? $IP : T('n/a');
          ?></dd>
-         </div>
+      </div>
+      <?php endif; ?>
 
       <div class="UserDetail">
-         <?php
-         endif;
-
-         if ($this->User->InviteUserID > 0) {
-            $Inviter = Gdn::UserModel()->GetID($this->User->InviteUserID);
-            if ($Inviter) {
-               echo '<dt class="Invited">'.T('Invited by').'</dt>
-               <dd class="Invited">'.UserAnchor($Inviter).'</dd>';
-            }
-         }
-         $this->FireEvent('OnBasicInfo');
-         ?>
+         <?php $this->FireEvent('OnBasicInfo'); ?>
       </div>
 
    </dl>
