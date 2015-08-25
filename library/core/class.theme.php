@@ -43,7 +43,7 @@ class Gdn_Theme {
       if ($HomeLink) {
          $Row = array('Name' => $HomeLink, 'Url' => Url('/', TRUE), 'CssClass' => 'CrumbLabel HomeCrumb');
          if (!is_string($HomeLink))
-            $Row['Name'] = T('DAZ3D Forums'); //Changing home crumb from "Home" to "DAZ3D Forums"
+            $Row['Name'] = T('Daz 3D Forums'); //Changing home crumb from "Home" to "Daz 3D Forums"
          
          array_unshift($Data, $Row);
       }
