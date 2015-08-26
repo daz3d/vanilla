@@ -314,7 +314,7 @@ var GdnUploaders = null;
 
          if (typeof(NoAnimate) == 'object') {
             UploaderElement.animate({
-               'height': '24px'
+               'height': 'auto'
             },300,jQuery.proxy(function(){
                UploaderElement.find('form input[type=file]').css('display', 'block');
                UploaderElement.find('form input[type=file]').animate({
@@ -323,7 +323,7 @@ var GdnUploaders = null;
             },this));
          } else {
             UploaderElement.animate({
-               'height': '24px'
+               'height': 'auto'
             },0,function(){
                UploaderElement.find('form input[type=file]').css('display','block');
                UploaderElement.find('form input[type=file]').css('opacity',1);

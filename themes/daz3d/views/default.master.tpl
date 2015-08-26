@@ -50,7 +50,7 @@
 								$forumLastBreadcrumb.addClass( "CurrentForumPage" );
 								$( "#DropdownLink" ).prepend( $forumLastBreadcrumb.text() );
 							} else { // else on a thread page, insert the thread title in the breadcrumbs
-								$forumBreadcrumbInsertion.after( "<span class='Crumb'> › </span><span class='CurrentForumPage'>" + forumThreadTitle + "</span>" );
+								$forumBreadcrumbInsertion.after( "<span class='Crumb'>></span><span class='CurrentForumPage'>" + forumThreadTitle + "</span>" );
 								$( "#DropdownLink" ).prepend(forumThreadTitle);
 							};
 

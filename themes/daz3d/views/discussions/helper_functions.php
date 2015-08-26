@@ -135,12 +135,12 @@ function WriteDiscussion($Discussion, &$Sender, &$Session) {
       echo OptionsList($Discussion);
       echo BookmarkButton($Discussion);
       ?>
+      <span class="CategoryLink"><?php
+        echo Anchor($Category['Name'], $Category['Url']);
+      ?></span>
    </span>
    <div class="ItemContent Discussion">
       <div class="Title">
-		  <span class="CategoryLink"><?php
-			  echo Anchor($Category['Name'], $Category['Url']);
-		  ?></span>
       <?php
          echo AdminCheck($Discussion, array('', ' ')).
             Anchor($DiscussionName, $DiscussionUrl);
