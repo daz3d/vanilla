@@ -73,6 +73,7 @@ function WriteJsConnect($User, $Request, $ClientID, $Secret, $Secure = TRUE) {
 }
 
 function SignJsConnect($Data, $ClientID, $Secret, $HashType, $ReturnData = FALSE) {
+   unset($Data['_hash']);
    $Data = array_change_key_case($Data);
    ksort($Data);
 
