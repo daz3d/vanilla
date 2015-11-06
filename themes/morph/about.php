@@ -12,10 +12,10 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  * An associative array of information about this application.
  */
 $ThemeInfo['default'] = array(
-   'Name' => 'Daz3D',
-   'Description' => "Daz3D Custom Theme",
+   'Name' => 'Morph3D',
+   'Description' => "Morph3D Custom Theme",
    'Version' => '1.0',
    'Author' => "Jon Middleton",
    'AuthorEmail' => 'jon@daz3d.com',
-   'AuthorUrl' => 'http://www.daz3d.com'
+   'AuthorUrl' => 'http://www.morph3d.com'
 );
