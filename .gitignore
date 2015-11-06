@@ -22,6 +22,7 @@ Thumbs.db
 *.sassc
 *.kpf
 *.swp
+/*.sql
 _notes
 */_archive/*
 
@@ -35,3 +36,10 @@ nbproject/project.properties
 nbproject/project.xml
 /vendor/
 
+# not sure what these are
+/archive
+/forum-redirector
+/locales/pull.php
+/locales/Baseline
+/sass
+/Standards

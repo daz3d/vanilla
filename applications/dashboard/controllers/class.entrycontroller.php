@@ -789,8 +789,8 @@ class EntryController extends Gdn_Controller {
    public function SignIn($Method = FALSE, $Arg1 = FALSE) {
 	   // DAZ-- this should be overridden by the JSConnect plugin, but seems not to be
 	   // so it's hard-coded here
-	   $provider = JsConnectPlugin::GetProvider(1044711398);
-	   if ($provider) {
+	   $provider = JsConnectPlugin::GetProvider(1619258272);
+	   if ( ! empty($provider)) {
 		   // modify the sign in URL to have the proper referer hash
 		   $sign_in_url = $provider['SignInUrl'];
 		   $ref_pos = strpos($sign_in_url, 'referer/');
