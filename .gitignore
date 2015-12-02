@@ -23,6 +23,7 @@ Thumbs.db
 *.kpf
 *.swp
 /*.sql
+/*.log
 _notes
 */_archive/*
 
