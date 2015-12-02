@@ -2,9 +2,9 @@ jQuery(document).ready(function($) {
     // Enable multicomplete on selected inputs
     jQuery('.MultiComplete').livequery(function() {
         /// Author tag token input.
-        var $author = $(this);
+        var i, $author = $(this),
+            author = $author.val();
 
-        var author = $author.val();
         if (author && author.length) {
             author = author.split(",");
             for (i = 0; i < author.length; i++) {
@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
             tokenValue: 'name',
             searchingText: '', // search text gives flickery ux, don't like
             searchDelay: 300,
-            minChars: 1,
+            minChars: 3,
             maxLength: 25,
             prePopulate: author,
             animateDropdown: false,
