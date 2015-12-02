@@ -32,7 +32,7 @@ $Thumbnail = Img($Thumbnail, array('alt' => T('Thumbnail')));
 echo $this->Form->Open(array('enctype' => 'multipart/form-data','class' => 'ten columns'));
 echo $this->Form->Errors();
 ?>
-<ul>
+<ul class="none">
    <?php if ($Picture != '') { ?>
    <li class="CurrentPicture">
       <table>

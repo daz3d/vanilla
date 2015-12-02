@@ -13,7 +13,7 @@ require_once $this->FetchViewLocation('helper_functions', 'categories', 'vanilla
 
 ?>
 <h2 class="ChildCategories-Title Hidden"><?php echo T('Child Categories'); ?></h2>
-<ul class="DataList ChildCategoryList self-clearing">
+<ul class="DataList ChildCategoryList self-clearing none">
    <?php
    foreach ($SubCategories as $Row):
       if (!$Row['PermsDiscussionsView'])

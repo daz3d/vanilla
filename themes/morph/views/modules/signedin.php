@@ -12,7 +12,7 @@ if ($Session->IsValid() && C('Garden.Modules.ShowSignedInModule')) {
 
 ?>
 <div class="Box ProfileBox">
-   <ul class="PanelInfo">
+   <ul class="PanelInfo none">
       <li><?php echo Anchor($Name, 'profile/'.$Session->User->UserID.'/'.Gdn_Format::Url($Name)); ?></li>
       <?php if (C('EnabledApplications.Conversations')) { ?>
       <li><?php echo Anchor(T('Inbox').' <span class="Aside"><span class="Count">'.$CountInbox.'</span></span>', '/messages/all'); ?></li>

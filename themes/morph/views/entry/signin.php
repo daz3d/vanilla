@@ -19,7 +19,7 @@ echo '<div class="Entry'.$CssClass.'">';
    // Render the main signin form.
    echo '<div class="MainForm">';
    ?>
-   <ul>
+   <ul class="none">
       <li>
          <?php
             echo $this->Form->Label('Email/Username', 'Email');
@@ -83,7 +83,7 @@ echo $this->Form->Close();
 // Password reset form.
 echo $this->Form->Open(array('Action' => Url('/entry/passwordrequest'), 'id' => 'Form_User_Password', 'style' => 'display: none;'));
 ?>
-<ul>
+<ul class="none">
    <li>
       <?php
          echo $this->Form->Label('Enter your Email address or username', 'Email');

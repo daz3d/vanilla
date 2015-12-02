@@ -6,7 +6,7 @@
    echo $this->Form->Open(array('Action' => $this->Data('FormUrl', Url('/entry/signin')), 'id' => 'Form_User_SignIn'));
    echo $this->Form->Errors();
    ?>
-   <ul>
+   <ul class="none">
       <li>
          <?php
             echo $this->Form->Label(UserModel::SigninLabelCode(), 'Email');
@@ -42,7 +42,7 @@
    echo $this->Form->Close();
    echo $this->Form->Open(array('Action' => Url('/entry/passwordrequest'), 'id' => 'Form_User_Password', 'style' => 'display: none;'));
    ?>
-   <ul>
+   <ul class="none">
       <li>
          <?php
             echo $this->Form->Label('Enter your Email address or username', 'Email');

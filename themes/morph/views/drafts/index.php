@@ -8,7 +8,7 @@ $ViewLocation = $this->FetchViewLocation('drafts', 'drafts');
 if ($this->DraftData->NumRows() > 0) {
    echo $this->Pager->ToString('less');
 ?>
-<ul class="DataList Drafts">
+<ul class="DataList Drafts none">
    <?php
    include($ViewLocation);
    ?>

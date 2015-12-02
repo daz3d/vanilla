@@ -11,7 +11,7 @@
    echo $this->Form->Open(array('Action' => Url('/entry/register'), 'id' => 'Form_User_Register'));
    echo $this->Form->Errors();
    ?>
-   <ul>
+   <ul class="none">
       <?php if (!$this->Data('NoEmail')): ?>
       <li>
          <?php

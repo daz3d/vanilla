@@ -59,7 +59,7 @@ if (!$CancelUrl) {
 
       if ($Options != '') {
 			echo '<div class="P">';
-	         echo '<ul class="List Inline PostOptions">' . $Options .'</ul>';
+	         echo '<ul class="List Inline PostOptions none">' . $Options .'</ul>';
 			echo '</div>';
       }
       

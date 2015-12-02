@@ -22,7 +22,7 @@ if ($Session->CheckPermission('Garden.Profiles.Edit')) {
    echo '</div>';
 }
 echo '</div>';
-echo '<ul class="DataList Activities">';
+echo '<ul class="DataList Activities none">';
 
 $Activities = $this->Data('Activities', array());
 if (count($Activities) > 0) {

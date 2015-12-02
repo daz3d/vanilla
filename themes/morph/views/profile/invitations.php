@@ -9,7 +9,7 @@ if ($this->InvitationCount > 0) {
 if ($this->InvitationCount != 0) {
 ?>
    <div class="Info"><?php echo T('Enter the email address of the person you would like to invite:'); ?></div>
-<ul>
+<ul class="none">
    <li>
    <?php
       echo $this->Form->Label('Email', 'Email');

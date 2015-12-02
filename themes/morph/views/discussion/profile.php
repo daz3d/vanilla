@@ -1,7 +1,7 @@
 <?php if (!defined('APPLICATION')) exit();
 echo '<h2 class="H self-clearing">'.T('Comments').'</h2>';
 if (sizeof($this->Data('Comments'))) {
-   echo '<ul class="DataList SearchResults">';
+   echo '<ul class="DataList SearchResults none">';
    echo $this->FetchView('profilecomments', 'Discussion', 'Vanilla');
    echo '</ul>';
    echo $this->Pager->ToString('more');

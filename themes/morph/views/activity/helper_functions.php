@@ -104,12 +104,12 @@ function WriteActivity($Activity, &$Sender, &$Session) {
    <?php
    $Comments = GetValue('Comments', $Activity, array());
    if (count($Comments) > 0) {
-      echo '<ul class="DataList ActivityComments">';
+      echo '<ul class="DataList ActivityComments none">';
       foreach ($Comments as $Comment) {
          WriteActivityComment($Comment, $Sender, $Session);
       }
    } else {
-      echo '<ul class="DataList ActivityComments Hidden">';
+      echo '<ul class="DataList ActivityComments Hidden none">';
    }
    
    if ($Session->CheckPermission('Garden.Profiles.Edit')):
@@ -179,7 +179,7 @@ function WriteActivityTabs() {
       return;
 ?>
    <div class="Tabs ActivityTabs">
-      <ul>
+      <ul class="none">
          <li <?php if ($Sender->Data('Filter') == 'public') echo 'class="Active"'; ?>>
             <?php
             echo Anchor(T('Public'), '/activity', 'TabLink');

@@ -13,7 +13,7 @@ if ($this->Data('_HasDeletedUsers')) {
 $this->FireEvent('BeforeConversation');
 echo $this->Pager->ToString('less');
 ?>
-<ul class="DataList MessageList Conversation">
+<ul class="DataList MessageList Conversation none">
    <?php
    $MessagesViewLocation = $this->FetchViewLocation('messages');
    include($MessagesViewLocation);

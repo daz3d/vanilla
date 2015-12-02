@@ -7,7 +7,7 @@
    ?>
 
    <?php if (!$this->Data('Fatal')): ?>
-   <ul>
+   <ul class="none">
       <li>
          <?php
             echo '<div class="Info">', sprintf(T('Resetting the password for %s.'), htmlspecialchars($this->Data('User.Name'))) ,'</div>';

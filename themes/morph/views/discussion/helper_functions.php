@@ -275,7 +275,7 @@ function WriteDiscussionOptions($Discussion = NULL) {
    echo ' <span class="ToggleFlyout OptionsMenu">';
 	  echo '<span class="OptionsTitle" title="'.T('Options').'">'.T('Options').'</span>';
 		echo Sprite('SpFlyoutHandle', 'Arrow');
-	  echo '<ul class="Flyout MenuItems" style="display: none;">';
+	  echo '<ul class="Flyout MenuItems none" style="display: none;">';
 	  foreach ($Options as $Code => $Option):
 			echo Wrap(Anchor($Option['Label'], $Option['Url'], GetValue('Class', $Option, $Code)), 'li');
 		endforeach;
@@ -353,7 +353,7 @@ function WriteCommentOptions($Comment) {
    echo '<span class="ToggleFlyout OptionsMenu">';
 	  echo '<span class="OptionsTitle" title="'.T('Options').'">'.T('Options').'</span>';
 		echo Sprite('SpFlyoutHandle', 'Arrow');
-	  echo '<ul class="Flyout MenuItems">';
+	  echo '<ul class="Flyout MenuItems none">';
 	  foreach ($Options as $Code => $Option):
 		 echo Wrap(Anchor($Option['Label'], $Option['Url'], GetValue('Class', $Option, $Code)), 'li');
 	  endforeach;

@@ -48,7 +48,7 @@ echo '<div class="DataBox DataBox-Comments">';
 if ($this->Data('Comments')->NumRows() > 0)
 	echo '<h2 class="CommentHeading">'.$this->Data('_CommentsHeader', T('Comments')).'</h2>';
 ?>
-<ul class="MessageList DataList Comments">
+<ul class="MessageList DataList Comments none">
 	<?php include $this->FetchViewLocation('comments'); ?>
 </ul>
 <?php

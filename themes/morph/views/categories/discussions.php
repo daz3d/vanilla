@@ -19,7 +19,7 @@ $ViewLocation = $this->FetchViewLocation('discussions', 'discussions');
             Gdn::Controller()->FireEvent('AfterCategoryTitle'); 
       ?></h2>
       
-      <ul class="DataList Discussions">
+      <ul class="DataList Discussions none">
          <?php include($this->FetchViewLocation('discussions', 'discussions')); ?>
       </ul>
       

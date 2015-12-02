@@ -2,7 +2,7 @@
 echo '<h2 class="H self-clearing">'.T('Notifications').'</h2>';
 
 if (count($this->Data('Activities'))) {
-   echo '<ul class="DataList Activities Notifications">';
+   echo '<ul class="DataList Activities Notifications none">';
    include($this->FetchViewLocation('activities', 'activity', 'dashboard'));
    echo '</ul>';
    echo PagerModule::Write(array('CurrentRecords' => count($this->Data('Activities'))));

@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<ul class="PopList Activities">
+<ul class="PopList Activities none">
 <?php
 if (count($this->Data('Activities'))):
 ?>

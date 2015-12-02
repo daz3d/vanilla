@@ -14,7 +14,7 @@ if ($Description = $this->Description()) {
 
 if ($this->DiscussionData->NumRows() > 0 || (isset($this->AnnounceData) && is_object($this->AnnounceData) && $this->AnnounceData->NumRows() > 0)) {
 ?>
-<ul class="DataList Discussions">
+<ul class="DataList Discussions none">
    <?php include($this->FetchViewLocation('discussions')); ?>
 </ul>
 <?php

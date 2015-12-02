@@ -15,7 +15,7 @@ if ($Session->CheckPermission('Garden.Settings.Manage') || $Session->CheckPermis
 
 if ($Session->IsValid()):
    echo '<div class="MeBox'.$CssClass.'">';
-	   echo '<ul>';
+	   echo '<ul class="none">';
 
 	   if ($Session->CheckPermission('Garden.Settings.Manage') || $Session->CheckPermission('Garden.Moderation.Manage')) {
 		  $CSpam = ''; //$SpamCount > 0 ? ' '.Wrap($SpamCount, 'span class="Alert"') : '';

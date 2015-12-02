@@ -13,8 +13,8 @@
 					<div class="Row">
 						<div class="ForumHeader crumbs daz-sticky self-clearing" data-daz-sticky-side="top">
 							<div class="SiteMenuWrapper">
-								<i class="fd-gears daz-toggler" data-toggleelem="#ForumMenu"></i>
-								<ul id="ForumMenu" class="SiteMenu">
+								<i class="fa fa-cog daz-toggler" data-toggleelem="#ForumMenu"></i>
+								<ul id="ForumMenu" class="SiteMenu none">
 									{custom_menu}
 									{module name="MeModule"}
 									{asset name="Panel"}

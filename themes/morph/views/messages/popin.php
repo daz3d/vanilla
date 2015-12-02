@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<ul class="PopList Conversations">
+<ul class="PopList Conversations none">
    <li class="Item Title self-clearing">
       <?php
       if (CheckPermission('Conversations.Conversations.Add'))

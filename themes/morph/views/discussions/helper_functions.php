@@ -313,7 +313,7 @@ function WriteFilterTabs($Sender) {
       <input type="checkbox" name="Toggle" />
    </span></span>
    <?php } ?>
-   <ul>
+   <ul class="none">
       <?php $Sender->FireEvent('BeforeDiscussionTabs'); ?>
       <li<?php echo strtolower($Sender->ControllerName) == 'discussionscontroller' && strtolower($Sender->RequestMethod) == 'index' ? ' class="Active"' : ''; ?>><?php echo Anchor(T('All Discussions'), 'discussions', 'TabLink'); ?></li>
       <?php $Sender->FireEvent('AfterAllDiscussionsTab'); ?>
@@ -395,7 +395,7 @@ function OptionsList($Discussion) {
          $Result = '<span class="ToggleFlyout OptionsMenu">'.
             '<span class="OptionsTitle" title="'.T('Options').'">'.T('Options').'</span>'.
             '<span class="SpFlyoutHandle"></span>'.
-            '<ul class="Flyout MenuItems">'.
+            '<ul class="Flyout MenuItems none">'.
                $Sender->Options.
             '</ul>'.
             '</span>';

@@ -1,7 +1,7 @@
 <?php if (!defined('APPLICATION')) exit();
 $SearchTerm = GetValue('SearchTerm', $this);
 ?>
-<ul class="DataList SearchResults">
+<ul class="DataList SearchResults none">
 <?php
 if (is_array($this->SearchResults) && count($this->SearchResults) > 0) {
 	foreach ($this->SearchResults as $Key => $Row) {

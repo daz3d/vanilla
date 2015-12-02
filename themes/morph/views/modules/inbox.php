@@ -5,7 +5,7 @@ $SubjectsVisible = C('Conversations.Subjects.Visible');
    <h4><?php echo T('Inbox'); ?></h4>
    <?php if (count($this->Data('Conversations')) > 0): ?>
    
-   <ul id="" class="DataList Conversations PanelInfo">
+   <ul class="DataList Conversations PanelInfo none">
       <?php foreach ($this->Data('Conversations') as $Row): ?>
       <li id="Conversation_<?php echo $Row['ConversationID']; ?>" class="Item self-clearing">
          <?php

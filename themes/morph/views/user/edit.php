@@ -9,7 +9,7 @@
 echo $this->Form->Open(array('class' => 'User'));
 echo $this->Form->Errors();
 if ($this->Data('AllowEditing')) { ?>
-   <ul>
+   <ul class="none">
       <li>
          <?php
             echo $this->Form->Label('Username', 'Name');
@@ -44,7 +44,7 @@ if ($this->Data('AllowEditing')) { ?>
       </li>
    </ul>
    <h3><?php echo T('Roles'); ?></h3>
-   <ul>
+   <ul class="none">
       <li>
          <strong><?php echo T('Check all roles that apply to this user:'); ?></strong>
          <?php
@@ -54,7 +54,7 @@ if ($this->Data('AllowEditing')) { ?>
       </li>
    </ul>
    <h3><?php echo T('Password Options'); ?></h3>
-   <ul>
+   <ul class="none">
       <li class="PasswordOptions">
          <?php
             $ResetOptions = array(

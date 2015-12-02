@@ -4,7 +4,7 @@
 echo $this->Form->Open(array('class' => 'ten columns'));
 echo $this->Form->Errors();
 ?>
-<ul class="self-clearing">
+<ul class="self-clearing none">
    <li class="Gender User-Gender">
       <?php
          echo $this->Form->Label('Gender', 'Gender');

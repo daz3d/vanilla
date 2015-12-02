@@ -4,7 +4,7 @@
 echo $this->Form->Open();
 echo $this->Form->Errors();
 ?>
-<ul>
+<ul class="none">
    <li>
       <?php
          // No password may have been set if they have only signed in with a connect plugin

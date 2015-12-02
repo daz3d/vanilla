@@ -9,7 +9,7 @@
 echo $this->Form->Open();
 echo $this->Form->Errors();
 ?>
-<ul>
+<ul class="none">
    <li>
       <?php
          echo $this->Form->Label('Page', 'Location');

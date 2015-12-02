@@ -1,7 +1,7 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
 <div class="Box InThisConversation">
    <h4><?php echo T('In this Conversation'); ?></h4>
-   <ul class="PanelInfo">
+   <ul class="PanelInfo none">
    <?php
    $Result = $this->Data->Result();
    foreach ($this->Data->Result() as $User) {

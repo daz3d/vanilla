@@ -55,7 +55,7 @@
    </p>
 </div>
 
-<ul class="DataList DataList-Connections">
+<ul class="DataList DataList-Connections none">
    <?php
    foreach ($this->Data('Connections') as $Key => $Row) {
       WriteConnection($Row);

@@ -59,7 +59,7 @@ $ConnectSource = $this->Form->GetFormValue('ProviderName');
 			$NoConnectName = $this->Data('NoConnectName');
 			$PasswordMessage = T('ConnectLeaveBlank', 'Leave blank unless connecting to an existing account.');
 		?>
-			<ul>
+			<ul class="none">
             <?php if ($this->Form->GetFormValue('EmailVisible')): ?>
             <li>
                <?php

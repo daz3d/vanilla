@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<ul class="PopList Popin">
+<ul class="PopList Popin none">
 <?php
 if (count($this->Data('Discussions'))):
 ?>

@@ -21,7 +21,7 @@ $this->EventArguments['NumRows'] = count($this->Data('Categories'));
 //   echo Gdn_Theme::Module('DiscussionFilterModule');
 //}
 
-echo '<ul class="DataList CategoryList'.($DoHeadings ? ' CategoryListWithHeadings' : '').'">';
+echo '<ul class="DataList CategoryList'.($DoHeadings ? ' CategoryListWithHeadings' : '').' none">';
    $Alt = FALSE;
    foreach ($this->Data('Categories') as $CategoryRow) {
       $Category = (object)$CategoryRow;

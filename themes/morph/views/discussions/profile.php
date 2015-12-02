@@ -8,7 +8,7 @@ $ViewLocation = $this->FetchViewLocation('discussions', 'discussions', 'vanilla'
 if (!is_object($this->DiscussionData) || $this->DiscussionData->NumRows() <= 0) {
    echo Wrap(T("This user has not made any discussions yet."), 'div', array('Class' => 'Empty'));
 } else {
-   echo '<ul class="DataList Discussions">';
+   echo '<ul class="DataList Discussions none">';
    include($ViewLocation); 
    echo '</ul>';
    echo $this->Pager->ToString('more');

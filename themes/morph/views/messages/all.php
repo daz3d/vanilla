@@ -20,7 +20,7 @@ echo '<div class="PageControls Top self-clearing">';
    }
 echo '</div>';
 ?>
-<ul class="Condensed DataList Conversations">
+<ul class="Condensed DataList Conversations none">
 <?php
 if (count($this->Data('Conversations') > 0)):
    $ViewLocation = $this->FetchViewLocation('conversations');
