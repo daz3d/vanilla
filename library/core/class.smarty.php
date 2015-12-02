@@ -171,6 +171,10 @@ class Gdn_Smarty {
     * Smarty should be smarter than to throw fatal errors if these don't exist
     */
    protected function InitDirs( ) {
+      if ( ! is_dir(PATH_CACHE)) {
+         mkdir(PATH_CACHE);
+      }
+
       if ( ! is_dir(PATH_CACHE . DS . 'Smarty')) {
          mkdir(PATH_CACHE . DS . 'Smarty');
       }
