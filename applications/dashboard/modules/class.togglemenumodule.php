@@ -31,7 +31,7 @@ class ToggleMenuModule extends Gdn_Module {
    }
    
    public function ToString() {
-      $Return = '<ul class="FilterMenu ToggleMenu">';
+      $Return = '<ul class="FilterMenu ToggleMenu none">';
       foreach ($this->_Labels as $Label) {
          $Url = GetValue('Url', $Label, '');
          if ($Url == '')

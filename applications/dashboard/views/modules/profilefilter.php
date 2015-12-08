@@ -20,7 +20,7 @@ foreach ($Controller->ProfileTabs as $TabCode => $TabInfo) {
 }
 ?>
 <div class="BoxFilter BoxProfileFilter">
-   <ul class="FilterMenu">
+   <ul class="FilterMenu none">
    <?php
    // Get sorted filter links
    foreach ($SortOrder as $TabCode) {

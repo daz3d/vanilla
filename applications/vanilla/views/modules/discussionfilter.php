@@ -32,7 +32,7 @@ if (C('Vanilla.Discussions.ShowCounts', TRUE)) {
 }
 ?>
 <div class="BoxFilter BoxDiscussionFilter">
-   <ul class="FilterMenu">
+   <ul class="FilterMenu none">
       <?php
       $Controller->FireEvent('BeforeDiscussionFilters');     
 //      if (C('Vanilla.Categories.ShowTabs')) {
