@@ -1041,7 +1041,7 @@ class Gdn_Format {
          return $Matches[0];
       $Url = $Matches[4];
 
-      if (C('Garden.Format.YouTube') && preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11}).*?(?:[#&]t=([0-9hms]+))%i', $Url, $Matches)) {
+      if (C('Garden.Format.YouTube') && preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11}).*?(?:[#&]t=([0-9hms]+))?%i', $Url, $Matches)) {
          $ID = $Matches[1];
          $TimeMarker = isset($Matches[2]) ? $Matches[2] : '';
          $Result = '<span class="VideoWrap">';
