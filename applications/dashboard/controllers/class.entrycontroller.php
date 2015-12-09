@@ -302,8 +302,16 @@ class EntryController extends Gdn_Controller {
       $this->EventArguments = array($Method);
 
       // Fire ConnectData event & error handling.
-      $CurrentData = $this->Form->FormValues();
+        $currentData = $this->Form->formValues();
+
+        // Filter the form data for users here. SSO plugins must reset validated data each postback.
+        $filteredData = Gdn::userModel()->filterForm($currentData, true);
+        $filteredData = array_replace($filteredData, arrayTranslate($currentData, array('TransientKey', 'hpt')));
+        unset($filteredData['Roles'], $filteredData['RoleID']);
+        $this->Form->formValues($filteredData);
+
       try {
+            $this->EventArguments['Form'] = $this->Form;
          $this->FireEvent('ConnectData');
       } catch (Gdn_UserException $Ex) {
          $this->Form->AddError($Ex);
@@ -322,7 +330,7 @@ class EntryController extends Gdn_Controller {
             $this->Form->AddHidden('EmailVisible', TRUE);
 
             if ($IsPostBack) {
-               $this->Form->SetFormValue('Email', GetValue('Email', $CurrentData));
+               $this->Form->SetFormValue('Email', GetValue('Email', $currentData));
             }
          }
       }
@@ -548,7 +556,6 @@ class EntryController extends Gdn_Controller {
          if ($this->Form->GetFormValue('Name') && $EmailValid && (!is_array($ExistingUsers) || count($ExistingUsers) == 0)) {
             // There is no existing user with the suggested name so we can just create the user.
             $User = $this->Form->FormValues();
-            $User = $this->UserModel->FilterForm($User, TRUE);
             $User['Password'] = RandomString(50); // some password is required
             $User['HashMethod'] = 'Random';
             $User['Source'] = $this->Form->GetFormValue('Provider');
@@ -646,7 +653,6 @@ class EntryController extends Gdn_Controller {
          } elseif ($this->Form->ErrorCount() == 0) {
             // The user doesn't exist so we need to add another user.
             $User = $this->Form->FormValues();
-            $User = $this->UserModel->FilterForm($User, TRUE);
             $User['Name'] = $User['ConnectName'];
             $User['Password'] = RandomString(50); // some password is required
             $User['HashMethod'] = 'Random';
@@ -790,7 +796,7 @@ class EntryController extends Gdn_Controller {
 	   // DAZ-- this should be overridden by the JSConnect plugin, but seems not to be
 	   // so it's hard-coded here
 	   $provider = JsConnectPlugin::GetProvider(1044711398);
-	   if ($provider) {
+	   if ( ! empty($provider)) {
 		   // modify the sign in URL to have the proper referer hash
 		   $sign_in_url = $provider['SignInUrl'];
 		   $ref_pos = strpos($sign_in_url, 'referer/');
