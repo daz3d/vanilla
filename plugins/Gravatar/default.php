@@ -37,13 +37,13 @@ if (!function_exists('UserPhotoDefaultUrl')) {
 
       $Url = $Protocol.'gravatar.com/avatar/'
           .$Email.'?'
-          .'&amp;r=pg'
-          .'&amp;s='.$Size;
+          .'&r=pg'
+          .'&s='.$Size;
 
       if (C('Plugins.Gravatar.UseVanillicon', TRUE))
-         $Url .= '&amp;d='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.$Email.'_'.min($Size, 200).'.png');
+         $Url .= '&d='.urlencode(Gdn::Request()->Scheme().'://vanillicon.com/'.$Email.'_'.min($Size, 200).'.png');
       else
-         $Url .= '&amp;d='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'identicon'), TRUE));
+         $Url .= '&d='.urlencode(Asset(C('Plugins.Gravatar.DefaultAvatar', 'identicon'), TRUE));
 
       return $Url;
    }
