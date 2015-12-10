@@ -19,7 +19,7 @@ function AuthorSelctorInit(id) {
         tokenValue: 'name',
         searchingText: '', // search text gives flickery ux, don't like
         searchDelay: 300,
-        minChars: 1,
+        minChars: 3,
         maxLength: 25,
         prePopulate: author,
         animateDropdown: false,
