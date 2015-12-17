@@ -7,7 +7,7 @@ function smarty_function_daz_search_swap($Params, & $Smarty) {
 <script type="text/javascript">
 	jQuery(document).ready( function($) {
 		// change to forum search
-		$('#search_mini_form')
+		$('.search_mini_form')
 			.attr('action', '{$url}')
 			.off('submit')
 			.find('input[name="q"]')
