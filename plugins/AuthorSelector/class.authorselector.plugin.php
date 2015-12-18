@@ -14,7 +14,7 @@ $PluginInfo['AuthorSelector'] = array(
 class AuthorSelectorPlugin extends Gdn_Plugin {
    /** None. */
    public function Setup() { }
-   
+
    /**
     * Allow admin to Change Author via discussion options.
     */
@@ -36,7 +36,7 @@ class AuthorSelectorPlugin extends Gdn_Plugin {
          }
       }
    }
-   
+
    /**
     * Handle discussion option menu Change Author action.
     */
@@ -79,13 +79,20 @@ class AuthorSelectorPlugin extends Gdn_Plugin {
       $Sender->Render('changeauthor', '', 'plugins/AuthorSelector');
    }
 
+   public function UserController_Tagsearch_Create($Sender, $Args) {
+      $Query = $Sender->Request->Get( );
+      $UserModel = new UserModel();
+      $Results = $UserModel->SearchCount($Query);
+      g($Results);
+   }
+
    /**
     * Add Javascript files required for autocomplete / username token.
     *
     * @param $Sender
     */
    protected function AddJsFiles($Sender) {
-      $Sender->AddJsFile('jquery.tokeninput.js');
+      $Sender->AddJsFile('jquery.tokeninput.js', 'plugins/AuthorSelector');
       $Sender->AddJsFile('authorselector.js', 'plugins/AuthorSelector');
    }
 
