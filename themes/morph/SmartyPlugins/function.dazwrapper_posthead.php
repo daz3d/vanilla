@@ -4,6 +4,8 @@ function smarty_function_dazwrapper_posthead($Params, &$Smarty) {
 	if ( ! $Smarty->get_template_vars('DAZ_Wrapper')) {
 		$ch = curl_init(Gdn::Config('Daz.RootUrl') . Gdn::Config('Daz.WrapperUrl'));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		$wrapperHtml = curl_exec($ch);
 		curl_close($ch);
 
