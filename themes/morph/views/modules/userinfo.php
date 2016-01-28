@@ -49,19 +49,15 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
 
             $Roles = $this->Roles;
 
-            foreach ($Roles as $key => $Role) {
-               $Role = strtolower(trim($Role['Name']));
+            foreach ($Roles as $key => & $Role) {
+               $Role['Name'] = trim($Role['Name']);
 
                // hide any roles with an underscore prefix from regular people
-               if ((0 === strpos($Role, '_')) && ($this->User->UserID != Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
+               if ((0 === strpos($Role['Name'], '_')) && ($this->User->UserID != Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
                   unset($Roles[$key]);
                }
-
-               // strip off the underscore prefix
-               if (($this->User->UserID == Gdn::Session()->UserID) && ! CheckPermission('Garden.Moderation.Manage')) {
-                  $Role = preg_replace('%^_%', '', $Role);
-               }
             }
+            unset($Role);
 
             if (empty($Roles)) {
                echo T('No Roles');
