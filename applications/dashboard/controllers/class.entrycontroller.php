@@ -369,8 +369,8 @@ class EntryController extends Gdn_Controller {
 
          // only these roles can be changed via SSO
 		  $ChangeRoles = array(
-			  34, // Platinum Club
-			  35, // Published Artist
+//			  34, // Platinum Club
+//			  35, // Published Artist
 		  );
 
          $CurrentRoles = array( );
@@ -415,12 +415,14 @@ class EntryController extends Gdn_Controller {
             // Check the database for duplicate names and emails and change those
             // because this name and/or email needs to go through, Magento is the master database
             $db = Gdn::Database();
+            $id = $db->QuoteExpression($UserID);
             $name = $db->QuoteExpression($Data['Name']);
             $others = Gdn::SQL()->Query("
                SELECT `UserID`
                  , `Name`
                FROM `{$db->DatabasePrefix}User`
                WHERE `Name` LIKE {$name}
+                 AND `UserID` <> {$id}
             ");
 
             foreach ($others as $other) {
@@ -433,6 +435,7 @@ class EntryController extends Gdn_Controller {
                  , `Email`
                FROM `{$db->DatabasePrefix}User`
                WHERE `Email` LIKE {$email}
+                 AND `UserID` <> {$id}
             ");
 
             foreach ($others as $other) {
