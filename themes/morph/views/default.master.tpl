@@ -11,9 +11,9 @@
 				<div class="Head" id="Head"></div>
 				<div id="Body">
 					<div class="Row">
-						<div class="ForumHeader crumbs daz-sticky self-clearing" data-daz-sticky-side="top">
+						<div class="ForumHeader crumbs  self-clearing">
 							<div class="SiteMenuWrapper">
-								<i class="fa fa-cog daz-toggler" data-toggleelem="#ForumMenu"></i>
+								<i class="fa fa-cogs daz-toggler" data-toggleelem="#ForumMenu"></i>
 								<ul id="ForumMenu" class="SiteMenu none">
 									{custom_menu}
 									{module name="MeModule"}
@@ -27,7 +27,7 @@
 
 						</div>
 
-						<div class="Column ContentColumn page_content self-clearing" id="Content">
+						<div class="content_section ContentColumn self-clearing" id="Content">
 							{asset name="Content"}
 						</div>
 

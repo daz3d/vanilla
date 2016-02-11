@@ -47,7 +47,7 @@ $this->FireEvent('BeforeCommentForm');
 
                echo '</span>';
 
-               $ButtonOptions = array('class' => 'button Button Primary CommentButton');
+               $ButtonOptions = array('class' => 'button solid CommentButton');
                $ButtonOptions['tabindex'] = 2;
                /*
                Caused non-root users to not be able to add comments. Must take categories
@@ -57,10 +57,10 @@ $this->FireEvent('BeforeCommentForm');
                */
 
                if (!$Editing && $Session->IsValid()) {
-                  echo ' '.Anchor(T('Preview'), '#', 'button secondary Button PreviewButton')."\n";
-                  echo ' '.Anchor(T('Edit'), '#', 'button secondary Button WriteButton Hidden')."\n";
+                  echo ' '.Anchor(T('Preview'), '#', 'button highlight PreviewButton')."\n";
+                  echo ' '.Anchor(T('Edit'), '#', 'button highlight WriteButton Hidden')."\n";
                   if ($NewOrDraft)
-                     echo ' '.Anchor(T('Save Draft'), '#', 'button secondary Button DraftButton')."\n";
+                     echo ' '.Anchor(T('Save Draft'), '#', 'button DraftButton')."\n";
                }
                if ($Session->IsValid())
                   echo $this->Form->Button($Editing ? 'Save Comment' : 'Post Comment', $ButtonOptions);
