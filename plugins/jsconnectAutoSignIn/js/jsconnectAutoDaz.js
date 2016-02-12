@@ -10,7 +10,10 @@ if ( ! daz) { var daz = { }; }
 	daz.forum.logout = function( ) {
 		"use strict";
 
-		window.location = gdn.url('/entry/signout');
+		// try not to loop
+		if (-1 === window.location.pathname.indexOf('/entry/signout')) {
+			window.location = gdn.url('/entry/signout');
+		}
 	};
 
 	daz.forum.process_sso = function(myCall, data, isCache) {
