@@ -268,10 +268,10 @@ class Gdn_Format {
                $Mixed2 = $Mixed;
                //$Mixed2 = str_replace("\n", '<br />', $Mixed2);
 
-               $Mixed2 = preg_replace("#\[noparse\](.*?)\[/noparse\]#sie","str_replace(array('[',']',':'), array('&#91;','&#93;','&#58;'), htmlspecialchars('\\1'))",$Mixed2);
+               $Mixed2 = preg_replace_callback("#\[noparse\](.*?)\[/noparse\]#si", function ($m) { return str_replace(array('[',']',':'), array('&#91;','&#93;','&#58;'), htmlspecialchars($m[1])); },$Mixed2);
                $Mixed2 = str_ireplace(array("[php]", "[mysql]", "[css]"), "[code]", $Mixed2);
                $Mixed2 = str_ireplace(array("[/php]", "[/mysql]", "[/css]"), "[/code]", $Mixed2);
-               $Mixed2 = preg_replace("#\[code\](.*?)\[/code\]#sie","'<div class=\"PreContainer\"><pre>'.str_replace(array('[',']',':'), array('&#91;','&#93;','&#58;'), htmlspecialchars('\\1')).'</pre></div>'",$Mixed2);
+               $Mixed2 = preg_replace_callback("#\[code\](.*?)\[/code\]#si", function ($m) { return '<div class="PreContainer"><pre>'.str_replace(array('[',']',':'), array('&#91;','&#93;','&#58;'), htmlspecialchars($m[1])).'</pre></div>'; },$Mixed2);
                $Mixed2 = preg_replace("#\[b\](.*?)\[/b\]#si",'<b>\\1</b>',$Mixed2);
                $Mixed2 = preg_replace("#\[i\](.*?)\[/i\]#si",'<i>\\1</i>',$Mixed2);
                $Mixed2 = preg_replace("#\[u\](.*?)\[/u\]#si",'<u>\\1</u>',$Mixed2);
@@ -800,9 +800,9 @@ class Gdn_Format {
             }
 
             // Allow the code tag to keep all enclosed html encoded.
-            $Mixed = preg_replace(
-               array('/<code([^>]*)>(.+?)<\/code>/sei'),
-               array('\'<code\'.RemoveQuoteSlashes(\'\1\').\'>\'.htmlspecialchars(RemoveQuoteSlashes(\'\2\')).\'</code>\''),
+            $Mixed = preg_replace_callback(
+               '/<code([^>]*)>(.+?)<\/code>/si',
+               function ($m) { return '<code'. RemoveQuoteSlashes($m[1]) .'>'. htmlspecialchars(RemoveQuoteSlashes($m[2])) .'</code>'; },
                $Mixed
             );
             

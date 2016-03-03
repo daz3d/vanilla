@@ -1255,7 +1255,7 @@ class CategoryModel extends Gdn_Model {
     * @param array $FormPostValue The values being posted back from the form.
     * @return int ID of the saved category.
     */
-   public function Save($FormPostValues) {
+   public function Save($FormPostValues, $Settings = FALSE) {
       // Define the primary key in this model's table.
       $this->DefineSchema();
       
