@@ -1557,7 +1557,7 @@ function HtmlEntityDecode($string, $quote_style = ENT_QUOTES, $charset = "utf-8"
    $string = html_entity_decode($string, $quote_style, $charset);
    $string = str_ireplace('&apos;', "'", $string);
    $string = preg_replace_callback('~&#x([0-9a-fA-F]+);~i', "chr_utf8_callback", $string);
-   $string = preg_replace_callback('~&#([0-9]+);~', function ($m) { return chr_utf8($m[1]); }, $string);
+   $string = preg_replace('~&#([0-9]+);~e', 'chr_utf8("\\1")', $string);
    return $string;
 }
 

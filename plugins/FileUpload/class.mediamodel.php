@@ -13,14 +13,14 @@ class MediaModel extends VanillaModel {
       parent::__construct('Media');
    }
    
-   public function GetID($MediaID) {
+   public function GetID($ID, $DatasetType = FALSE) {
       $this->FireEvent('BeforeGetID');
       $Data = $this->SQL
          ->Select('m.*')
          //->Select('iu.*')
          ->From('Media m')
          //->Join('User iu', 'm.InsertUserID = iu.UserID', 'left') // Insert user
-         ->Where('m.MediaID', $MediaID)
+         ->Where('m.MediaID', $ID)
          ->Get()
          ->FirstRow();
 		

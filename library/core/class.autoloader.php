@@ -260,8 +260,19 @@ class Gdn_Autoloader {
       $File = self::DoLookup($ClassName, $MapType);
       
       if ($File !== FALSE) {
-         if (!isset($Options['Quiet']) || !$Options['Quiet'])
+         if (!isset($Options['Quiet']) || !$Options['Quiet']) {
+            try {
             include_once($File);
+            }
+            catch (Throwable $_t) { // PHP 7
+               if ('Declaration' === substr($_t->getMessage(), 0, 11)) {
+                  // do nothing, it's just a declaration mismatch
+               }
+               else {
+                  throw $_t;
+               }
+            }
+         }
       }
       return $File;
    }

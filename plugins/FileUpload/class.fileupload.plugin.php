@@ -42,7 +42,17 @@ $PluginInfo['FileUpload'] = array(
    'AuthorUrl' => 'http://www.vanillaforums.com'
 );
 
-include dirname(__FILE__).'/class.mediamodel.php';
+try {
+   include dirname(__FILE__) . '/class.mediamodel.php';
+}
+catch (Throwable $_t) { // PHP 7
+   if ('Declaration' === substr($_t->getMessage(), 0, 11)) {
+      // do nothing, it's just a declaration mismatch
+   }
+   else {
+      throw $_t;
+   }
+}
 
 class FileUploadPlugin extends Gdn_Plugin {
    /** @var array */
