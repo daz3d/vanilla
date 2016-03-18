@@ -1,17 +1,13 @@
 <?php if (!defined('APPLICATION')) exit();
 
+include(dirname(__FILE__).DIRECTORY_SEPARATOR.'bootstrap.php');
+
 function smarty_function_dazwrapper_posthead($Params, &$Smarty) {
 	if ( ! $Smarty->get_template_vars('DAZ_Wrapper')) {
-		$ch = curl_init(Gdn::Config('Daz.RootUrl') . Gdn::Config('Daz.WrapperUrl'));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$wrapperHtml = curl_exec($ch);
-		curl_close($ch);
+		get_daz_wrapper($Smarty);
+	}
 
-		$Smarty->assign('DAZ_Wrapper', $wrapperHtml);
-	}
-	else {
-		$wrapperHtml = $Smarty->get_template_vars('DAZ_Wrapper');
-	}
+	$wrapperHtml = $Smarty->get_template_vars('DAZ_Wrapper');
 
 	// remove the magento #crumbs div
 	$dom = new DOMDocument;
