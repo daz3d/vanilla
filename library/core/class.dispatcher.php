@@ -626,9 +626,19 @@ class Gdn_Dispatcher extends Gdn_Pluggable {
                   $this->_ControllerMethodArgs[] = $Parts[$i];
             }
          }
-         
-         require_once($ControllerPath);
-         
+
+         try {
+            require_once($ControllerPath);
+         }
+         catch (Throwable $_t) { // PHP 7
+            if ('Declaration' === substr($_t->getMessage(), 0, 11)) {
+               // do nothing, it's just a signature mismatch
+            }
+            else {
+               throw $_t;
+            }
+         }
+
          throw new GdnDispatcherControllerFoundException();
       }
       

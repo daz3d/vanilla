@@ -721,7 +721,17 @@ class PostController extends VanillaController {
          $this->Data = array('Comment' => $Comment);
          $this->RenderData($this->Data);
       } else {
-         require_once $this->FetchViewLocation('helper_functions', 'Discussion');
+         try {
+            require_once $this->FetchViewLocation('helper_functions', 'Discussion');
+         }
+         catch (Throwable $_t) { // PHP 7
+            if ('Declaration' === substr($_t->getMessage(), 0, 11)) {
+               // do nothing, it's just a signature mismatch
+            }
+            else {
+               throw $_t;
+            }
+         }
          // Render default view.
          $this->Render();
       }
