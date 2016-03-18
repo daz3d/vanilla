@@ -47,7 +47,7 @@ try {
 }
 catch (Throwable $_t) { // PHP 7
    if ('Declaration' === substr($_t->getMessage(), 0, 11)) {
-      // do nothing, it's just a declaration mismatch
+      // do nothing, it's just a signature mismatch
    }
    else {
       throw $_t;
