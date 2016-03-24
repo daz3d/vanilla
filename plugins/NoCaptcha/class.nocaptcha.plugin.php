@@ -102,6 +102,11 @@ class NoCaptcha extends Gdn_Plugin {
     public static function ValidateCaptcha( ) {
         $Session = Gdn::Session();
 
+        // allow admin and moderators straight through
+        if ($Session->User->Admin || $Session->CheckPermission('Garden.Moderation.Manage')) {
+            return true;
+        }
+
         $Response = ArrayValue('g-recaptcha-response', $_POST, '');
 
         if ( ! $Response) {
@@ -170,6 +175,13 @@ class NoCaptcha extends Gdn_Plugin {
     }
 
     public static function NocaptchaHtml($SiteKey = '') {
+        $Session = Gdn::Session();
+
+        // don't show for admin or moderators
+        if ($Session->User->Admin || $Session->CheckPermission('Garden.Moderation.Manage')) {
+            return '';
+        }
+
         if (empty($SiteKey)) {
             $SiteKey = C('Plugins.NoCaptcha.SiteKey');
         }
