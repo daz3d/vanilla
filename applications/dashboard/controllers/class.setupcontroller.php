@@ -185,7 +185,7 @@ class SetupController extends DashboardController {
             $ConfigurationModel->Save($ConfigurationFormValues, TRUE);
                     
             // If changing locale, redefine locale sources:
-            $NewLocale = 'en-CA'; // $this->Form->GetFormValue('Garden.Locale', FALSE);
+            $NewLocale = 'en-US'; // $this->Form->GetFormValue('Garden.Locale', FALSE);
             if ($NewLocale !== FALSE && Gdn::Config('Garden.Locale') != $NewLocale) {
                $ApplicationManager = new Gdn_ApplicationManager();
                $Locale = Gdn::Locale();
