@@ -87,7 +87,7 @@ class NoCaptcha extends Gdn_Plugin {
             try {
                 if ( ! self::ValidateCaptcha()) {
                     $Sender->Validation->AddValidationResult('reCAPTCHA', 'You must fill out the reCAPTCHA form so we know you are a human');
-//                $Sender->EventArguments['FormPostValues'] = array( );
+//                    $Sender->EventArguments['FormPostValues'] = array( );
                     return false;
                 }
             }
@@ -100,10 +100,32 @@ class NoCaptcha extends Gdn_Plugin {
     }
 
     public static function ValidateCaptcha( ) {
+        $Session = Gdn::Session();
+
+        // allow admin and moderators straight through
+        if ($Session->User->Admin || $Session->CheckPermission('Garden.Moderation.Manage')) {
+            return true;
+        }
+
         $Response = ArrayValue('g-recaptcha-response', $_POST, '');
 
-        if ( ! $Response)
+        if ( ! $Response) {
             return false;
+        }
+
+        // check the stash for an existing response
+        $Stash = $Session->Stash(str_rot13('reCAPTCHA'), '', false);
+        if ($Stash && $Response) {
+            $Stash = json_decode($Stash, true);
+
+            // allow 2 minutes, which is how long it takes reCAPTCHA to reset
+            if ((time( ) < ($Stash['Time'] + (60 * 2))) && (hash('sha256', $Response) === $Stash['ResponseHash'])) {
+                return true;
+            }
+            else {
+                $Session->Stash(str_rot13('reCAPTCHA')); // clear it out
+            }
+        }
 
         $Url = 'https://www.google.com/recaptcha/api/siteverify';
         $Data = array(
@@ -123,26 +145,43 @@ class NoCaptcha extends Gdn_Plugin {
         curl_setopt($Handler, CURLOPT_POST, TRUE);
         curl_setopt($Handler, CURLOPT_POSTFIELDS, http_build_query($Data));
 
-        $Response = curl_exec($Handler);
+        $ReCaptcha = curl_exec($Handler);
 
-        if ($Response) {
-            $Result = json_decode($Response, true);
+        if ($ReCaptcha) {
+            $Result = json_decode($ReCaptcha, true);
             $ErrorCodes = GetValue('error_codes', $Result);
             if ($Result && GetValue('success', $Result)) {
+                // store the response in session in case the response was valid
+                // but something else bad happened
+                // this prevents issues if the user has to resubmit the form
+                // but the reCAPTCHA block hasn't reset yet, because
+                // reCAPTCHA will mark a duplicate response as invalid
+                $Session->Stash(str_rot13('reCAPTCHA'), json_encode(array(
+                    'ResponseHash' => hash('sha256', $Response),
+                    'Result' => $Result,
+                    'Time' => time( ),
+                )));
                 return true;
             }
             else if ( ! empty($ErrorCodes) && $ErrorCodes != array('invalid-input-response')) {
-                throw new Exception(FormatString(T('Could not get check if human! Error codes: {ErrorCodes}'), array('ErrorCodes' => join(', ', $ErrorCodes))));
+                throw new Exception(FormatString(T('Could not check for humanity! Error codes: {ErrorCodes}'), array('ErrorCodes' => join(', ', $ErrorCodes))));
             }
         }
         else {
-            throw new Exception(T('Could not get check if human!'));
+            throw new Exception(T('Could not check for humanity!'));
         }
 
         return false;
     }
 
     public static function NocaptchaHtml($SiteKey = '') {
+        $Session = Gdn::Session();
+
+        // don't show for admin or moderators
+        if ($Session->User->Admin || $Session->CheckPermission('Garden.Moderation.Manage')) {
+            return '';
+        }
+
         if (empty($SiteKey)) {
             $SiteKey = C('Plugins.NoCaptcha.SiteKey');
         }
