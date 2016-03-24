@@ -9,7 +9,7 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 */
 
 $LocaleInfo['skeleton'] = array( // make sure the key of this array is the same as its folder name.
-   'Locale'       => 'en-CA',
+   'Locale'       => 'en-US',
    'Name'         => 'Skeleton Locale',
    'Description'  => 'This is a skeleton of a locale pack. If you want to create your own locale pack copy and rename this folder into your locales folder.',
    'Version'      => '2.0.1',

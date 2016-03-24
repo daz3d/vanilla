@@ -80,8 +80,8 @@ class MultilingualPlugin extends Gdn_Plugin {
       }
       
       // Hackily add English option
-      $Links .= $this->BuildLocaleLink('English', 'en-CA');
-      
+      $Links .= $this->BuildLocaleLink('English', 'en-US');
+
       $LocaleLinks = Wrap($Links, 'div', array('class' => 'LocaleOptions'));
       $Sender->AddAsset('Foot', $LocaleLinks);
       
@@ -146,7 +146,7 @@ class MultilingualPlugin extends Gdn_Plugin {
    protected function ValidateLocale($Locale) {
       $LocaleModel = new LocaleModel();
       $Options = $LocaleModel->EnabledLocalePacks();
-      $Options['English'] = 'en-CA'; // Hackily include the default
+      $Options['English'] = 'en-US'; // Hackily include the default
       return (in_array($Locale, $Options)) ? $Locale : FALSE;
    }
 }
