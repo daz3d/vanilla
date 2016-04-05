@@ -207,7 +207,7 @@ class PostController extends VanillaController {
                      $this->DraftModel->Delete($DraftID);
                   }
                   if ($DiscussionID == SPAM || $DiscussionID == UNAPPROVED) {
-                  	$this->StatusMessage = T('DiscussionRequiresApprovalStatus', 'Your discussion will appear after it is approved.');
+                     $this->StatusMessage = T('DiscussionRequiresApprovalStatus', 'Your discussion will appear after it is approved. Please do not post it again.');
                      $this->Render('Spam');
                      return;
                   }
@@ -564,7 +564,7 @@ class PostController extends VanillaController {
                $this->EventArguments['Comment'] = $Comment;
                $this->FireEvent('AfterCommentSave');
             } elseif ($CommentID === SPAM || $CommentID === UNAPPROVED) {
-               $this->StatusMessage = T('CommentRequiresApprovalStatus', 'Your comment will appear after it is approved.');
+               $this->StatusMessage = T('CommentRequiresApprovalStatus', 'Your comment will appear after it is approved. Please do not post it again.');
             }
             
             $this->Form->SetValidationResults($this->CommentModel->ValidationResults());

@@ -267,7 +267,7 @@ class ActivityController extends Gdn_Controller {
             $ID = $this->ActivityModel->Comment($ActivityComment);
             
             if ($ID == SPAM || $ID == UNAPPROVED) {
-               $this->StatusMessage = T('ActivityCommentRequiresApproval', 'Your comment will appear after it is approved.');
+               $this->StatusMessage = T('ActivityCommentRequiresApproval', 'Your comment will appear after it is approved. Please do not post it again.');
                $this->Render('Blank', 'Utility');
                return;
             }
@@ -356,7 +356,7 @@ class ActivityController extends Gdn_Controller {
          
          $Activity = $this->ActivityModel->Save($Activity, FALSE, array('CheckSpam' => TRUE));
          if ($Activity == SPAM || $Activity == UNAPPROVED) {
-            $this->StatusMessage = T('ActivityRequiresApproval', 'Your post will appear after it is approved.');
+            $this->StatusMessage = T('ActivityRequiresApproval', 'Your post will appear after it is approved. Please do not post it again.');
             $this->Render('Blank', 'Utility');
             return;
          }

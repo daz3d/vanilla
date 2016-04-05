@@ -439,7 +439,12 @@ class EntryController extends Gdn_Controller {
             ");
 
             foreach ($others as $other) {
-               Gdn::UserModel()->Update(array('Email' => $other->Email.'.'. $other->UserID.'.disabled'), array('UserID' => $other->UserID));
+               Gdn::UserModel()->Update(array('Email' => $other->Email .'.'. $other->UserID .'.disabled'), array('UserID' => $other->UserID));
+            }
+
+            // make sure verified is set, so it doesn't get cleared in the next step
+            if ( ! array_key_exists('Verified', $Data)) {
+               $Data['Verified'] = $User['Verified'];
             }
 // DAZ ----
 
