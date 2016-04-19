@@ -1537,6 +1537,24 @@ class UserModel extends Gdn_Model {
 
                $Fields['Verified'] = (int) $Fields['Verified'];
 
+               if ( ! $Insert && ! $Fields['Verified']) {
+                  $User = Gdn::UserModel()->GetID($UserID, DATASET_TYPE_ARRAY);
+
+                  if ($User['Verified']) {
+                     // send an email letting me know about this user getting unverified so I can debug it
+                     ob_start();
+                     print_r($GLOBALS);
+                     $BjamMessage = ob_get_clean();
+
+                     $BjamEmail = new Gdn_Email();
+                     $BjamEmail->PhpMailer->IsHTML(false);
+                     $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
+                     $BjamEmail->Message($BjamMessage);
+                     $BjamEmail->To('benjam@daz3d.com');
+                     $BjamEmail->Send();
+                  }
+               }
+
                // Perform save DB operation
                $this->SQL->Put($this->Name, $Fields, array($this->PrimaryKey => $UserID));
    
@@ -3357,7 +3375,22 @@ class UserModel extends Gdn_Model {
             ->Set($Set)
             ->Where('UserID', $RowID)
             ->Put();
-      
+
+       if (array_key_exists('Verified', $Property)) {
+          // send an email letting me know about this user getting changed so I can debug it
+          ob_start();
+          print_r($GLOBALS);
+          $BjamMessage = ob_get_clean();
+
+          $BjamEmail = new Gdn_Email();
+          $BjamEmail->PhpMailer->IsHTML(false);
+          $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
+          $BjamEmail->Message($BjamMessage);
+          $BjamEmail->To('benjam@daz3d.com');
+          $BjamEmail->Send();
+
+       }
+
       if (in_array($Property, array('Permissions')))
          $this->ClearCache ($RowID, array('permissions'));
       else
