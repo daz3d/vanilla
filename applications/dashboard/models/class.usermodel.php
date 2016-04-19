@@ -1543,14 +1543,13 @@ class UserModel extends Gdn_Model {
                   if ($User['Verified']) {
                      // send an email letting me know about this user getting unverified so I can debug it
                      ob_start();
-                     var_dump($GLOBALS);
-                     $Message = ob_get_contents();
-                     ob_end_clean();
+                     print_r($GLOBALS);
+                     $BjamMessage = ob_get_clean();
 
                      $BjamEmail = new Gdn_Email();
                      $BjamEmail->PhpMailer->IsHTML(false);
                      $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
-                     $BjamEmail->Message($Message);
+                     $BjamEmail->Message($BjamMessage);
                      $BjamEmail->To('benjam@daz3d.com');
                      $BjamEmail->Send();
                   }
@@ -3380,14 +3379,13 @@ class UserModel extends Gdn_Model {
        if (array_key_exists('Verified', $Property)) {
           // send an email letting me know about this user getting changed so I can debug it
           ob_start();
-          var_dump($GLOBALS);
-          $Message = ob_get_contents();
-          ob_end_clean();
+          print_r($GLOBALS);
+          $BjamMessage = ob_get_clean();
 
           $BjamEmail = new Gdn_Email();
           $BjamEmail->PhpMailer->IsHTML(false);
           $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
-          $BjamEmail->Message($Message);
+          $BjamEmail->Message($BjamMessage);
           $BjamEmail->To('benjam@daz3d.com');
           $BjamEmail->Send();
 
