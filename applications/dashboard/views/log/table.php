@@ -86,8 +86,13 @@ PagerModule::Write(array('Sender' => $this, 'Limit' => 10));
                   }
                   
                   echo ' <span class="Count">'.Plural($RecordUser['CountDiscussions'] + $RecordUser['CountComments'], '%s post', '%s posts').'</span>';
-                  
-                  
+
+                  if (('Comment' === $Row['RecordType']) && ('Pending' === $Row['Operation'])) {
+                     $DiscussionModel = new DiscussionModel();
+                     $Discussion = $DiscussionModel->GetID($Row['ParentRecordID']);
+                     echo ' in <a href="'. DiscussionUrl($Discussion) .'" target="_blank">'. htmlentities($Discussion->Name) .'</a>';
+                  }
+
                   echo '</span> ';
                }
 

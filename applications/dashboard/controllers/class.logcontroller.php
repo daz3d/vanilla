@@ -79,6 +79,8 @@ class LogController extends DashboardController {
 
       if ($Operation == 'edits')
          $Operation = array('edit', 'delete');
+      elseif ('moderate' == $Operation)
+         $Operation = array('Spam', 'Moderate', 'Pending');
       else
          $Operation = explode(',', $Operation);
       array_map('ucfirst', $Operation);
