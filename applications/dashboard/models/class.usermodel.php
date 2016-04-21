@@ -1535,7 +1535,9 @@ class UserModel extends Gdn_Model {
                   $Fields['Attributes'] = serialize($Fields['Attributes']);
                }
 
-               $Fields['Verified'] = (int) $Fields['Verified'];
+               if (array_key_exists('Verified', $Fields)) {
+                  $Fields['Verified'] = (int) $Fields['Verified'];
+               }
 
                if ( ! $Insert && ! $Fields['Verified']) {
                   $User = Gdn::UserModel()->GetID($UserID, DATASET_TYPE_ARRAY);
