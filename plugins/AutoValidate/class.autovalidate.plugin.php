@@ -61,7 +61,7 @@ class AutoValidate extends Gdn_Plugin
         // if a user gets their verification status changed
         // set their counts back to 0
         $EA = $Sender->EventArguments;
-        if (array_key_exists('Verified', $EA['FormPostValues']) && ((bool) $EA['FormPostValues']['Verified'] !== (bool) $EA['LoadedUser']['Verified'])) {
+        if ((null !== GetValue('Verified', $EA['FormPostValues'], null)) && ((bool) GetValue('Verified', $EA['FormPostValues']) !== (bool) GetValue('Verified', $EA['LoadedUser']))) {
             $UserID = $Sender->EventArguments['UserID'];
             $this->updateCount($UserID, 'Discussion', 0);
             $this->updateCount($UserID, 'Comment', 0);
