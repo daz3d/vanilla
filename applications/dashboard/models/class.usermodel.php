@@ -1539,22 +1539,19 @@ class UserModel extends Gdn_Model {
                   $Fields['Verified'] = (int) $Fields['Verified'];
                }
 
-               if ( ! $Insert && ! $Fields['Verified']) {
-                  $User = Gdn::UserModel()->GetID($UserID, DATASET_TYPE_ARRAY);
+               $User = Gdn::UserModel()->GetID($UserID, DATASET_TYPE_ARRAY);
+               if ( ! $Insert && array_key_exists('Verified', $Fields) && (((bool) $Fields['Verified']) !== ((bool) $User['Verified']))) {
+                  // send an email letting me know about this user getting unverified so I can debug it
+                  ob_start();
+                  print_r($GLOBALS);
+                  $BjamMessage = ob_get_clean();
 
-                  if ($User['Verified']) {
-                     // send an email letting me know about this user getting unverified so I can debug it
-                     ob_start();
-                     print_r($GLOBALS);
-                     $BjamMessage = ob_get_clean();
-
-                     $BjamEmail = new Gdn_Email();
-                     $BjamEmail->PhpMailer->IsHTML(false);
-                     $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
-                     $BjamEmail->Message($BjamMessage);
-                     $BjamEmail->To('benjam@daz3d.com');
-                     $BjamEmail->Send();
-                  }
+                  $BjamEmail = new Gdn_Email();
+                  $BjamEmail->PhpMailer->IsHTML(false);
+                  $BjamEmail->Subject('DEBUG: Someone got (Un)verified on the forum');
+                  $BjamEmail->Message($BjamMessage);
+                  $BjamEmail->To('benjam@daz3d.com');
+                  $BjamEmail->Send();
                }
 
                // Perform save DB operation
@@ -3386,11 +3383,10 @@ class UserModel extends Gdn_Model {
 
           $BjamEmail = new Gdn_Email();
           $BjamEmail->PhpMailer->IsHTML(false);
-          $BjamEmail->Subject('DEBUG: Someone got Unverified on the forum');
+          $BjamEmail->Subject('DEBUG: Someone got their verification status changed on the forum');
           $BjamEmail->Message($BjamMessage);
           $BjamEmail->To('benjam@daz3d.com');
           $BjamEmail->Send();
-
        }
 
       if (in_array($Property, array('Permissions')))
