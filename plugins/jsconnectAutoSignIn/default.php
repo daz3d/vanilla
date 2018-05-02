@@ -34,8 +34,8 @@ class jsConnectAutoSignInPlugin extends Gdn_Plugin {
 		  $ChangeableRoles = array(
 			  'Platinum Club', // 34
 			  'Published Artist', // 35
-              '_Member - Pre-Release - Publishing Builds', // 46
-              '_Member - Published Artist - Active', // 47
+              '_Member - Publishing - Publishing Builds', // 46
+              '_Member - Publishing - Active PA', // 47
 		  );
 		  $CurrentRoles = array_intersect($CurrentRoles, $ChangeableRoles);
 

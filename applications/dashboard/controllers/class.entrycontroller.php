@@ -371,8 +371,8 @@ class EntryController extends Gdn_Controller {
 		  $ChangeRoles = array(
 			  34, // Platinum Club
 			  35, // Published Artist
-              46, // Pre-Release Publishing Build
-              47, // Active Published Artist
+              46, // _Member - Publishing - Publishing Builds
+              47, // _Member - Publishing - Active PA
 		  );
 
          $CurrentRoles = array( );
