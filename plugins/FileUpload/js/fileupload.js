@@ -553,8 +553,8 @@ var GdnUploaders = null;
                   var ImageAnchor = jQuery(FileListing.find('a.InsertImage'));
                   ImageAnchor.attr('href', JResponse.MediaResponse.FinalImageLocation);
                   ImageAnchor.show();
-                  $(document).on('click', 'a.InsertImage', function() {
-                     var insertimg = '<img src="'+ImageAnchor.attr('href')+'" />';
+                  ImageAnchor.click(function() {
+                     var insertimg = '<img src="'+this.href+'" />';
                      // Test if we're working with CLEditor
                      var wysiwyg = jQuery(FileListing.parents('form').find('iframe'));
                      if (wysiwyg) {
