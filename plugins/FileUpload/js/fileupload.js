@@ -308,7 +308,6 @@ var GdnUploaders = null;
          return NewUploaderID;
       }
 
-
       Gdn_MultiFileUpload.prototype.ShowUploader = function(NoAnimate) {
          var UploaderElement = this.CurrentUploader;
 
@@ -347,9 +346,11 @@ var GdnUploaders = null;
          jQuery(this.IFrameContainer).append(ContainerDiv);
 
          this.IFrames[IFrameName] = {ready:'no'};
+         var iFrame = jQuery('#'+IFrameName);
 
          // Re-target just to be safe
-         jQuery('#'+IFrameName).load(jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
+         // jQuery('#'+IFrameName).load(jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
+         iFrame.on("load",jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
 
          return IFrameName;
       }
@@ -540,7 +541,7 @@ var GdnUploaders = null;
                jQuery(FileListing.find('div.UploadProgress')).remove();
 
                // Add image preview.
-               var thumbnailHtml = jQuery.base64Decode(JResponse.MediaResponse.Thumbnail);
+               var thumbnailHtml = $.base64Decode(JResponse.MediaResponse.Thumbnail);
 
                jQuery(FileListing.find('div.FilePreview')).append(thumbnailHtml);
                jQuery(FileListing.find('div.FileHover')).prepend(thumbnailHtml);
@@ -570,7 +571,11 @@ var GdnUploaders = null;
 
                // Add delete button
                var DeleteAnchor = jQuery(FileListing.find('a.DeleteFile'));
-               var DeleteHref = gdn.definition('WebRoot') + 'plugin/fileupload/delete/' + MediaID;
+               var webRoot = gdn.definition('WebRoot');
+               if (webRoot.charAt(webRoot.length - 1) != '/') {
+                  webRoot = webRoot + '/';
+               }
+               var DeleteHref = webRoot + 'plugin/fileupload/delete/' + MediaID;
                $(document).on('click', DeleteAnchor.selector, function() {
                   // Delete file
                   jQuery.ajax({url: DeleteHref, type: 'GET'});

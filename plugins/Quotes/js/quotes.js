@@ -3,11 +3,12 @@ function Gdn_Quotes() {
    this.InsertMode = 'default';
    this.Editors = [];
    this.EditorID = 1;
+   var jBody = $('body');
 
    Gdn_Quotes.prototype.Prepare = function() {
 
       // Attach quote event to each Quote button, and return false to prevent link follow
-      $('a.ReactButton.Quote').livequery('click', jQuery.proxy(function(event){
+      jBody.on('click', 'a.ReactButton.Quote', jQuery.proxy(function(event){
          var QuoteLink = jQuery(event.target).closest('a');
          var ObjectID = QuoteLink.attr('href').split('/').pop();
          this.Quote(ObjectID, QuoteLink);
@@ -22,18 +23,18 @@ function Gdn_Quotes() {
 
       // Follow edit clicks
       var Quotes = this;
-      jQuery('textarea.TextBox').livequery(function(){
+      jBody.on('DOMNodeInserted','textarea.TextBox', function(){
          Quotes.EditorStack(this);
       }, function(){
          Quotes.EditorStack(this, true);
       });
 
       // Determine what mode we're in (default, cleditor... ?)
-      jQuery('div.cleditorMain').livequery(function(){
-         Quotes.SetInsertMode('cleditor', this);
+      jBody.on('DOMNodeInserted', 'div.cleditorMain', function(){
+            Quotes.SetInsertMode('cleditor', this);
       });
 
-      jQuery('#cke_Form_Body').livequery(function(){
+      jBody.on('DOMNodeInserted', 'cke_Form_Body', function(){
          Quotes.SetInsertMode('ckeditor', this);
       });
 
@@ -42,9 +43,7 @@ function Gdn_Quotes() {
       if (QuoteFoldingLevel != 'None') {
          QuoteFoldingLevel = parseInt(QuoteFoldingLevel) + 1;
          var MaxFoldingLevel = 6;
-         jQuery('.Comment .Message').livequery(function(){
-
-
+         jBody.on('DOMNodeInserted', '.Comment .Message', function(){
             // Find the closest child quote
             var PetQuote = jQuery(this).children('.UserQuote');
             if (!PetQuote.length) return;
@@ -53,7 +52,7 @@ function Gdn_Quotes() {
 
          });
 
-         jQuery('a.QuoteFolding').livequery('click', function(){
+         jBody.on('click', 'a.QuoteFolding', function(){
             var QuoteTarget = jQuery(this).closest('.QuoteText').children('.UserQuote');
             QuoteTarget = jQuery(QuoteTarget);
             QuoteTarget.toggle();
@@ -110,55 +109,6 @@ function Gdn_Quotes() {
             }
 
             if (FrameBody == null) return;
-
-            /*
-            console.log(FrameDocument.getElementsByTagName('head')[0]);
-
-            // make a new stylesheet
-            var NewStyle = FrameDocument.createElement('style');
-            FrameDocument.getElementsByTagName('head')[0].appendChild(NewStyle);
-
-            // Safari does not see the new stylesheet unless you append something.
-            // However!  IE will blow chunks, so ... filter it thusly:
-            if (!window.createPopup) {
-               console.log('appending');
-               NewStyle.appendChild(FrameDocument.createTextNode(''));
-            }
-
-            var Style = FrameDocument.styleSheets[FrameDocument.styleSheets.length - 1];
-            console.log(Style);
-            // some rules to apply
-            var Rules = {
-               "blockquote" : "{ color: red; padding: 5px; }"
-            }
-
-            // loop through and insert
-            for (Selector in Rules) {
-               if (Style.insertRule) {
-                  // it's an IE browser
-                  try {
-                     console.log('insertrule');
-                     Style.insertRule(Selector + Rules[Selector], 0);
-                  } catch(e) { console.log(e); }
-               } else {
-                  // it's a W3C browser
-                  try {
-                     console.log('addrule');
-                     Style.addRule(Selector, Rules[Selector]);
-                  } catch(e) { console.log(e); }
-               }
-            }
-*/
-//				var webRoot = gdn.definition('WebRoot', '');
-//            var ss = document.createElement("link");
-//            ss.type = "text/css";
-//            ss.rel = "stylesheet";
-//            ss.href = gdn.combinePaths(webRoot, '/plugins/Quotes/css/cleditor.css');
-//
-//            if (document.all)
-//            	FrameDocument.createStyleSheet(ss.href);
-//            else
-//            	FrameDocument.getElementsByTagName("head")[0].appendChild(ss);
 
          break;
 
