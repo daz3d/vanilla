@@ -553,7 +553,7 @@ var GdnUploaders = null;
                   var ImageAnchor = jQuery(FileListing.find('a.InsertImage'));
                   ImageAnchor.attr('href', JResponse.MediaResponse.FinalImageLocation);
                   ImageAnchor.show();
-                  $(document).on('click', ImageAnchor.selector, function() {
+                  $(document).on('click', 'a.InsertImage', function() {
                      var insertimg = '<img src="'+ImageAnchor.attr('href')+'" />';
                      // Test if we're working with CLEditor
                      var wysiwyg = jQuery(FileListing.parents('form').find('iframe'));
@@ -578,7 +578,7 @@ var GdnUploaders = null;
                   webRoot = webRoot + '/';
                }
                var DeleteHref = webRoot + 'plugin/fileupload/delete/' + MediaID;
-               $(document).on('click', DeleteAnchor.selector, function() {
+               $(document).on('click', 'a.DeleteFile', function() {
                   // Delete file
                   jQuery.ajax({url: DeleteHref, type: 'GET'});
                   // Remove image
