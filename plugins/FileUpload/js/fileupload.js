@@ -349,8 +349,9 @@ var GdnUploaders = null;
          var iFrame = jQuery('#'+IFrameName);
 
          // Re-target just to be safe
+         var module = function(){ this.UploadComplete(IFrameName,TargetUploaderID); };
          // jQuery('#'+IFrameName).load(jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
-         iFrame.on("load",jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
+         iFrame.on("load", iFrame.bind(module));
 
          return IFrameName;
       }

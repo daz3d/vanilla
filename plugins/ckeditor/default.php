@@ -83,11 +83,9 @@ class ckeditorPlugin extends Gdn_Plugin
 </style>
 <script type="text/javascript">
 	jQuery(document).ready( function($) {
-		$("textarea.BodyBox").livequery( function( ) {
-			$(this).ckeditor({
+			$("textarea.BodyBox").ckeditor({
 				extraAllowedContent: 'blockquote[rel](Quote)'
 			});
-		});
 	});
 </script>
 EOT
