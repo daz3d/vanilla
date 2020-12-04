@@ -349,9 +349,10 @@ var GdnUploaders = null;
          var iFrame = jQuery('#'+IFrameName);
 
          // Re-target just to be safe
-         var module = function(){ this.UploadComplete(IFrameName,TargetUploaderID); };
+         // var module = function(){ this.UploadComplete(IFrameName,TargetUploaderID); };
+         // iFrame.on("load", iFrame.bind(module));
          // jQuery('#'+IFrameName).load(jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
-         iFrame.on("load", iFrame.bind(module));
+         iFrame.on("load",jQuery.proxy(function(){ this.UploadComplete(IFrameName,TargetUploaderID); }, this));
 
          return IFrameName;
       }
