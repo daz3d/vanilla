@@ -3,12 +3,11 @@ function Gdn_Quotes() {
    this.InsertMode = 'default';
    this.Editors = [];
    this.EditorID = 1;
-   var jBody = $('body');
 
    Gdn_Quotes.prototype.Prepare = function() {
 
       // Attach quote event to each Quote button, and return false to prevent link follow
-      jBody.on('click', 'a.ReactButton.Quote', jQuery.proxy(function(event){
+      $('a.ReactButton.Quote').livequery('click', jQuery.proxy(function(event){
          var QuoteLink = jQuery(event.target).closest('a');
          var ObjectID = QuoteLink.attr('href').split('/').pop();
          this.Quote(ObjectID, QuoteLink);
@@ -23,18 +22,18 @@ function Gdn_Quotes() {
 
       // Follow edit clicks
       var Quotes = this;
-      jBody.on('DOMNodeInserted','textarea.TextBox', function(){
+      jQuery('textarea.TextBox').livequery(function(){
          Quotes.EditorStack(this);
       }, function(){
          Quotes.EditorStack(this, true);
       });
 
       // Determine what mode we're in (default, cleditor... ?)
-      jBody.on('DOMNodeInserted', 'div.cleditorMain', function(){
+      jQuery('div.cleditorMain').livequery(function(){
             Quotes.SetInsertMode('cleditor', this);
       });
 
-      jBody.on('DOMNodeInserted', 'cke_Form_Body', function(){
+      jQuery('#cke_Form_Body').livequery(function(){
          Quotes.SetInsertMode('ckeditor', this);
       });
 
@@ -43,7 +42,9 @@ function Gdn_Quotes() {
       if (QuoteFoldingLevel != 'None') {
          QuoteFoldingLevel = parseInt(QuoteFoldingLevel) + 1;
          var MaxFoldingLevel = 6;
-         jBody.on('DOMNodeInserted', '.Comment .Message', function(){
+         jQuery('.Comment .Message').livequery(function(){
+
+
             // Find the closest child quote
             var PetQuote = jQuery(this).children('.UserQuote');
             if (!PetQuote.length) return;
@@ -52,7 +53,7 @@ function Gdn_Quotes() {
 
          });
 
-         jBody.on('click', 'a.QuoteFolding', function(){
+         jQuery('a.QuoteFolding').livequery('click', function(){
             var QuoteTarget = jQuery(this).closest('.QuoteText').children('.UserQuote');
             QuoteTarget = jQuery(QuoteTarget);
             QuoteTarget.toggle();
