@@ -96,10 +96,12 @@ class FlairBadgesPlugin extends Gdn_Plugin
         $flairData = Gdn::UserModel()->GetMeta($userID, 'Flair.%');
 
         if (!empty($flairData)) {
+            echo '<div  class="FlairBadges">';
             foreach ($flairData as $Field => $Value) {
                 $title = ltrim($Field, 'Flair.');
                 echo '<span title="' . $title . '" class="FlairBadges ' . $Value . 'Badge"></span>';
             }
+            echo '</div>';
         }
     }
 }

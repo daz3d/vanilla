@@ -2,9 +2,16 @@
 	position: relative !important;
 	line-height: normal !important;
 }
+
+.FlairBadges {
+	clear: both;
+	vertical-align: bottom;
+	width: 128px;
+}
+
 span.FlairBadges {
-	height: 23px;
-	width: 23px;
+	height: 32px;
+	width: 32px;
 	display: inline-block;
 }
 
