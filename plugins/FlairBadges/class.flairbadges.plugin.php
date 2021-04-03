@@ -97,7 +97,8 @@ class FlairBadgesPlugin extends Gdn_Plugin
 
         if (!empty($flairData)) {
             foreach ($flairData as $Field => $Value) {
-                echo '<span title="' . $Field . '" class="FlairBadges ' . $Value . 'Badge"></span>';
+                $title = ltrim($Field, 'Flair.');
+                echo '<span title="' . $title . '" class="FlairBadges ' . $Value . 'Badge"></span>';
             }
         }
     }
