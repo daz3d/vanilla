@@ -51,30 +51,51 @@ class FlairBadgesPlugin extends Gdn_Plugin
     {
         $post = file_get_contents("php://input");
         $request = json_decode($post);
-        if (!empty($request)
-            && !empty($request->email)
-            && filter_var($request->email, FILTER_VALIDATE_EMAIL)
+        if (empty($request)
+            || empty($request->email)
+            || !filter_var($request->email, FILTER_VALIDATE_EMAIL)
         ) {
-            $email = filter_var($request->email, FILTER_SANITIZE_EMAIL);
-            $userData = Gdn::UserModel()->GetByEmail($email);
-            if (empty($email)) {
-                return $Sender->RenderData(["Success" => false]);
-            }
-            $metaInsert = [];
-            foreach ($request->flairs as $flair) {
-                $key = filter_var($flair->key, FILTER_SANITIZE_STRING);
-                $value = filter_var($flair->value, FILTER_SANITIZE_STRING);
-                if (!empty($key) && !empty($value)) {
-                    $metaInsert[$key] = $value;
-                }
-            }
+            return $Sender->RenderData(["Success" => false]);
+        }
 
-            if (count($metaInsert)) {
-                Gdn::UserModel()->SetMeta($userData->UserID, $metaInsert, 'Flair.');
-                return $Sender->RenderData(["Success" => true]);
+        if (!$this->passCheck($request->email, filter_var($request->hash, FILTER_SANITIZE_STRING))){
+            return $Sender->RenderData(["Success" => false]);
+        }
+
+        $email = filter_var($request->email, FILTER_SANITIZE_EMAIL);
+        $userData = Gdn::UserModel()->GetByEmail($email);
+        if (empty($email)) {
+            return $Sender->RenderData(["Success" => false]);
+        }
+        $metaInsert = [];
+        foreach ($request->flairs as $flair) {
+            $key = filter_var($flair->key, FILTER_SANITIZE_STRING);
+            $value = filter_var($flair->value, FILTER_SANITIZE_STRING);
+            if (!empty($key) && !empty($value)) {
+                $metaInsert[$key] = $value;
             }
         }
+
+        if (count($metaInsert)) {
+            Gdn::UserModel()->SetMeta($userData->UserID, $metaInsert, 'Flair.');
+            return $Sender->RenderData(["Success" => true]);
+        }
         return $Sender->RenderData(["Success" => false]);
+    }
+
+    private function passCheck($email, $hash)
+    {
+        $Provider = Gdn_AuthenticationProviderModel::GetProviderByKey(1044711398);
+
+        if (!$Provider) {
+            return false;
+        }
+        $created = md5($email . $Provider['AssociationSecret']);
+        if ($hash != $created) {
+            return false;
+        }
+
+        return true;
     }
 
 
