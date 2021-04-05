@@ -1,0 +1,41 @@
+.Item-Header {
+	position: relative !important;
+	line-height: normal !important;
+}
+
+.FlairBadges {
+	clear: both;
+	vertical-align: bottom;
+	width: 128px;
+}
+
+span.FlairBadges {
+	height: 32px;
+	width: 32px;
+	display: inline-block;
+}
+
+span.ModeratorBadge {
+	background: transparent url('images/lrg-mod-2.png') no-repeat center center;
+	background-size: contain;
+}
+
+span.PlatinumBadge {
+	background: transparent url('images/platinum.png') no-repeat center center;
+	background-size: contain;
+}
+
+span.GoldBadge {
+	background: transparent url('images/gold.png') no-repeat center center;
+	background-size: contain;
+}
+
+span.SilverBadge {
+	background: transparent url('images/silver.png') no-repeat center center;
+	background-size: contain;
+}
+
+span.EmptyBadge {
+	background: transparent url('images/silver.png') no-repeat center center;
+	background-size: contain;
+}
