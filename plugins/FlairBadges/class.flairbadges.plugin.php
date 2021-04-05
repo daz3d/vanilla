@@ -11,21 +11,19 @@ $PluginInfo['FlairBadges'] = array(
     'SettingsPermission' => 'Garden.AdminUser.Only',
 );
 
-
 class FlairBadgesPlugin extends Gdn_Plugin
 {
 
     public function PluginController_FlairBadges_Create($Sender)
     {
-        $Sender->Title('Role Badges');
-        $Sender->AddSideMenu($this->GetPluginKey('SettingsUrl'));
+        $Sender->Title('Badges');
+        $Sender->Permission('Garden.Moderation.Manage');
         $Sender->Form = new Gdn_Form();
         $this->Dispatch($Sender, $Sender->RequestArgs);
     }
 
     public function Controller_Index($Sender)
     {
-        $Sender->Permission('Vanilla.Settings.Manage');
         $Sender->SetData('PluginDescription', $this->GetPluginKey('Description'));
         $Validation = new Gdn_Validation();
         $ConfigurationModel = new Gdn_ConfigurationModel($Validation);
@@ -43,6 +41,42 @@ class FlairBadgesPlugin extends Gdn_Plugin
 
         $Sender->Render($this->GetView('FlairBadges.php'));
     }
+
+    /**
+     * Used to submit a poll vote via form
+     * @param VanillaController $Sender ProfileController
+     * @return bool|void
+     */
+    public function ProfileController_SetFlair_Create($Sender)
+    {
+        $post = file_get_contents("php://input");
+        $request = json_decode($post);
+        if (!empty($request)
+            && !empty($request->email)
+            && filter_var($request->email, FILTER_VALIDATE_EMAIL)
+        ) {
+            $email = filter_var($request->email, FILTER_SANITIZE_EMAIL);
+            $userData = Gdn::UserModel()->GetByEmail($email);
+            if (empty($email)) {
+                return $Sender->RenderData(["Success" => false]);
+            }
+            $metaInsert = [];
+            foreach ($request->flairs as $flair) {
+                $key = filter_var($flair->key, FILTER_SANITIZE_STRING);
+                $value = filter_var($flair->value, FILTER_SANITIZE_STRING);
+                if (!empty($key) && !empty($value)) {
+                    $metaInsert[$key] = $value;
+                }
+            }
+
+            if (count($metaInsert)) {
+                Gdn::UserModel()->SetMeta($userData->UserID, $metaInsert, 'Flair.');
+                return $Sender->RenderData(["Success" => true]);
+            }
+        }
+        return $Sender->RenderData(["Success" => false]);
+    }
+
 
     public function Setup()
     {
