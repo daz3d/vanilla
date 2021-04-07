@@ -58,7 +58,7 @@ class FlairBadgesPlugin extends Gdn_Plugin
             return $Sender->RenderData(["Success" => false]);
         }
 
-        if (!$this->passCheck($request->email, filter_var($request->hash, FILTER_SANITIZE_STRING))){
+        if (!$this->passCheck($request->email, filter_var($request->hash, FILTER_SANITIZE_STRING))) {
             return $Sender->RenderData(["Success" => false]);
         }
 
@@ -147,14 +147,31 @@ class FlairBadgesPlugin extends Gdn_Plugin
 
     protected function attachBadge($Sender)
     {
+        $flairs = [];
+        $userModel = new UserModel();
         $userID = $Sender->EventArguments['Author']->UserID;
-        $flairData = Gdn::UserModel()->GetMeta($userID, 'Flair.%');
+        $flairData = $userModel->GetMeta($userID, 'Flair.%');
+        $roleData = $userModel->GetRoles($userID);
 
+        if ($roleData !== FALSE && $roleData->NumRows(DATASET_TYPE_ARRAY) > 0) {
+            foreach ($roleData->Result() as $role) {
+                if ($role['Name'] == 'Moderator') {
+                    $flairs['Moderator'] = 'Moderator';
+                    break;
+                }
+            }
+        }
         if (!empty($flairData)) {
-            echo '<div  class="FlairBadges">';
             foreach ($flairData as $Field => $Value) {
                 $title = ltrim($Field, 'Flair.');
-                echo '<span title="' . $title . '" class="FlairBadges ' . $Value . 'Badge"></span>';
+                $flairs[$title] = $Value;
+            }
+        }
+
+        if (!empty($flairs)) {
+            echo '<div  class="FlairBadges">';
+            foreach ($flairs as $title => $name) {
+                echo '<span title="' . $title . '" class="FlairBadges ' . $name . 'Badge"></span>';
             }
             echo '</div>';
         }
