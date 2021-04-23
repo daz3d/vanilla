@@ -4,11 +4,14 @@ $PluginInfo['FlairBadges'] = array(
     'Name' => 'Flair Badge',
     'Description' => "Adds flair under User's name.",
     'Version' => '1.0',
-    'RequiredApplications' => array('Vanilla' => '2.1.11'),
+    'RequiredApplications' => array('Vanilla' => '2.1'),
     'MobileFriendly' => TRUE,
     'RegisterPermissions' => FALSE,
-    'SettingsUrl' => 'dashboard/plugin/FlairBadges',
-    'SettingsPermission' => 'Garden.AdminUser.Only',
+    'SettingsUrl' => '/dashboard/plugin/flairbadges',
+    'RequiredTheme' => FALSE,
+    'RequiredPlugins' => FALSE,
+    'HasLocale' => FALSE,
+    'SettingsPermission' => 'Garden.Settings.Manage',
 );
 
 class FlairBadgesPlugin extends Gdn_Plugin
@@ -24,11 +27,12 @@ class FlairBadgesPlugin extends Gdn_Plugin
 
     public function Controller_Index($Sender)
     {
-        $Sender->SetData('PluginDescription', $this->GetPluginKey('Description'));
+        $Sender->Permission( 'Garden.Settings.Manage' );
+        $Sender->SetData( 'PluginDescription', $this->GetPluginKey( 'Description' ) );
         $Validation = new Gdn_Validation();
-        $ConfigurationModel = new Gdn_ConfigurationModel($Validation);
-        $ConfigurationModel->SetField('Plugins.FlairBadges.BadgeLocation', '1');
-        $Sender->Form->SetModel($ConfigurationModel);
+        $ConfigurationModel = new Gdn_ConfigurationModel( $Validation );
+        $ConfigurationModel->SetField( 'Plugins.FlairBadges.BadgeLocation', '1' );
+        $Sender->Form->SetModel( $ConfigurationModel );
 
         if ($Sender->Form->AuthenticatedPostBack() === FALSE) {
             $Sender->Form->SetData($ConfigurationModel->Data);
@@ -112,7 +116,7 @@ class FlairBadgesPlugin extends Gdn_Plugin
     public function Base_GetAppSettingsMenuItems_Handler($Sender)
     {
         $Menu = &$Sender->EventArguments['SideMenu'];
-        $Menu->AddLink('Add-ons', 'Role Badges', $this->GetPluginKey('SettingsUrl'), 'Garden.AdminUser.Only');
+        $Menu->AddLink('Add-ons', 'Flair Badges', $this->GetPluginKey('SettingsUrl'), 'Garden.AdminUser.Only');
     }
 
     public function Base_Render_Before($Sender)
