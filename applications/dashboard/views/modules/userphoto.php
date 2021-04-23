@@ -9,7 +9,7 @@ if (!$User)
 
 $Photo = $User->Photo;
 
-if ($User->Banned) {
+if ($User->Banned && Gdn::Session()->CheckPermission('Garden.Moderation.Manage')) {
    $BannedPhoto = C('Garden.BannedPhoto', 'http://cdn.vanillaforums.com/images/banned_large.png');
    if ($BannedPhoto)
       $Photo = Gdn_Upload::Url($BannedPhoto);

@@ -10,7 +10,7 @@ if (Gdn::Config('Garden.Profile.ShowAbout')) {
    <h3><?php echo T('Basic Information'); ?></h3>
    <dl>
       <?php               
-      if ($this->User->Banned) {
+      if ($this->User->Banned && $Session->CheckPermission('Garden.Moderation.Manage')) {
          echo '<dt class="Value"><span class="Tag Tag-Banned">'.T('Banned').'</span></dt>';
       }
          
