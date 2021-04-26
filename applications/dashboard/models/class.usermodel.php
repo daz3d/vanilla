@@ -3375,20 +3375,6 @@ class UserModel extends Gdn_Model {
             ->Where('UserID', $RowID)
             ->Put();
 
-       if (array_key_exists('Verified', $Property)) {
-          // send an email letting me know about this user getting changed so I can debug it
-          ob_start();
-          print_r($GLOBALS);
-          $BjamMessage = ob_get_clean();
-
-          $BjamEmail = new Gdn_Email();
-          $BjamEmail->PhpMailer->IsHTML(false);
-          $BjamEmail->Subject('DEBUG: Someone got their verification status changed on the forum');
-          $BjamEmail->Message($BjamMessage);
-          $BjamEmail->To('benjam@daz3d.com');
-          $BjamEmail->Send();
-       }
-
       if (in_array($Property, array('Permissions')))
          $this->ClearCache ($RowID, array('permissions'));
       else
