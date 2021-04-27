@@ -35,6 +35,16 @@ span.SilverBadge {
 	background-size: contain;
 }
 
+span.ChampBadge {
+	background: transparent url('images/sp-champ.png') no-repeat center center;
+	background-size: contain;
+}
+
+span.RunnerUpBadge {
+	background: transparent url('images/sp-runner-up.png') no-repeat center center;
+	background-size: contain;
+}
+
 span.EmptyBadge {
 	background: transparent url('images/silver.png') no-repeat center center;
 	background-size: contain;
