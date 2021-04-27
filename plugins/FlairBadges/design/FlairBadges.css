@@ -35,12 +35,12 @@ span.SilverBadge {
 	background-size: contain;
 }
 
-span.sp-champ {
+span.ChampBadge {
 	background: transparent url('images/sp-champ.png') no-repeat center center;
 	background-size: contain;
 }
 
-span.sp-runner-up {
+span.RunnerUpBadge {
 	background: transparent url('images/sp-runner-up.png') no-repeat center center;
 	background-size: contain;
 }
