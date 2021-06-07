@@ -3,7 +3,7 @@
 $PluginInfo['FlairBadges'] = array(
     'Name' => 'Flair Badge',
     'Description' => "Adds flair under User's name.",
-    'Version' => '1.0',
+    'Version' => '1.02',
     'RequiredApplications' => array('Vanilla' => '2.1.11'),
     'MobileFriendly' => TRUE,
     'RegisterPermissions' => FALSE,
