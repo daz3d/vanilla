@@ -16,32 +16,32 @@ span.FlairBadges {
 }
 
 span.ModeratorBadge {
-	background: transparent url('images/lrg-mod-2.png') no-repeat center center;
+	background: transparent url('images/moderator_32x32.png') no-repeat center center;
 	background-size: contain;
 }
 
 span.PlatinumBadge {
-	background: transparent url('images/platinum.png') no-repeat center center;
+	background: transparent url('images/platinum_128x128.png') no-repeat center center;
 	background-size: contain;
 }
 
 span.GoldBadge {
-	background: transparent url('images/gold.png') no-repeat center center;
+	background: transparent url('images/gold_128x128.png') no-repeat center center;
 	background-size: contain;
 }
 
 span.SilverBadge {
-	background: transparent url('images/silver.png') no-repeat center center;
+	background: transparent url('images/silver_128x128.png') no-repeat center center;
 	background-size: contain;
 }
 
 span.ChampBadge {
-	background: transparent url('images/sp-champ.png') no-repeat center center;
+	background: transparent url('images/contest-winner_32x32.png') no-repeat center center;
 	background-size: contain;
 }
 
 span.RunnerUpBadge {
-	background: transparent url('images/sp-runner-up.png') no-repeat center center;
+	background: transparent url('images/contest-runner-up_32x32.png') no-repeat center center;
 	background-size: contain;
 }
 
